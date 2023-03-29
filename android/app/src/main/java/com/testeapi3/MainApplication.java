@@ -1,4 +1,4 @@
-package com.iacit;
+package com.testeapi3;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

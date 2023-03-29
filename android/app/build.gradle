@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.iacit"
+    namespace "com.testeapi3"
     defaultConfig {
-        applicationId "com.iacit"
+        applicationId "com.testeapi3"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
