@@ -1,38 +1,44 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 export default function UserMenu() {
+  const navigation = useNavigation();
+
   return (
     <>
       <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../imgs/config.png')}></Image>
+        <Image style={styles.img1} source={require('../imgs/config.png')} />
         <Image
           style={styles.img2}
-          source={require('../imgs/notificacao.png')}></Image>
+          source={require('../imgs/notificacao.png')}
+        />
       </View>
 
       <View style={styles.container2}>
         <View style={styles.mid1}>
-          <Image source={require('../imgs/ocorrencia.png')}></Image>
-          <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
+          <Image source={require('../imgs/ocorrencia.png')} />
+          <TouchableOpacity onPress={() => navigation.navigate('CadastroRO')}>
+            <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.mid2}>
-          <Image source={require('../imgs/fale_conosco.png')}></Image>
+          <Image source={require('../imgs/fale_conosco.png')} />
           <Text style={styles.mid1Text}>Fale Conosco</Text>
         </View>
       </View>
 
       <View style={styles.container3}>
         <View style={styles.button1}>
-          <Image source={require('../imgs/inicio.png')}></Image>
+          <Image source={require('../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
         </View>
         <View style={styles.button2}>
-          <Image source={require('../imgs/chat.png')}></Image>
+          <Image source={require('../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
         </View>
         <View style={styles.button3}>
-          <Image source={require('../imgs/registros.png')}></Image>
+          <Image source={require('../imgs/registros.png')} />
           <Text style={styles.buttonsText}>Registros</Text>
         </View>
       </View>
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 5,
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
-  
+
   button1: {
     flex: 0.33,
     justifyContent: 'center',
@@ -125,5 +131,4 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#1E457E',
   },
-
 });
