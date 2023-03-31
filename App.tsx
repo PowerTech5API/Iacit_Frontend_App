@@ -8,6 +8,8 @@ import UserMenu from './src/components/UserMenu';
 import AcompanharRO from './src/components/AcompanharRO';
 import RoAtendida from './src/components/RoAtendida';
 import RoAtendimento from './src/components/RoAtendimento';
+import RoPendente  from './src/components/RoPendente';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +26,7 @@ export default function App() {
         <Stack.Screen name='AcompanharRO' component={AcompanharRO} />
         <Stack.Screen name='RoAtendida' component={RoAtendida} />
         <Stack.Screen name='RoAtendimento' component={RoAtendimento} />
+        <Stack.Screen name='RoPendente' component={RoPendente} />
       </Stack.Navigator>
     </NavigationContainer>
   );

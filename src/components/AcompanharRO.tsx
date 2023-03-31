@@ -9,7 +9,7 @@ export default function AcompanharRO({navigation}) {
         <Text style={styles.titulo}>Acompanhe suas RO's</Text>
     </View>
 
-    
+    {/* VER MODO DE NAVEGAR CLICANDO NO CONTEINER/VIEW */}
       <View style={styles.container1}>
 
         <View style={styles.mid1}>
@@ -21,7 +21,7 @@ export default function AcompanharRO({navigation}) {
         </View>
 
         <View style={styles.mid1}>
-          <Text style={styles.ROPendente}>Registros Pendentes</Text>
+          <Text style={styles.ROPendente}onPress={ () => navigation.navigate('RoPendente') }>Registros Pendentes</Text>
         </View>
       </View>
      
