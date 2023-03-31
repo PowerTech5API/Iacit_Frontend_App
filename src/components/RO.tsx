@@ -2,7 +2,8 @@ import { Component, ReactNode } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default class RO extends Component{
-    render(){
+    render(){ 
+      // VER COMO PERSONALIZAR COR STATUS 
         let x = this.props.x
         return(
             <View style={styles.container1}>
@@ -54,12 +55,5 @@ const styles = StyleSheet.create({
       textAlign: 'left',
       marginLeft: 10,
   
-    },
-    titulo: {
-      textAlign: 'center',
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: '#000000'
     }
-  
   });

@@ -6,6 +6,7 @@ export default class RoAtendimento extends Component{
   x=[]
   render(){
     return(
+        // ver como personalizar o status!!!!!!!;
         <>
             <RO x={this.x[0]} projeto='Dinsey+' descricao='Problema de autenticação' status='Atendimento' />
             <RO x={this.x[1]} projeto='HBO' descricao='Aplicativo não abre' status='Atendimento' />
