@@ -22,9 +22,9 @@ export default function UserMenu() {
             <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.mid2}>
+        <View style={styles.mid2} >
           <Image source={require('../imgs/fale_conosco.png')} />
-          <Text style={styles.mid1Text}>Fale Conosco</Text>
+          <Text style={styles.mid1Text} onPress={ () => navigation.navigate('AcompanharRO') }>Fale Conosco</Text>
         </View>
       </View>
 
@@ -39,7 +39,7 @@ export default function UserMenu() {
         </View>
         <View style={styles.button3}>
           <Image source={require('../imgs/registros.png')} />
-          <Text style={styles.buttonsText}>Registros</Text>
+          <Text style={styles.buttonsText}  onPress={ () => navigation.navigate('AcompanharRO') }>Registros</Text>
         </View>
       </View>
     </>
