@@ -7,6 +7,7 @@ import CadastroUsuario from './src/components/CadastroUsuario';
 import UserMenu from './src/components/UserMenu';
 import AcompanharRO from './src/components/AcompanharRO';
 import RoAtendida from './src/components/RoAtendida';
+import RoAtendimento from './src/components/RoAtendimento';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Screen name="UserMenu" component={UserMenu} />
         <Stack.Screen name='AcompanharRO' component={AcompanharRO} />
         <Stack.Screen name='RoAtendida' component={RoAtendida} />
+        <Stack.Screen name='RoAtendimento' component={RoAtendimento} />
       </Stack.Navigator>
     </NavigationContainer>
   );
