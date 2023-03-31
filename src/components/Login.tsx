@@ -97,7 +97,7 @@ export default function Login({navigation}) {
         <TouchableOpacity
           style={styles.button}
          /*  onPress={handleSubmit(handleSignIn)}> */
-         onPress={ () => navigation.navigate('UserMenu') }>
+         onPress={ () => navigation.navigate('AcompanharRO') }>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
