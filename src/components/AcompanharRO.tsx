@@ -1,18 +1,21 @@
 import React from 'react';
 import {View, Image, StyleSheet, Text} from 'react-native';
-import UserMenu from './UserMenu';
 
-export default function AcompanharRO() {
+
+export default function AcompanharRO({navigation}) {
   return (
     <>
     <View>
         <Text style={styles.titulo}>Acompanhe suas RO's</Text>
     </View>
 
+    
+
       <View style={styles.container1}>
+
         <View style={styles.mid1}>
-          <Text style={styles.ROAtendida}>Registros Atendidos</Text>
-        </View>
+          <Text style={styles.ROAtendida} onPress={ () => navigation.navigate('RoAtendida') }>Registros Atendidos</Text>
+        </View> 
 
         <View style={styles.mid1}>
           <Text style={styles.ROAtendimento}>Registros em Atendimento</Text>
