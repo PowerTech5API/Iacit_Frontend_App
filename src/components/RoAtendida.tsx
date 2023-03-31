@@ -9,9 +9,8 @@ export default class RoAtendida extends Component{
         <>
             <RO x={this.x[0]} projeto='Dinsey+' descricao='Problema de autenticação' status='Atendido' />
             <RO x={this.x[1]} projeto='HBO' descricao='Aplicativo não abre' status='Atendido' />
-            <RO x={this.x[1]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' />
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' />
         </>
-
         )
     } 
 }

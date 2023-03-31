@@ -8,6 +8,7 @@ import UserMenu from './src/components/UserMenu';
 import RegistroOcorrenciaForm from './src/components/CadastroRO/RegistroOcorrenciaForm';
 import AcompanharRO from './src/components/AcompanharRO';
 import RoAtendida from './src/components/RoAtendida';
+import RoAtendimento from './src/components/RoAtendimento';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen name="CadastroRO" component={RegistroOcorrenciaForm} />
         <Stack.Screen name='AcompanharRO' component={AcompanharRO} />
         <Stack.Screen name='RoAtendida' component={RoAtendida} />
+        <Stack.Screen name='RoAtendimento' component={RoAtendimento} />
       </Stack.Navigator>
     </NavigationContainer>
   );

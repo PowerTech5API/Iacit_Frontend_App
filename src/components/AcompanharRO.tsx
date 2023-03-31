@@ -10,7 +10,6 @@ export default function AcompanharRO({navigation}) {
     </View>
 
     
-
       <View style={styles.container1}>
 
         <View style={styles.mid1}>
@@ -18,7 +17,7 @@ export default function AcompanharRO({navigation}) {
         </View> 
 
         <View style={styles.mid1}>
-          <Text style={styles.ROAtendimento}>Registros em Atendimento</Text>
+          <Text style={styles.ROAtendimento} onPress={ () => navigation.navigate('RoAtendimento') }>Registros em Atendimento</Text>
         </View>
 
         <View style={styles.mid1}>
