@@ -155,9 +155,6 @@ export default function CadastroUsuario({navigation}) {
           <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text style={styles.esqueceu}>Esqueceu a senha?</Text>
-        </TouchableOpacity>
       </View>
 
       <View style={styles.container3}>
