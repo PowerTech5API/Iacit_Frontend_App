@@ -6,6 +6,24 @@ function Form2({formData, setFormData}) {
   const [isHardwareSelected, setIsHardwareSelected] = useState(false);
   const [isSoftwareSelected, setIsSoftwareSelected] = useState(false);
 
+  const handleHardwareCheckboxChange = value => {
+    if (value) {
+      setIsHardwareSelected(true);
+      setIsSoftwareSelected(false);
+    } else {
+      setIsHardwareSelected(false);
+    }
+  };
+
+  const handleSoftwareCheckboxChange = value => {
+    if (value) {
+      setIsSoftwareSelected(true);
+      setIsHardwareSelected(false);
+    } else {
+      setIsSoftwareSelected(false);
+    }
+  };
+  
   return (
     <View style={styles.container2}>
       <Text>Defeito:</Text>
@@ -13,13 +31,13 @@ function Form2({formData, setFormData}) {
         <Checkbox
           style={styles.checkbox}
           value={isHardwareSelected}
-          onValueChange={() => setIsHardwareSelected(!isHardwareSelected)}
+          onValueChange={handleHardwareCheckboxChange}
         />
         <Text>Hardware</Text>
         <Checkbox
           style={styles.checkbox}
           value={isSoftwareSelected}
-          onValueChange={() => setIsSoftwareSelected(!isSoftwareSelected)}
+          onValueChange={handleSoftwareCheckboxChange}
         />
         <Text>Software</Text>
       </View>
