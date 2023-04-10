@@ -1,29 +1,21 @@
 import Checkbox from 'expo-checkbox';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
+import FormContext from '../../contexts/formContext';
 
 function Form2({formData, setFormData}) {
-  const [isHardwareSelected, setIsHardwareSelected] = useState(false);
-  const [isSoftwareSelected, setIsSoftwareSelected] = useState(false);
 
-  const handleHardwareCheckboxChange = value => {
-    if (value) {
-      setIsHardwareSelected(true);
-      setIsSoftwareSelected(false);
-    } else {
-      setIsHardwareSelected(false);
-    }
-  };
+  const {
+    isHardwareSelected,
+    setIsHardwareSelected,
+    isSoftwareSelected,
+    setIsSoftwareSelected,
+    handleHardwareCheckboxChange,
+    handleSoftwareCheckboxChange,
+  } = useContext(FormContext);
 
-  const handleSoftwareCheckboxChange = value => {
-    if (value) {
-      setIsSoftwareSelected(true);
-      setIsHardwareSelected(false);
-    } else {
-      setIsSoftwareSelected(false);
-    }
-  };
-  
+
+
   return (
     <View style={styles.container2}>
       <Text>Defeito:</Text>

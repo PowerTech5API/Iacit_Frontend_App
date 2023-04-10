@@ -10,12 +10,14 @@ import AcompanharRO from './src/components/AcompanharRO';
 import RoAtendida from './src/components/RoAtendida';
 import RoAtendimento from './src/components/RoAtendimento';
 import RoPendente  from './src/components/RoPendente';
+import  FormProvider from './src/components/CadastroRO/formProvider'
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <FormProvider>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -31,5 +33,6 @@ export default function App() {
         <Stack.Screen name='RoPendente' component={RoPendente} />
       </Stack.Navigator>
     </NavigationContainer>
+    </FormProvider>
   );
 }
