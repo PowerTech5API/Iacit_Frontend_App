@@ -4,6 +4,7 @@ import {useForm} from 'react-hook-form';
 import Form1 from './Form1';
 import Form2 from './Form2';
 import Form3 from './Form3';
+import axios from 'axios';
 
 function RegistroOcorrenciaForm() {
   const [formData, setFormData] = useState({
@@ -92,9 +93,15 @@ function RegistroOcorrenciaForm() {
         </Pressable>
 
         <Pressable
-          onPress={() => {
+          onPress={async () => {
             if (screen === FormTitle.length - 1) {
               console.log(formData);
+              await axios.post('http://172.16.11.151:3000/api/ro/create',(formData)).then((response) =>  {
+                console.log(response.data);
+              }).catch(function (error) {
+                console.error(error);
+              })
+              
             } else {
               setScreen((currScreen: number) => currScreen + 1);
               console.log(screen);

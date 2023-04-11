@@ -31,11 +31,11 @@ export default function Login({navigation}) {
   });
 
   async function handleSignIn(data) {
-    await axios.post('http://192.168.0.10:3000/api/user/login',(data)).then((response) =>  {
+    await axios.post('http://172.16.11.151:3000/api/user/login',(data)).then((response) =>  {
       console.log(response.data);
       navigation.navigate('UserMenu');
     }).catch(function (error) {
-      console.error(error);
+      console.error("Usuário ou senha inexistente");
     })
   } 
 
