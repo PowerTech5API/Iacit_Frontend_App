@@ -1,41 +1,39 @@
-import { useState } from "react";
-import FormContext from "../../contexts/formContext";
+import {useState} from 'react';
+import FormContext from '../../contexts/formContext';
 
-const FormProvider = ({ children }) => {
-    const [formData, setFormData] = useState({});
-    const [isHardwareSelected, setIsHardwareSelected] = useState(false);
-    const [isSoftwareSelected, setIsSoftwareSelected] = useState(false);
-  
-    const handleHardwareCheckboxChange = (value: boolean) => {
-      setIsHardwareSelected(value);
-      if (value) {
-        setIsSoftwareSelected(false);
-      }
-    };
-    
-    const handleSoftwareCheckboxChange = (value: boolean) => {
-      setIsSoftwareSelected(value);
-      if (value) {
-        setIsHardwareSelected(false);
-      }
-    };
-  
-    const contextValue = {
-      formData,
-      setFormData,
-      isHardwareSelected,
-      setIsHardwareSelected,
-      isSoftwareSelected,
-      setIsSoftwareSelected,
-      handleHardwareCheckboxChange,
-      handleSoftwareCheckboxChange,
-    };
-  
-    return (
-      <FormContext.Provider value={contextValue}>
-        {children}
-      </FormContext.Provider>
-    );
+const FormProvider = ({children}) => {
+  const [formData, setFormData] = useState({});
+  const [isHardwareSelected, setIsHardwareSelected] = useState(false);
+  const [isSoftwareSelected, setIsSoftwareSelected] = useState(false);
+
+  const handleHardwareCheckboxChange = (value: boolean) => {
+    setIsHardwareSelected(value);
+    if (value) {
+      setIsSoftwareSelected(false);
+    }
   };
-  
-  export default FormProvider;
+
+  const handleSoftwareCheckboxChange = (value: boolean) => {
+    setIsSoftwareSelected(value);
+    if (value) {
+      setIsHardwareSelected(false);
+    }
+  };
+
+  const contextValue = {
+    formData,
+    setFormData,
+    isHardwareSelected,
+    setIsHardwareSelected,
+    isSoftwareSelected,
+    setIsSoftwareSelected,
+    handleHardwareCheckboxChange,
+    handleSoftwareCheckboxChange,
+  };
+
+  return (
+    <FormContext.Provider value={contextValue}>{children}</FormContext.Provider>
+  );
+};
+
+export default FormProvider;

@@ -1,25 +1,20 @@
 import Checkbox from 'expo-checkbox';
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import FormContext from '../../contexts/formContext';
 
 function Form2({formData, setFormData}) {
-
   const {
     isHardwareSelected,
-    setIsHardwareSelected,
     isSoftwareSelected,
-    setIsSoftwareSelected,
     handleHardwareCheckboxChange,
     handleSoftwareCheckboxChange,
   } = useContext(FormContext);
 
-
-
   return (
     <View style={styles.container2}>
-      <Text>Defeito:</Text>
-      <View style={styles.section}>
+       <Text>Defeito:</Text>
+      <View style={styles.checkboxesContainer}>
         <Checkbox
           style={styles.checkbox}
           value={isHardwareSelected}
@@ -71,6 +66,7 @@ function Form2({formData, setFormData}) {
           />
         </View>
       )}
+
       {isSoftwareSelected && (
         <View>
           <TextInput
@@ -110,6 +106,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  checkboxesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   inputView: {
     fontSize: 15,
     width: 250,
@@ -122,7 +123,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
   },
-
   section: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -133,8 +133,3 @@ const styles = StyleSheet.create({
 });
 
 export default Form2;
-
-/*  as opções são controladas pelos estados isHardwareSelected e
-isSoftwareSelected. Quando um CheckBox é selecionado, o estado
-correspondente é atualizado. Os campos de entrada aparecem ou
-desaparecem dependendo do valor desses estados.*/

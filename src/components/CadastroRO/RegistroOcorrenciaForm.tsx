@@ -1,21 +1,25 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
-import {useForm} from 'react-hook-form';
+import FormContext from '../../contexts/formContext';
 import Form1 from './Form1';
 import Form2 from './Form2';
 import Form3 from './Form3';
+import {useNavigation} from '@react-navigation/native';
 
 function RegistroOcorrenciaForm() {
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     // form1
     orgao: '',
     nome: '',
 
     //form 2
+    //Campos Software
     versaoBaseDados: '',
     versaoSoftware: '',
     anexo: '',
 
+    //Campos de Hardware
     equipamento: '',
     posicao: '',
     partNumber: '',
@@ -27,29 +31,37 @@ function RegistroOcorrenciaForm() {
     status: 'Em andamento',
   });
 
-  const onSubmit = data => console.log(data);
-  const {handleSubmit} = useForm({
-    defaultValues: {
-      // form1
-      orgao: '',
-      nome: '',
+  const {isHardwareSelected, isSoftwareSelected} = useContext(FormContext);
 
-      //form 2
-      versaoBaseDados: '',
-      versaoSoftware: '',
-      anexo: '',
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-      equipamento: '',
-      posicao: '',
-      partNumber: '',
-      serialNumber: '',
+  const handleSubmit = () => {
+    if (isHardwareSelected) {
+      setFormData({
+        ...formData,
+        versaoBaseDados: '',
+        versaoSoftware: '',
+        anexo: '',
+      });
+    }
+    if (isSoftwareSelected) {
+      setFormData({
+        ...formData,
+        equipamento: '',
+        posicao: '',
+        partNumber: '',
+        serialNumber: '',
+      });
+    }
+    setFormSubmitted(true);
+  };
 
-      //form 3
-      titulo: '',
-      descricao: '',
-      status: 'Em andamento',
-    },
-  });
+  useEffect(() => {
+    if (formSubmitted) {
+      console.log('Form Data: ', formData);
+      setFormSubmitted(false); // Reinicia o valor para falso
+    }
+  }, [formSubmitted, formData]);
 
   const [screen, setScreen] = useState(0);
   const FormTitle = [
@@ -57,6 +69,8 @@ function RegistroOcorrenciaForm() {
     'Classificação em Campo',
     'Dados Ocorrência',
   ];
+
+  const isLastScreen = screen === FormTitle.length - 1;
 
   const ScreenDisplay = () => {
     if (screen == 0) {
@@ -83,27 +97,31 @@ function RegistroOcorrenciaForm() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Pressable
-          disabled={screen === 0}
-          onPress={() => {
-            setScreen((currScreen: number) => currScreen - 1);
-          }}>
-          <Text style={styles.button}>Anterior</Text>
-        </Pressable>
-
-        <Pressable
-          onPress={() => {
-            if (screen === FormTitle.length - 1) {
-              console.log(formData);
-            } else {
-              setScreen((currScreen: number) => currScreen + 1);
-              console.log(screen);
-            }
-          }}>
-          <Text style={styles.button}>
-            {screen === FormTitle.length - 1 ? 'Enviar' : 'Próximo'}
-          </Text>
-        </Pressable>
+        {screen === 0 && (
+          <Pressable onPress={() => navigation.navigate('UserMenu')}>
+            <Text style={styles.button}>Anterior</Text>
+          </Pressable>
+        )}
+        {screen !== 0 && (
+          <Pressable
+            onPress={() => {
+              setScreen(currScreen => currScreen - 1);
+            }}>
+            <Text style={styles.button}>Anterior</Text>
+          </Pressable>
+        )}
+        {isLastScreen ? (
+          <Pressable onPress={handleSubmit}>
+            <Text style={styles.button}>Enviar</Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            onPress={() => {
+              setScreen(currScreen => currScreen + 1);
+            }}>
+            <Text style={styles.button}>Próximo</Text>
+          </Pressable>
+        )}
       </View>
 
       {/* menu navegavel da tela principal */}
