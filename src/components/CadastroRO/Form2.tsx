@@ -33,16 +33,13 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Equipamento"
-            value={data.defeito.hardware.equipamento}
+            value={data.hardware.equipamento}
             onChangeText={equipamento => {
               setData({
                 ...data,
-                defeito: {
-                  ...data.defeito,
-                  hardware: {
-                    ...data.defeito.hardware,
-                    equipamento: equipamento,
-                  },
+                hardware: {
+                  ...data.hardware,
+                  equipamento: equipamento,
                 },
               });
             }}
@@ -51,16 +48,13 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Posição"
-            value={data.defeito.hardware.posicao}
+            value={data.hardware.posicao}
             onChangeText={posicao => {
               setData({
                 ...data,
-                defeito: {
-                  ...data.defeito,
-                  hardware: {
-                    ...data.defeito.hardware,
-                    posicao: posicao,
-                  },
+                hardware: {
+                  ...data.hardware,
+                  posicao: posicao,
                 },
               });
             }}
@@ -69,16 +63,13 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Part Number"
-            value={data.defeito.hardware.partNumber}
+            value={data.hardware.partNumber}
             onChangeText={partNumber => {
               setData({
                 ...data,
-                defeito: {
-                  ...data.defeito,
-                  hardware: {
-                    ...data.defeito.hardware,
-                    partNumber: partNumber,
-                  },
+                hardware: {
+                  ...data.hardware,
+                  partNumber: partNumber,
                 },
               });
             }}
@@ -86,17 +77,14 @@ function Form2({data, setData}) {
 
           <TextInput
             style={styles.inputView}
-            placeholder="Serial Number"
-            value={data.defeito.hardware.serialNumber}
+            placeholder='Serial Number'
+            value={data.hardware.serialNumber}
             onChangeText={serialNumber => {
               setData({
                 ...data,
-                defeito: {
-                  ...data.defeito,
-                  hardware: {
-                    ...data.defeito.hardware,
-                    serialNumber: serialNumber,
-                  },
+                hardware: {
+                  ...data.hardware,
+                  serialNumber: serialNumber,
                 },
               });
             }}
@@ -109,16 +97,13 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Versão da Base de Dados"
-            value={data.defeito.software.versaoBaseDados}
-            onChangeText={versaoBaseDados => {
+            value={data.software.versaoBD}
+            onChangeText={versaoBD => {
               setData({
                 ...data,
-                defeito: {
-                  ...data.defeito,
-                  software: {
-                    ...data.defeito.software,
-                    versaoBaseDados: versaoBaseDados,
-                  },
+                software: {
+                  ...data.software,
+                  versaoBD: versaoBD,
                 },
               });
             }}
@@ -127,16 +112,13 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Versão do Software"
-            value={data.defeito.software.versaoSoftware}
+            value={data.software.versaoSoftware}
             onChangeText={versaoSoftware => {
               setData({
                 ...data,
-                defeito: {
-                  ...data.defeito,
-                  software: {
-                    ...data.defeito.software,
-                    versaoSoftware: versaoSoftware,
-                  },
+                software: {
+                  ...data.software,
+                  versaoSoftware: versaoSoftware,
                 },
               });
             }}
@@ -144,17 +126,14 @@ function Form2({data, setData}) {
 
           <TextInput
             style={styles.inputView}
-            placeholder="Anexo"
-            value={data.defeito.software.anexo}
-            onChangeText={anexo => {
+            placeholder="LogsRO"
+            value={data.software.LogsRO}
+            onChangeText={LogsRO => {
               setData({
                 ...data,
-                defeito: {
-                  ...data.defeito,
-                  software: {
-                    ...data.defeito.software,
-                    anexo: anexo,
-                  },
+                software: {
+                  ...data.software,
+                  LogsRO: LogsRO,
                 },
               });
             }}

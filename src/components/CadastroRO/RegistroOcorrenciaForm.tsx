@@ -6,40 +6,36 @@ import Form2 from './Form2';
 import Form3 from './Form3';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
+import axios from 'axios';
 
 function RegistroOcorrenciaForm() {
   const navigation = useNavigation();
   const {isHardwareSelected, isSoftwareSelected} = useContext(FormContext);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [data, setData] = useState({
-    //auto-preencher
-    dataRegistro: '',
-    horaRegistro: '',
-    status: '1',
-
-    // form1
     orgao: '',
     nomeRelator: '',
     nomeResponsavel: '',
-
-    //form 2
-    defeito: {
-      software: {
-        versaoBaseDados: '',
-        versaoSoftware: '',
-        anexo: '',
-      },
-      hardware: {
-        equipamento: '',
-        posicao: '',
-        partNumber: '',
-        serialNumber: '',
-      },
+    defeito: '',
+    software: {
+      versaoBD: '',
+      versaoSoftware: '',
+      LogsRO: '',
     },
-
-    //form 3
+    hardware: {
+      equipamento: '',
+      posicao: '',
+      partNumber: '',
+      serialNumber: '',
+    },
     titulo: '',
     descricao: '',
+    dataRegistro: '',
+    horaRegistro: '',
+    status: '1',
+    nomeColaborador: '',
+    categoria: '',
+    resolucao: '',
   });
 
   //obtém data e hora atual da criação do ro e preencher o campo automaticamente
@@ -62,32 +58,38 @@ function RegistroOcorrenciaForm() {
     if (isHardwareSelected) {
       setData({
         ...data,
-        defeito: {
-          ...data.defeito,
-          software: {
-            ...data.defeito.software,
-            versaoBaseDados: '',
-            versaoSoftware: '',
-            anexo: '',
-          },
+        software: {
+          ...data.software,
+          versaoBD: '',
+          versaoSoftware: '',
+          LogsRO: '',
         },
       });
     }
+
     if (isSoftwareSelected) {
       setData({
         ...data,
-        defeito: {
-          ...data.defeito,
-          hardware: {
-            ...data.defeito.hardware,
-            equipamento: '',
-            posicao: '',
-            partNumber: '',
-            serialNumber: '',
-          },
+        hardware: {
+          ...data.hardware,
+          equipamento: '',
+          posicao: '',
+          partNumber: '',
+          serialNumber: '',
         },
       });
     }
+
+    axios
+      .post('https://iacit.herokuapp.com/api/ro/create', data)
+      .then(response => {
+        console.log(response.data);
+        alert('RO criado com sucesso!');
+      })
+      .catch(error => {
+        console.error('RO Erro');
+        alert('Erro ao criar o RO!');
+      });
     setFormSubmitted(true);
   };
 
@@ -98,6 +100,25 @@ function RegistroOcorrenciaForm() {
       setFormSubmitted(false); // Reinicia o valor para falso
     }
   }, [formSubmitted, data]);
+
+    //definindo o deito de acordo com a escolha o usuario no checkbox
+  function getDefeito(isHardwareSelected, isSoftwareSelected) {
+    let defeitos = '';
+    if (isHardwareSelected) {
+      defeitos = 'hardware';
+    } else if (isSoftwareSelected) {
+      defeitos = 'software';
+    }
+    setData({...data, defeito: defeitos});
+    return defeitos;
+  }
+
+  useEffect(() => {
+    setData({
+      ...data,
+      defeito: getDefeito(isHardwareSelected, isSoftwareSelected),
+    });
+  }, [isHardwareSelected, isSoftwareSelected]);
 
   //titulos de cada pagina do form
   const FormTitle = [
