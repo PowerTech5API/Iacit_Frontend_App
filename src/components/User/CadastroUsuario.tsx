@@ -10,20 +10,21 @@ import {
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import api from '../../service/api';
 
 const schema = yup.object({
-  nome: yup
+  name: yup
     .string()
     .matches(/^[a-zA-ZÀ-ÖÙ-öù-ÿĀ-žḀ-ỿ0-9\s\-\/.]+$/, 'Entre com um nome valido')
     .required('Informe seu nome'),
   email: yup.string().email('Email Invalido').required('Informe seu email'),
-  senha: yup
+  password: yup
     .string()
     .min(8, 'A senha deve ter pelo menos 8 digitos')
     .required('Informe sua senha'),
   confirmarSenha: yup
     .string()
-    .oneOf([yup.ref('senha'), null], 'Senhas devem ser iguais')
+    .oneOf([yup.ref('password'), null], 'Senhas devem ser iguais')
     .required('Confirme a senha'),
 });
 
@@ -36,14 +37,18 @@ export default function CadastroUsuario({navigation}) {
     resolver: yupResolver(schema),
   });
 
-  function handleSignIn(data) {
-    console.log(data);
+  async function handleSignIn(data) {
+    await api.post('user',(data)).then((response) =>  {
+      console.log(response.data);
+    }).catch(function (error) {
+      console.error("Usuário já existe");
+    })
   }
 
   return (
     <>
       <View style={styles.container1}>
-        <Image source={require('../imgs/logo2.png')}></Image>
+        <Image source={require('../../imgs/logo2.png')}></Image>
       </View>
 
       <View style={styles.container2}>
@@ -51,14 +56,14 @@ export default function CadastroUsuario({navigation}) {
 
         <Controller
           control={control}
-          name="nome"
+          name="name"
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
               style={[
                 styles.input,
                 {
-                  borderWidth: errors.nome && 1,
-                  borderColor: errors.nome && '#ff375b',
+                  borderWidth: errors.name && 1,
+                  borderColor: errors.name && '#ff375b',
                 },
               ]}
               onChangeText={onChange}
@@ -69,8 +74,8 @@ export default function CadastroUsuario({navigation}) {
             />
           )}
         />
-        {errors.nome && (
-          <Text style={styles.labelError}>{errors.nome?.message}</Text>
+        {errors.name && (
+          <Text style={styles.labelError}>{errors.name?.message}</Text>
         )}
 
         <Controller
@@ -99,14 +104,14 @@ export default function CadastroUsuario({navigation}) {
 
         <Controller
           control={control}
-          name="senha"
+          name="password"
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
               style={[
                 styles.input,
                 {
-                  borderWidth: errors.senha && 1,
-                  borderColor: errors.senha && '#ff375b',
+                  borderWidth: errors.password && 1,
+                  borderColor: errors.password && '#ff375b',
                 },
               ]}
               onChangeText={onChange}
@@ -118,8 +123,8 @@ export default function CadastroUsuario({navigation}) {
             />
           )}
         />
-        {errors.senha && (
-          <Text style={styles.labelError}>{errors.senha?.message}</Text>
+        {errors.password && (
+          <Text style={styles.labelError}>{errors.password?.message}</Text>
         )}
 
         <Controller

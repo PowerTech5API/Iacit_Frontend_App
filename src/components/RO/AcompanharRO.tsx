@@ -29,15 +29,15 @@ export default function AcompanharRO({navigation}) {
 {/* menu navegavel da tela principal */}
       <View style={styles.container3}>
         <View style={styles.button1}>
-          <Image source={require('../imgs/inicio.png')}></Image>
+          <Image source={require('../../imgs/inicio.png')}></Image>
           <Text style={styles.buttonsText}>Inicio</Text>
         </View>
         <View style={styles.button2}>
-          <Image source={require('../imgs/chat.png')}></Image>
+          <Image source={require('../../imgs/chat.png')}></Image>
           <Text style={styles.buttonsText}>Chat</Text>
         </View>
         <View style={styles.button3}>
-          <Image source={require('../imgs/registros.png')}></Image>
+          <Image source={require('../../imgs/registros.png')}></Image>
           <Text style={styles.buttonsText}>Registros</Text>
         </View>
       </View>

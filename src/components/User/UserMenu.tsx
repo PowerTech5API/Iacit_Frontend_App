@@ -8,37 +8,37 @@ export default function UserMenu() {
   return (
     <>
       <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../imgs/config.png')} />
+        <Image style={styles.img1} source={require('../../imgs/config.png')} />
         <Image
           style={styles.img2}
-          source={require('../imgs/notificacao.png')}
+          source={require('../../imgs/notificacao.png')}
         />
       </View>
 
       <View style={styles.container2}>
         <View style={styles.mid1}>
-          <Image source={require('../imgs/ocorrencia.png')} />
-          <TouchableOpacity onPress={() => navigation.navigate('CadastroRO')}>
+          <Image source={require('../../imgs/ocorrencia.png')} />
+          <TouchableOpacity onPress={() => navigation.navigate('CadastroROBackup')}>
             <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.mid2} >
-          <Image source={require('../imgs/fale_conosco.png')} />
+          <Image source={require('../../imgs/fale_conosco.png')} />
           <Text style={styles.mid1Text} onPress={ () => navigation.navigate('AcompanharRO') }>Fale Conosco</Text>
         </View>
       </View>
 
       <View style={styles.container3}>
         <View style={styles.button1}>
-          <Image source={require('../imgs/inicio.png')} />
+          <Image source={require('../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
         </View>
         <View style={styles.button2}>
-          <Image source={require('../imgs/chat.png')} />
+          <Image source={require('../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
         </View>
         <View style={styles.button3}>
-          <Image source={require('../imgs/registros.png')} />
+          <Image source={require('../../imgs/registros.png')} />
           <Text style={styles.buttonsText}  onPress={ () => navigation.navigate('AcompanharRO') }>Registros</Text>
         </View>
       </View>

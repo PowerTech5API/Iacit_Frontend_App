@@ -5,34 +5,34 @@ export default function AdminMenu() {
   return (
     <>
       <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../imgs/config.png')}></Image>
+        <Image style={styles.img1} source={require('../../imgs/config.png')}></Image>
         <Image
           style={styles.img2}
-          source={require('../imgs/notificacao.png')}></Image>
+          source={require('../../imgs/notificacao.png')}></Image>
       </View>
 
       <View style={styles.container2}>
         <View style={styles.mid1}>
-          <Image source={require('../imgs/registros2.png')}></Image>
+          <Image source={require('../../imgs/registros2.png')}></Image>
           <Text style={styles.mid1Text}>Registros</Text>
         </View>
         <View style={styles.mid2}>
-          <Image source={require('../imgs/chat2.png')}></Image>
+          <Image source={require('../../imgs/chat2.png')}></Image>
           <Text style={styles.mid1Text}>Chat</Text>
         </View>
       </View>
 
       <View style={styles.container3}>
         <View style={styles.button1}>
-          <Image source={require('../imgs/inicio.png')}></Image>
+          <Image source={require('../../imgs/inicio.png')}></Image>
           <Text style={styles.buttonsText}>Inicio</Text>
         </View>
         <View style={styles.button2}>
-          <Image source={require('../imgs/chat.png')}></Image>
+          <Image source={require('../../imgs/chat.png')}></Image>
           <Text style={styles.buttonsText}>Chat</Text>
         </View>
         <View style={styles.button3}>
-          <Image source={require('../imgs/registros.png')}></Image>
+          <Image source={require('../../imgs/registros.png')}></Image>
           <Text style={styles.buttonsText}>Registros</Text>
         </View>
       </View>
