@@ -2,24 +2,24 @@ import React from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 
 
-function Form3({formData, setFormData}) {
+function Form3({data, setData}) {
   return (
     <View style={styles.container2}>
       <TextInput
         style={styles.inputView}
         placeholder="Título"
-        value={formData.titulo}
+        value={data.titulo}
         onChangeText={titulo => {
-          setFormData({...formData, titulo});
+          setData({...data, titulo});
         }}
       />
       <TextInput
         style={styles.inputViewBox}
         multiline={true}
         placeholder="Descrição"
-        value={formData.descricao}
+        value={data.descricao}
         onChangeText={descricao => {
-          setFormData({...formData, descricao});
+          setData({...data, descricao});
         }}
       />
     </View>

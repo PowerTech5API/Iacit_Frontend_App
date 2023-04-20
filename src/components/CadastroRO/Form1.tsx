@@ -1,25 +1,34 @@
 import React from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 
-function Form1({formData, setFormData}) {
+function Form1({data, setData}) {
   return (
     <View style={styles.container2}>
       {/* órgão - nome empresa cliente */}
       <TextInput
         style={styles.inputView}
         placeholder="Orgão"
-        value={formData.orgao}
+        value={data.orgao}
         onChangeText={orgao => {
-          setFormData({...formData, orgao});
+          setData({...data, orgao});
         }}
       />
       {/* Nome - usuário */}
       <TextInput
         style={styles.inputView}
-        placeholder="Nome"
-        value={formData.nome}
-        onChangeText={nome => {
-          setFormData({...formData, nome});
+        placeholder="Nome do relator"
+        value={data.nomeRelator}
+        onChangeText={nomeRelator => {
+          setData({...data, nomeRelator});
+        }}
+      />
+      {/* Nome - responsável */}
+      <TextInput
+        style={styles.inputView}
+        placeholder="Nome do responsável"
+        value={data.nomeResponsavel}
+        onChangeText={nomeResponsavel => {
+          setData({...data, nomeResponsavel});
         }}
       />
     </View>

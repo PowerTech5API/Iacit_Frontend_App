@@ -3,7 +3,7 @@ import React, {useContext} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import FormContext from '../../contexts/formContext';
 
-function Form2({formData, setFormData}) {
+function Form2({data, setData}) {
   const {
     isHardwareSelected,
     isSoftwareSelected,
@@ -13,7 +13,7 @@ function Form2({formData, setFormData}) {
 
   return (
     <View style={styles.container2}>
-       <Text>Defeito:</Text>
+      <Text>Defeito:</Text>
       <View style={styles.checkboxesContainer}>
         <Checkbox
           style={styles.checkbox}
@@ -33,35 +33,72 @@ function Form2({formData, setFormData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Equipamento"
-            value={formData.equipamento}
+            value={data.defeito.hardware.equipamento}
             onChangeText={equipamento => {
-              setFormData({...formData, equipamento});
+              setData({
+                ...data,
+                defeito: {
+                  ...data.defeito,
+                  hardware: {
+                    ...data.defeito.hardware,
+                    equipamento: equipamento,
+                  },
+                },
+              });
             }}
           />
+
           <TextInput
             style={styles.inputView}
             placeholder="Posição"
-            value={formData.posicao}
+            value={data.defeito.hardware.posicao}
             onChangeText={posicao => {
-              setFormData({...formData, posicao});
+              setData({
+                ...data,
+                defeito: {
+                  ...data.defeito,
+                  hardware: {
+                    ...data.defeito.hardware,
+                    posicao: posicao,
+                  },
+                },
+              });
             }}
           />
 
           <TextInput
             style={styles.inputView}
             placeholder="Part Number"
-            value={formData.partNumber}
+            value={data.defeito.hardware.partNumber}
             onChangeText={partNumber => {
-              setFormData({...formData, partNumber});
+              setData({
+                ...data,
+                defeito: {
+                  ...data.defeito,
+                  hardware: {
+                    ...data.defeito.hardware,
+                    partNumber: partNumber,
+                  },
+                },
+              });
             }}
           />
 
           <TextInput
             style={styles.inputView}
             placeholder="Serial Number"
-            value={formData.serialNumber}
+            value={data.defeito.hardware.serialNumber}
             onChangeText={serialNumber => {
-              setFormData({...formData, serialNumber});
+              setData({
+                ...data,
+                defeito: {
+                  ...data.defeito,
+                  hardware: {
+                    ...data.defeito.hardware,
+                    serialNumber: serialNumber,
+                  },
+                },
+              });
             }}
           />
         </View>
@@ -72,25 +109,54 @@ function Form2({formData, setFormData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Versão da Base de Dados"
-            value={formData.versaoBaseDados}
+            value={data.defeito.software.versaoBaseDados}
             onChangeText={versaoBaseDados => {
-              setFormData({...formData, versaoBaseDados});
+              setData({
+                ...data,
+                defeito: {
+                  ...data.defeito,
+                  software: {
+                    ...data.defeito.software,
+                    versaoBaseDados: versaoBaseDados,
+                  },
+                },
+              });
             }}
           />
+
           <TextInput
             style={styles.inputView}
             placeholder="Versão do Software"
-            value={formData.versaoSoftware}
+            value={data.defeito.software.versaoSoftware}
             onChangeText={versaoSoftware => {
-              setFormData({...formData, versaoSoftware});
+              setData({
+                ...data,
+                defeito: {
+                  ...data.defeito,
+                  software: {
+                    ...data.defeito.software,
+                    versaoSoftware: versaoSoftware,
+                  },
+                },
+              });
             }}
           />
+
           <TextInput
             style={styles.inputView}
             placeholder="Anexo"
-            value={formData.anexo}
+            value={data.defeito.software.anexo}
             onChangeText={anexo => {
-              setFormData({...formData, anexo});
+              setData({
+                ...data,
+                defeito: {
+                  ...data.defeito,
+                  software: {
+                    ...data.defeito.software,
+                    anexo: anexo,
+                  },
+                },
+              });
             }}
           />
         </View>

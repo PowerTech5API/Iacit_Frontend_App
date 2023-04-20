@@ -5,80 +5,116 @@ import Form1 from './Form1';
 import Form2 from './Form2';
 import Form3 from './Form3';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
 function RegistroOcorrenciaForm() {
   const navigation = useNavigation();
-  const [formData, setFormData] = useState({
+  const {isHardwareSelected, isSoftwareSelected} = useContext(FormContext);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [data, setData] = useState({
+    //auto-preencher
+    dataRegistro: '',
+    horaRegistro: '',
+    status: '1',
+
     // form1
     orgao: '',
-    nome: '',
+    nomeRelator: '',
+    nomeResponsavel: '',
 
     //form 2
-    //Campos Software
-    versaoBaseDados: '',
-    versaoSoftware: '',
-    anexo: '',
-
-    //Campos de Hardware
-    equipamento: '',
-    posicao: '',
-    partNumber: '',
-    serialNumber: '',
-
-    //form 3
-    titulo: '',
-    descricao: '',
-    status: 'Em andamento',
-  });
-
-  const {isHardwareSelected, isSoftwareSelected} = useContext(FormContext);
-
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
-  const handleSubmit = () => {
-    if (isHardwareSelected) {
-      setFormData({
-        ...formData,
+    defeito: {
+      software: {
         versaoBaseDados: '',
         versaoSoftware: '',
         anexo: '',
-      });
-    }
-    if (isSoftwareSelected) {
-      setFormData({
-        ...formData,
+      },
+      hardware: {
         equipamento: '',
         posicao: '',
         partNumber: '',
         serialNumber: '',
+      },
+    },
+
+    //form 3
+    titulo: '',
+    descricao: '',
+  });
+
+  //obtém data e hora atual da criação do ro e preencher o campo automaticamente
+  const updateDateTime = () => {
+    const date = moment().format('DD-MM-YYYY');
+    const time = moment().format('HH:mm:ss');
+    setData({...data, dataRegistro: date, horaRegistro: time});
+  };
+  //atualiza o horário atual e atualiza a cada minuto (60000 milissegundos)
+  useEffect(() => {
+    updateDateTime();
+    const interval = setInterval(() => {
+      updateDateTime();
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  //envia o formulário, limpa os campos de acordo com a seleção de Hardware ou Software e atualiza o estado para indicar que o formulário foi enviado(formSubmitted)
+  const handleSubmit = () => {
+    if (isHardwareSelected) {
+      setData({
+        ...data,
+        defeito: {
+          ...data.defeito,
+          software: {
+            ...data.defeito.software,
+            versaoBaseDados: '',
+            versaoSoftware: '',
+            anexo: '',
+          },
+        },
+      });
+    }
+    if (isSoftwareSelected) {
+      setData({
+        ...data,
+        defeito: {
+          ...data.defeito,
+          hardware: {
+            ...data.defeito.hardware,
+            equipamento: '',
+            posicao: '',
+            partNumber: '',
+            serialNumber: '',
+          },
+        },
       });
     }
     setFormSubmitted(true);
   };
 
+  //verifica se o formulário foi enviado.
   useEffect(() => {
     if (formSubmitted) {
-      console.log('Form Data: ', formData);
+      console.log('data: ', data);
       setFormSubmitted(false); // Reinicia o valor para falso
     }
-  }, [formSubmitted, formData]);
+  }, [formSubmitted, data]);
 
-  const [screen, setScreen] = useState(0);
+  //titulos de cada pagina do form
   const FormTitle = [
     'Registro de Ocorrência',
     'Classificação em Campo',
     'Dados Ocorrência',
   ];
 
+  const [screen, setScreen] = useState(0);
   const isLastScreen = screen === FormTitle.length - 1;
-
   const ScreenDisplay = () => {
     if (screen == 0) {
-      return <Form1 formData={formData} setFormData={setFormData} />;
+      return <Form1 data={data} setData={setData} />;
     } else if (screen == 1) {
-      return <Form2 formData={formData} setFormData={setFormData} />;
+      return <Form2 data={data} setData={setData} />;
     } else {
-      return <Form3 formData={formData} setFormData={setFormData} />;
+      return <Form3 data={data} setData={setData} />;
     }
   };
 
@@ -96,6 +132,7 @@ function RegistroOcorrenciaForm() {
         <View style={styles.container2}>{ScreenDisplay()}</View>
       </View>
 
+      {/*// incluir verificação do tipo de usuário que está logado p/ definir para qual menu o botão de anterior deve direcionar*/}
       <View style={styles.buttonContainer}>
         {screen === 0 && (
           <Pressable onPress={() => navigation.navigate('UserMenu')}>
