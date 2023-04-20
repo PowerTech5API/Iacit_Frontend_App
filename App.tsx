@@ -24,7 +24,7 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-        }}>        
+        }}>                
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} />
         <Stack.Screen name="UserMenu" component={UserMenu} />

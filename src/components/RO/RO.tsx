@@ -6,8 +6,6 @@ export default class RO extends Component{
       // VER COMO PERSONALIZAR COR STATUS 
         let x = this.props.x
         return(
-            <View style={styles.container1}>
-                
                 <View style={styles.mid1}>
                     <Text style={{color: '#000000'}}>
                         {this.props.projeto}
@@ -21,8 +19,6 @@ export default class RO extends Component{
                         {this.props.status}
                     </Text>
                 </View>
-
-            </View>
         )
         
     }
@@ -31,22 +27,19 @@ export default class RO extends Component{
 const styles = StyleSheet.create({
     container1: {
       flex: 1,
-      flexDirection: 'column',
       backgroundColor: '#F2F2F2',
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-      
+      alignItems: 'center',      
     },
-  
   
     mid1: {
       width: '90%',
       height: 70,
       backgroundColor: 'white',
       borderRadius: 4,
-      justifyContent: 'center',
       shadowColor: '#000',
       elevation: 8,
+      paddingLeft: 10,
+      marginTop: 20,
     },
   
     ROAtendida:{

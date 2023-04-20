@@ -5,28 +5,33 @@ import {View, Image, StyleSheet, Text} from 'react-native';
 export default function AcompanharRO({navigation}) {
   return (
     <>
-    <View>
-        <Text style={styles.titulo}>Acompanhe suas RO's</Text>
-    </View>
+    <View style={styles.container1}>
+        <Image style={styles.img1} source={require('../../imgs/config.png')} />
+        <Image
+          style={styles.img2}
+          source={require('../../imgs/notificacao.png')}
+        />
+      </View>
 
-    {/* VER MODO DE NAVEGAR CLICANDO NO CONTEINER/VIEW */}
-      <View style={styles.container1}>
+      <View style={styles.container2}>
 
-        <View style={styles.mid1}>
+        <View>
+          <Text style={styles.titulo}>Acompanhe suas RO's</Text>
+        </View>
+
+        <View style={styles.cards}>
           <Text style={styles.ROAtendida} onPress={ () => navigation.navigate('RoAtendida') }>Registros Atendidos</Text>
         </View> 
 
-        <View style={styles.mid1}>
+        <View style={styles.cards}>
           <Text style={styles.ROAtendimento} onPress={ () => navigation.navigate('RoAtendimento') }>Registros em Atendimento</Text>
         </View>
 
-        <View style={styles.mid1}>
+        <View style={styles.cards}>
           <Text style={styles.ROPendente}onPress={ () => navigation.navigate('RoPendente') }>Registros Pendentes</Text>
         </View>
       </View>
      
-
-{/* menu navegavel da tela principal */}
       <View style={styles.container3}>
         <View style={styles.button1}>
           <Image source={require('../../imgs/inicio.png')}></Image>
@@ -52,16 +57,28 @@ export default function AcompanharRO({navigation}) {
 
 const styles = StyleSheet.create({
   container1: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#F2F2F2',
+    flex: 0.1,
+    flexDirection: 'row',
+    backgroundColor: '#1D2045',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
-    
+    justifyContent: 'center',
   },
 
+  img1: {
+    right: 100,
+  },
+  img2: {
+    left: 100,
+  },
 
-  mid1: {
+  container2: {
+    flex: 0.8,
+    backgroundColor: '#F2F2F2',
+    paddingTop: '10%',
+    alignItems: 'center',
+  },
+
+  cards: {
     width: '90%',
     height: 70,
     backgroundColor: 'white',
@@ -69,6 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     shadowColor: '#000',
     elevation: 8,
+    marginTop: '10%',
   },
 
   mid1Text: {
