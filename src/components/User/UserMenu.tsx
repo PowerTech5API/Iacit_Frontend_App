@@ -8,39 +8,44 @@ export default function UserMenu() {
   return (
     <>
       <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../../imgs/config.png')} />
-        <Image
-          style={styles.img2}
-          source={require('../../imgs/notificacao.png')}
-        />
+        <TouchableOpacity style={styles.img1}>
+          <Image source={require('../../imgs/config.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.img2}>
+          <Image source={require('../../imgs/notificacao.png')} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.container2}>
-        <View style={styles.mid1}>
-          <Image source={require('../../imgs/ocorrencia.png')} />
-          <TouchableOpacity onPress={() => navigation.navigate('CadastroRO')}>
-            <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.mid2} >
+
+        <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('CadastroROBackup')}>
+            <Image source={require('../../imgs/ocorrencia.png')} />          
+            <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>          
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('AcompanharRO')}>
           <Image source={require('../../imgs/fale_conosco.png')} />
-          <Text style={styles.mid1Text} onPress={ () => navigation.navigate('AcompanharRO') }>Fale Conosco</Text>
-        </View>
+          <Text style={styles.mid1Text}>Fale Conosco</Text>
+        </TouchableOpacity>
+
       </View>
 
       <View style={styles.container3}>
-        <View style={styles.button1}>
+        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
           <Image source={require('../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
-        </View>
-        <View style={styles.button2}>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button2}>
           <Image source={require('../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
-        </View>
-        <View style={styles.button3}>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
           <Image source={require('../../imgs/registros.png')} />
-          <Text style={styles.buttonsText}  onPress={ () => navigation.navigate('AcompanharRO') }>Registros</Text>
-        </View>
+          <Text style={styles.buttonsText}>Registros</Text>
+        </TouchableOpacity>
       </View>
     </>
   );

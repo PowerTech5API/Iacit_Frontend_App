@@ -1,50 +1,56 @@
-import React, { Component } from 'react';
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import RO from './RO';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useState, useEffect } from 'react';
+import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
+import CardRoAtendida from './CardRoAtendida';
+import api from '../../service/api';
 
-export default function RoAtendida(){
-  x=[]
+export default function RoAtendida({navigation}){
+
+  const [ro, setRo] = useState([]);
+
+  useEffect(() => {
+    api.get('ro/getAll').then(({data}) =>{
+      setRo(data);
+    })
+  }, [])
+
     return(
         <>
         <View style={styles.container1}>
-            <Image style={styles.img1} source={require('../../imgs/config.png')} />
-            <Image
-            style={styles.img2}
-            source={require('../../imgs/notificacao.png')}
-            />
+          <TouchableOpacity style={styles.img1}>
+            <Image source={require('../../imgs/config.png')} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.img2}>
+            <Image source={require('../../imgs/notificacao.png')} />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.container2}>
-          <ScrollView>  
-            <RO x={this.x[0]} projeto='Dinsey+' descricao='Problema de autenticação' status='Atendido' />
-            <RO x={this.x[1]} projeto='HBO' descricao='Aplicativo não abre' status='Atendido' />
-            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
-            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
-            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
-            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
-            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
-            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
-            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
-            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
-            </ScrollView>
+          <ScrollView>
+            {ro.map(item => (
+              <CardRoAtendida key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
+            ))}
+          </ScrollView>
         </View>
 
         <View style={styles.container3}>
-            <View style={styles.button1}>
-            <Image source={require('../../imgs/inicio.png')}></Image>
+          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
+            <Image source={require('../../imgs/inicio.png')} />
             <Text style={styles.buttonsText}>Inicio</Text>
-            </View>
-            <View style={styles.button2}>
-            <Image source={require('../../imgs/chat.png')}></Image>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button2}>
+            <Image source={require('../../imgs/chat.png')} />
             <Text style={styles.buttonsText}>Chat</Text>
-            </View>
-            <View style={styles.button3}>
-            <Image source={require('../../imgs/registros.png')}></Image>
+          </TouchableOpacity>
+        
+          <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
+            <Image source={require('../../imgs/registros.png')} />
             <Text style={styles.buttonsText}>Registros</Text>
-            </View>
+          </TouchableOpacity>
         </View>
         </>
+
         )
 }
 
