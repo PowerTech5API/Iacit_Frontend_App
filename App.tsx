@@ -24,14 +24,14 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-        }}>                
+        }}>
+        <Stack.Screen name='AcompanharRO' component={AcompanharRO} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} />
         <Stack.Screen name="UserMenu" component={UserMenu} />
         <Stack.Screen name="AdminMenu" component={AdminMenu} />
         <Stack.Screen name="CadastroROBackup" component={CadastroROBackup} />
         <Stack.Screen name="CadastroRO" component={RegistroOcorrenciaForm} />
-        <Stack.Screen name='AcompanharRO' component={AcompanharRO} />
         <Stack.Screen name='RoAtendida' component={RoAtendida} />
         <Stack.Screen name='RoAtendimento' component={RoAtendimento} />
         <Stack.Screen name='RoPendente' component={RoPendente} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, Image, StyleSheet, Text, ScrollView} from 'react-native';
 import RO from './RO';
 
 export default function RoAtendimento(){
@@ -16,9 +16,15 @@ export default function RoAtendimento(){
         </View>
 
         <View style={styles.container2}>
+          <ScrollView>
             <RO x={this.x[0]} projeto='Dinsey+' descricao='Problema de autenticação' status='Atendimento' />
             <RO x={this.x[1]} projeto='HBO' descricao='Aplicativo não abre' status='Atendimento' />
             <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendimento' />
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendimento' />
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendimento' />
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendimento' />
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendimento' />
+          </ScrollView>
         </View>
 
         <View style={styles.container3}>
@@ -61,9 +67,7 @@ const styles = StyleSheet.create({
     container2: {
       flex: 0.8,
       backgroundColor: '#F2F2F2',
-      alignItems: 'center',
-      paddingTop: 0,
-      paddingBottom: 20,
+      paddingTop: 10,
     },
   
     cards: {

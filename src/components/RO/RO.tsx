@@ -24,12 +24,7 @@ export default class RO extends Component{
     }
 }
 
-const styles = StyleSheet.create({
-    container1: {
-      flex: 1,
-      backgroundColor: '#F2F2F2',
-      alignItems: 'center',      
-    },
+const styles = StyleSheet.create({    
   
     mid1: {
       width: '90%',
@@ -39,14 +34,8 @@ const styles = StyleSheet.create({
       shadowColor: '#000',
       elevation: 8,
       paddingLeft: 10,
-      marginTop: 20,
+      marginTop: 10,
+      marginBottom: 10,
+      marginLeft: '5%',
     },
-  
-    ROAtendida:{
-      color: '#6FCF97',
-      fontWeight: 'bold',
-      textAlign: 'left',
-      marginLeft: 10,
-  
-    }
   });

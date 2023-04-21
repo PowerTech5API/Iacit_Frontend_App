@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import RO from './RO';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function RoAtendida(){
   x=[]
@@ -15,13 +16,20 @@ export default function RoAtendida(){
         </View>
 
         <View style={styles.container2}>
-
+          <ScrollView>  
             <RO x={this.x[0]} projeto='Dinsey+' descricao='Problema de autenticação' status='Atendido' />
             <RO x={this.x[1]} projeto='HBO' descricao='Aplicativo não abre' status='Atendido' />
             <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
+            <RO x={this.x[2]} projeto='Netlfix' descricao='Sem categoria x' status='Atendido' /> 
+            </ScrollView>
+        </View>
 
-        </View>            
-        
         <View style={styles.container3}>
             <View style={styles.button1}>
             <Image source={require('../../imgs/inicio.png')}></Image>
@@ -59,9 +67,7 @@ const styles = StyleSheet.create({
     container2: {
       flex: 0.8,
       backgroundColor: '#F2F2F2',
-      alignItems: 'center',
-      paddingTop: 0,
-      paddingBottom: 20,
+      paddingTop: 10,
     },
   
     cards: {
