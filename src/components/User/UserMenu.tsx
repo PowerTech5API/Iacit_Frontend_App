@@ -18,7 +18,7 @@ export default function UserMenu() {
       <View style={styles.container2}>
         <View style={styles.mid1}>
           <Image source={require('../../imgs/ocorrencia.png')} />
-          <TouchableOpacity onPress={() => navigation.navigate('CadastroROBackup')}>
+          <TouchableOpacity onPress={() => navigation.navigate('CadastroRO')}>
             <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
           </TouchableOpacity>
         </View>

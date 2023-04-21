@@ -15,17 +15,17 @@ function RegistroOcorrenciaForm() {
   const [data, setData] = useState({
     orgao: '',
     nomeRelator: '',
-    nomeResponsavel: '',
+    nomeresponsavel: '',
     defeito: '',
-    software: {
+    'software': {
       versaoBD: '',
       versaoSoftware: '',
       LogsRO: '',
     },
-    hardware: {
+    'hardware': {
       equipamento: '',
       posicao: '',
-      partNumber: '',
+      partnumber: '',
       serialNumber: '',
     },
     titulo: '',
@@ -53,35 +53,82 @@ function RegistroOcorrenciaForm() {
     return () => clearInterval(interval);
   }, []);
 
+  //definindo o deito de acordo com a escolha o usuario no checkbox
+  function getDefeito(isHardwareSelected, isSoftwareSelected) {
+    let defeitos = '';
+      if (isHardwareSelected) {
+        defeitos = 'hardware';
+      } else if (isSoftwareSelected) {
+        defeitos = 'software';
+      }
+      setData({...data, defeito: defeitos});
+      return defeitos;
+  }
+  
+  useEffect(() => {
+    setData({
+        ...data,
+        defeito: getDefeito(isHardwareSelected, isSoftwareSelected),
+      });
+  }, [isHardwareSelected, isSoftwareSelected]);  
+
   //envia o formulário, limpa os campos de acordo com a seleção de Hardware ou Software e atualiza o estado para indicar que o formulário foi enviado(formSubmitted)
   const handleSubmit = () => {
     if (isHardwareSelected) {
-      setData({
-        ...data,
-        software: {
-          ...data.software,
-          versaoBD: '',
-          versaoSoftware: '',
-          LogsRO: '',
-        },
-      });
-    }
-
-    if (isSoftwareSelected) {
-      setData({
-        ...data,
+      const Data = {
+        orgao: data.orgao,
+        dataRegistro: data.dataRegistro,
+        horaRegistro: data.horaRegistro,
+        nomeRelator: data.nomeRelator,
+        nomeresponsavel: data.nomeresponsavel,
+        nomeColaborador: data.nomeColaborador,
+        defeito: data.defeito,
         hardware: {
-          ...data.hardware,
-          equipamento: '',
-          posicao: '',
-          partNumber: '',
-          serialNumber: '',
+          equipamento: data.hardware.equipamento,
+          posicao: data.hardware.posicao,
+          partnumber: data.hardware.partnumber,
+          serialNumber: data.hardware.serialNumber,
         },
-      });
-    }
-
+        'software':{},
+        titulo: data.titulo,
+        descricao: data.descricao,
+        status: data.status,
+        categoria: data.categoria,
+    };
     axios
-      .post('https://iacit.herokuapp.com/api/ro/create', data)
+    .post('https://iacit.herokuapp.com/api/ro/create', Data)
+    .then(response => {
+      console.log(response.data);
+      alert('RO criado com sucesso!');
+    })
+    .catch(error => {
+      console.error('RO Erro');
+      alert('Erro ao criar o RO!');
+    });
+  setFormSubmitted(true);
+
+  } else {
+      const Data = {
+        orgao: data.orgao,
+        dataRegistro: data.dataRegistro,
+        horaRegistro: data.horaRegistro,
+        nomeRelator: data.nomeRelator,
+        nomeresponsavel: data.nomeresponsavel,
+        nomeColaborador: data.nomeColaborador,
+        defeito: data.defeito,
+        'hardware':{},
+        'software': {
+            versaoBD: data.software.versaoBD,
+            versaoSoftware: data.software.versaoSoftware,
+            LogsRO: data.software.LogsRO,
+        },
+        titulo: data.titulo,
+        descricao: data.descricao,
+        status: data.status,
+        categoria: data.categoria,
+    };
+    axios
+      .post('https://iacit.herokuapp.com/api/ro/create', Data)
       .then(response => {
         console.log(response.data);
         alert('RO criado com sucesso!');
@@ -91,7 +138,8 @@ function RegistroOcorrenciaForm() {
         alert('Erro ao criar o RO!');
       });
     setFormSubmitted(true);
-  };
+  }
+};
 
   //verifica se o formulário foi enviado.
   useEffect(() => {
@@ -101,24 +149,7 @@ function RegistroOcorrenciaForm() {
     }
   }, [formSubmitted, data]);
 
-    //definindo o deito de acordo com a escolha o usuario no checkbox
-  function getDefeito(isHardwareSelected, isSoftwareSelected) {
-    let defeitos = '';
-    if (isHardwareSelected) {
-      defeitos = 'hardware';
-    } else if (isSoftwareSelected) {
-      defeitos = 'software';
-    }
-    setData({...data, defeito: defeitos});
-    return defeitos;
-  }
 
-  useEffect(() => {
-    setData({
-      ...data,
-      defeito: getDefeito(isHardwareSelected, isSoftwareSelected),
-    });
-  }, [isHardwareSelected, isSoftwareSelected]);
 
   //titulos de cada pagina do form
   const FormTitle = [

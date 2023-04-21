@@ -63,13 +63,13 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Part Number"
-            value={data.hardware.partNumber}
-            onChangeText={partNumber => {
+            value={data.hardware.partnumber}
+            onChangeText={partnumber => {
               setData({
                 ...data,
                 hardware: {
                   ...data.hardware,
-                  partNumber: partNumber,
+                  partnumber: partnumber,
                 },
               });
             }}

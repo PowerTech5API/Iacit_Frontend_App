@@ -26,9 +26,9 @@ function Form1({data, setData}) {
       <TextInput
         style={styles.inputView}
         placeholder="Nome do responsável"
-        value={data.nomeResponsavel}
-        onChangeText={nomeResponsavel => {
-          setData({...data, nomeResponsavel});
+        value={data.nomeresponsavel}
+        onChangeText={nomeresponsavel => {
+          setData({...data, nomeresponsavel});
         }}
       />
     </View>

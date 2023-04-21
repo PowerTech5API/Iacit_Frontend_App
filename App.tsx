@@ -12,7 +12,6 @@ import RoAtendimento from './src/components/RO/RoAtendimento';
 import RoPendente  from './src/components/RO/RoPendente';
 import  FormProvider from './src/components/CadastroRO/formProvider'
 import AdminMenu from './src/components/Admin/AdminMenu';
-import CadastroROBackup from './src/components/CadastroROBackup/cadastroROBackup';
 
 
 const Stack = createNativeStackNavigator();
@@ -25,13 +24,12 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name='AcompanharRO' component={AcompanharRO} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} />
         <Stack.Screen name="UserMenu" component={UserMenu} />
         <Stack.Screen name="AdminMenu" component={AdminMenu} />
-        <Stack.Screen name="CadastroROBackup" component={CadastroROBackup} />
         <Stack.Screen name="CadastroRO" component={RegistroOcorrenciaForm} />
+        <Stack.Screen name='AcompanharRO' component={AcompanharRO} />
         <Stack.Screen name='RoAtendida' component={RoAtendida} />
         <Stack.Screen name='RoAtendimento' component={RoAtendimento} />
         <Stack.Screen name='RoPendente' component={RoPendente} />
