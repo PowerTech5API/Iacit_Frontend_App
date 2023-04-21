@@ -10,10 +10,11 @@ import {
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import api from '../../service/api';
 
 const schema = yup.object({
   email: yup.string().email('Email Invalido').required('Informe seu email'),
-  senha: yup
+  password: yup
     .string()
     .min(8, 'A senha deve ter pelo menos 8 digitos')
     .required('Informe sua senha'),
@@ -29,14 +30,23 @@ export default function Login({navigation}) {
     resolver: yupResolver(schema),
   });
 
-  function handleSignIn(data) {
-    console.log(data);
+  async function handleSignIn(data) {
+    await api.post('user/login',(data)).then((response) =>  {
+      console.log(response.data);
+      if(response.data.isAdmin == true){
+        navigation.navigate('AdminMenu');
+      }else{
+        navigation.navigate('UserMenu');
+      }      
+    }).catch(function (error) {
+      console.error("Usuário ou senha inexistente");
+    })
   } 
 
   return (
     <>
       <View style={styles.container1}>
-        <Image source={require('../imgs/logo.png')}></Image>
+        <Image source={require('../../imgs/logo.png')}></Image>
       </View>
 
       <View style={styles.container2}>
@@ -70,14 +80,14 @@ export default function Login({navigation}) {
 
         <Controller
           control={control}
-          name="senha"
+          name="password"
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
               style={[
                 styles.input,
                 {
-                  borderWidth: errors.senha && 1,
-                  borderColor: errors.senha && '#ff375b',
+                  borderWidth: errors.password && 1,
+                  borderColor: errors.password && '#ff375b',
                 },
               ]}
               onChangeText={onChange}
@@ -89,15 +99,14 @@ export default function Login({navigation}) {
           )}
         />
 
-        {errors.senha && (
-          <Text style={styles.labelError}>{errors.senha?.message}</Text>
+        {errors.password && (
+          <Text style={styles.labelError}>{errors.password?.message}</Text>
         )}
         
 
         <TouchableOpacity
           style={styles.button}
-         /*  onPress={handleSubmit(handleSignIn)}> */
-         onPress={ () => navigation.navigate('UserMenu') }>
+          onPress={handleSubmit(handleSignIn)}> 
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 

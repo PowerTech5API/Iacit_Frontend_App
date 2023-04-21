@@ -1,44 +1,59 @@
 import React from 'react';
 import {View, Image, StyleSheet, Text} from 'react-native';
 
-export default function AdminMenu() {
+
+export default function AcompanharRO({navigation}) {
   return (
     <>
-      <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../imgs/config.png')}></Image>
+    <View style={styles.container1}>
+        <Image style={styles.img1} source={require('../../imgs/config.png')} />
         <Image
           style={styles.img2}
-          source={require('../imgs/notificacao.png')}></Image>
+          source={require('../../imgs/notificacao.png')}
+        />
       </View>
 
       <View style={styles.container2}>
-        <View style={styles.mid1}>
-          <Image source={require('../imgs/registros2.png')}></Image>
-          <Text style={styles.mid1Text}>Registros</Text>
+
+        <View>
+          <Text style={styles.titulo}>Acompanhe suas RO's</Text>
         </View>
-        <View style={styles.mid2}>
-          <Image source={require('../imgs/chat2.png')}></Image>
-          <Text style={styles.mid1Text}>Chat</Text>
+
+        <View style={styles.cards}>
+          <Text style={styles.ROAtendida} onPress={ () => navigation.navigate('RoAtendida') }>Registros Atendidos</Text>
+        </View> 
+
+        <View style={styles.cards}>
+          <Text style={styles.ROAtendimento} onPress={ () => navigation.navigate('RoAtendimento') }>Registros em Atendimento</Text>
+        </View>
+
+        <View style={styles.cards}>
+          <Text style={styles.ROPendente}onPress={ () => navigation.navigate('RoPendente') }>Registros Pendentes</Text>
         </View>
       </View>
-
+     
       <View style={styles.container3}>
         <View style={styles.button1}>
-          <Image source={require('../imgs/inicio.png')}></Image>
+          <Image source={require('../../imgs/inicio.png')}></Image>
           <Text style={styles.buttonsText}>Inicio</Text>
         </View>
         <View style={styles.button2}>
-          <Image source={require('../imgs/chat.png')}></Image>
+          <Image source={require('../../imgs/chat.png')}></Image>
           <Text style={styles.buttonsText}>Chat</Text>
         </View>
         <View style={styles.button3}>
-          <Image source={require('../imgs/registros.png')}></Image>
+          <Image source={require('../../imgs/registros.png')}></Image>
           <Text style={styles.buttonsText}>Registros</Text>
         </View>
       </View>
     </>
   );
 }
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container1: {
@@ -58,39 +73,29 @@ const styles = StyleSheet.create({
 
   container2: {
     flex: 0.8,
-    flexDirection: 'row',
     backgroundColor: '#F2F2F2',
     paddingTop: '10%',
+    alignItems: 'center',
   },
 
-  mid1: {
-    width: '42.5%',
-    height: 120,
+  cards: {
+    width: '90%',
+    height: 70,
     backgroundColor: 'white',
     borderRadius: 4,
-    marginLeft: '5%',
-    alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
     elevation: 8,
+    marginTop: '10%',
   },
 
   mid1Text: {
-    fontSize: 20,
+    marginTop: 5,
+    fontSize: 14,
     fontWeight: 'bold',
-    color: '#1D2045',
+    color: '#6FCF97',
+    textAlign: 'center',
     fontFamily: 'Inter',
-  },
-
-  mid2: {
-    width: '42.5%',
-    height: 120,
-    backgroundColor: 'white',
-    borderRadius: 4,
-    marginLeft: '5%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
   },
 
   container3: {
@@ -123,5 +128,33 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#1E457E',
   },
+
+  ROPendente: {
+    color: '#EB5757',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginLeft: 10,
+
+  },
+  ROAtendimento: {
+    color: '#F2C94C',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginLeft: 10,
+
+  },
+  ROAtendida:{
+    color: '#6FCF97',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginLeft: 10,
+
+  },
+  titulo: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000000'
+  }
 
 });
