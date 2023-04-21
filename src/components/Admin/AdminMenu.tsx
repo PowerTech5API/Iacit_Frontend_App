@@ -1,40 +1,46 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 export default function AdminMenu() {
   return (
     <>
       <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../../imgs/config.png')}></Image>
-        <Image
-          style={styles.img2}
-          source={require('../../imgs/notificacao.png')}></Image>
+        <TouchableOpacity style={styles.img1}>
+          <Image source={require('../../imgs/config.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.img2}>
+          <Image source={require('../../imgs/notificacao.png')} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.container2}>
-        <View style={styles.mid1}>
+        <TouchableOpacity style={styles.mid1}>
           <Image source={require('../../imgs/registros2.png')}></Image>
           <Text style={styles.mid1Text}>Registros</Text>
-        </View>
-        <View style={styles.mid2}>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.mid2}>
           <Image source={require('../../imgs/chat2.png')}></Image>
           <Text style={styles.mid1Text}>Chat</Text>
-        </View>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.container3}>
-        <View style={styles.button1}>
-          <Image source={require('../../imgs/inicio.png')}></Image>
+        <TouchableOpacity style={styles.button1}>
+          <Image source={require('../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
-        </View>
-        <View style={styles.button2}>
-          <Image source={require('../../imgs/chat.png')}></Image>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button2}>
+          <Image source={require('../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
-        </View>
-        <View style={styles.button3}>
-          <Image source={require('../../imgs/registros.png')}></Image>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.button3}>
+          <Image source={require('../../imgs/registros.png')} />
           <Text style={styles.buttonsText}>Registros</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </>
   );

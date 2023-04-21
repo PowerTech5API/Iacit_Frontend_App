@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Image, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Checkbox from 'expo-checkbox';
-import api from '../../service/api'
+import api from '../../service/api';
+import moment from 'moment';
 
 export default function CadastroROBackup() {
   const navigation = useNavigation();
@@ -12,8 +13,6 @@ export default function CadastroROBackup() {
   const [isSoftwareSelected, setIsSoftwareSelected] = useState(false);
 
   const [orgao, setOrgao] = useState('');
-  const [dataRegistro, setDataRegistro] = useState('');
-  const [horaRegistro, setHoraRegistro] = useState('');
   const [nomeRelator, setNomeRelator] = useState('');
   const [nomeresponsavel, setNomeResponsavel] = useState('');
   const [nomeColaborador, setNomeColaborador] = useState('');
@@ -27,15 +26,14 @@ export default function CadastroROBackup() {
   const [LogsRo, setLogsRo] = useState('');
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [status, setStatus] = useState('');
   const [categoria, setCategoria] = useState('');
 
+
   async function Exibir(){
+
     if(isHardwareSelected){
         const data = {
             orgao,
-            dataRegistro,
-            horaRegistro,
             nomeRelator,
             nomeresponsavel,
             nomeColaborador,
@@ -49,8 +47,10 @@ export default function CadastroROBackup() {
             "software":{},
             titulo,
             descricao,
-            status,
-            categoria            
+            "status": "1",
+            "dataRegistro": moment().format('DD-MM-YYYY'),
+            "horaRegistro": moment().format('HH:mm:ss'),
+            categoria
         }
         await api.post('ro/create',(data)).then((response) =>  {            
             console.log(response.data);   
@@ -60,8 +60,6 @@ export default function CadastroROBackup() {
     }else{
         const data = {
             orgao,
-            dataRegistro,
-            horaRegistro,
             nomeRelator,
             nomeresponsavel,
             nomeColaborador,
@@ -74,8 +72,10 @@ export default function CadastroROBackup() {
             },
             titulo,
             descricao,
-            status,
-            categoria       
+            "status": "1",
+            "dataRegistro": moment().format('DD-MM-YYYY'),
+            "horaRegistro": moment().format('HH:mm:ss'),
+            categoria
           }
           await api.post('ro/create',(data)).then((response) =>  {            
             console.log(response.data);   
@@ -89,11 +89,13 @@ export default function CadastroROBackup() {
   return (
     <>
       <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../../imgs/config.png')} />
-        <Image
-          style={styles.img2}
-          source={require('../../imgs/notificacao.png')}
-        />
+        <TouchableOpacity style={styles.img1}>
+          <Image source={require('../../imgs/config.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.img2}>
+          <Image source={require('../../imgs/notificacao.png')} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.container2}>
@@ -106,18 +108,6 @@ export default function CadastroROBackup() {
             placeholder="Orgao"
             value={orgao}
             onChangeText={setOrgao}
-       />
-       <TextInput
-            style={styles.inputView}
-            placeholder="Data Registro"
-            value={dataRegistro}
-            onChangeText={setDataRegistro}
-       />
-       <TextInput
-            style={styles.inputView}
-            placeholder="Hora Registro"
-            value={horaRegistro}
-            onChangeText={setHoraRegistro}
        />
        <TextInput
             style={styles.inputView}
@@ -221,12 +211,6 @@ export default function CadastroROBackup() {
        />
        <TextInput
             style={styles.inputView}
-            placeholder="Status"
-            value={status}
-            onChangeText={setStatus}
-       />
-       <TextInput
-            style={styles.inputView}
             placeholder="Categoria"
             value={categoria}
             onChangeText={setCategoria}
@@ -239,18 +223,20 @@ export default function CadastroROBackup() {
       </View>
 
       <View style={styles.container3}>
-        <View style={styles.button1}>
+        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
           <Image source={require('../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
-        </View>
-        <View style={styles.button2}>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button2}>
           <Image source={require('../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
-        </View>
-        <View style={styles.button3}>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
           <Image source={require('../../imgs/registros.png')} />
-          <Text style={styles.buttonsText}  onPress={ () => navigation.navigate('AcompanharRO') }>Registros</Text>
-        </View>
+          <Text style={styles.buttonsText}>Registros</Text>
+        </TouchableOpacity>
       </View>
     </>
   );

@@ -1,50 +1,53 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 
 export default function AcompanharRO({navigation}) {
   return (
     <>
-    <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../../imgs/config.png')} />
-        <Image
-          style={styles.img2}
-          source={require('../../imgs/notificacao.png')}
-        />
+      <View style={styles.container1}>
+        <TouchableOpacity style={styles.img1}>
+          <Image source={require('../../imgs/config.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.img2}>
+          <Image source={require('../../imgs/notificacao.png')} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.container2}>
-
         <View>
           <Text style={styles.titulo}>Acompanhe suas RO's</Text>
         </View>
 
-        <View style={styles.cards}>
-          <Text style={styles.ROAtendida} onPress={ () => navigation.navigate('RoAtendida') }>Registros Atendidos</Text>
-        </View> 
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoAtendida') }>
+          <Text style={styles.ROAtendida}>Registros Atendidos</Text>
+        </TouchableOpacity> 
 
-        <View style={styles.cards}>
-          <Text style={styles.ROAtendimento} onPress={ () => navigation.navigate('RoAtendimento') }>Registros em Atendimento</Text>
-        </View>
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoAtendimento') }>
+          <Text style={styles.ROAtendimento}>Registros em Atendimento</Text>
+        </TouchableOpacity>
 
-        <View style={styles.cards}>
-          <Text style={styles.ROPendente}onPress={ () => navigation.navigate('RoPendente') }>Registros Pendentes</Text>
-        </View>
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoPendente') }>
+          <Text style={styles.ROPendente}>Registros Pendentes</Text>
+        </TouchableOpacity>
       </View>
      
       <View style={styles.container3}>
-        <View style={styles.button1}>
-          <Image source={require('../../imgs/inicio.png')}></Image>
+        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
+          <Image source={require('../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
-        </View>
-        <View style={styles.button2}>
-          <Image source={require('../../imgs/chat.png')}></Image>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button2}>
+          <Image source={require('../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
-        </View>
-        <View style={styles.button3}>
-          <Image source={require('../../imgs/registros.png')}></Image>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
+          <Image source={require('../../imgs/registros.png')} />
           <Text style={styles.buttonsText}>Registros</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </>
   );
