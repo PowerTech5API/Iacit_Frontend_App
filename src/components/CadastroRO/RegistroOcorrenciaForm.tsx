@@ -1,28 +1,29 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Image, TouchableOpacity} from 'react-native';
 import FormContext from '../../contexts/formContext';
 import Form1 from './Form1';
 import Form2 from './Form2';
 import Form3 from './Form3';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
-import axios from 'axios';
+import api from '../../service/api';
 
 function RegistroOcorrenciaForm() {
   const navigation = useNavigation();
-  const {isHardwareSelected, isSoftwareSelected} = useContext(FormContext);
+  const {isHardwareSelected,setIsHardwareSelected,isSoftwareSelected,setIsSoftwareSelected,} = useContext(FormContext);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [data, setData] = useState({
     orgao: '',
     nomeRelator: '',
     nomeresponsavel: '',
+    nomeColaborador: '',
     defeito: '',
-    'software': {
+    software: {
       versaoBD: '',
       versaoSoftware: '',
       LogsRO: '',
     },
-    'hardware': {
+    hardware: {
       equipamento: '',
       posicao: '',
       partnumber: '',
@@ -30,126 +31,90 @@ function RegistroOcorrenciaForm() {
     },
     titulo: '',
     descricao: '',
-    dataRegistro: '',
-    horaRegistro: '',
-    status: '1',
-    nomeColaborador: '',
+    'status': '1',
+    'dataRegistro': moment().format('DD-MM-YYYY'),
+    'horaRegistro': moment().format('HH:mm:ss'),
     categoria: '',
     resolucao: '',
   });
 
-  //obtém data e hora atual da criação do ro e preencher o campo automaticamente
-  const updateDateTime = () => {
-    const date = moment().format('DD-MM-YYYY');
-    const time = moment().format('HH:mm:ss');
-    setData({...data, dataRegistro: date, horaRegistro: time});
-  };
-  //atualiza o horário atual e atualiza a cada minuto (60000 milissegundos)
-  useEffect(() => {
-    updateDateTime();
-    const interval = setInterval(() => {
-      updateDateTime();
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
-  //definindo o deito de acordo com a escolha o usuario no checkbox
+  //definindo o defeito de acordo com a escolha o usuario no checkbox
   function getDefeito(isHardwareSelected, isSoftwareSelected) {
-    let defeitos = '';
+    let defeitoCheckbox = '';
       if (isHardwareSelected) {
-        defeitos = 'hardware';
+        defeitoCheckbox = 'hardware';
       } else if (isSoftwareSelected) {
-        defeitos = 'software';
+        defeitoCheckbox = 'software';
       }
-      setData({...data, defeito: defeitos});
-      return defeitos;
+      return defeitoCheckbox;
   }
-  
   useEffect(() => {
-    setData({
-        ...data,
-        defeito: getDefeito(isHardwareSelected, isSoftwareSelected),
-      });
+    setData(prevState => ({
+      ...prevState,
+      defeito: getDefeito(isHardwareSelected, isSoftwareSelected),
+    }));
   }, [isHardwareSelected, isSoftwareSelected]);  
-
-  //envia o formulário, limpa os campos de acordo com a seleção de Hardware ou Software e atualiza o estado para indicar que o formulário foi enviado(formSubmitted)
-  const handleSubmit = () => {
+  
+  async function handleSubmit () {
+    let formData = data;
     if (isHardwareSelected) {
-      const Data = {
-        orgao: data.orgao,
-        dataRegistro: data.dataRegistro,
-        horaRegistro: data.horaRegistro,
-        nomeRelator: data.nomeRelator,
-        nomeresponsavel: data.nomeresponsavel,
-        nomeColaborador: data.nomeColaborador,
-        defeito: data.defeito,
+      formData = {
+        ...data,
         hardware: {
           equipamento: data.hardware.equipamento,
           posicao: data.hardware.posicao,
           partnumber: data.hardware.partnumber,
           serialNumber: data.hardware.serialNumber,
         },
-        'software':{},
-        titulo: data.titulo,
-        descricao: data.descricao,
-        status: data.status,
-        categoria: data.categoria,
-    };
-    axios
-    .post('https://iacit.herokuapp.com/api/ro/create', Data)
-    .then(response => {
-      console.log(response.data);
-      alert('RO criado com sucesso!');
-    })
-    .catch(error => {
-      console.error('RO Erro');
+        software: {},
+      };
+    } else if (isSoftwareSelected) {
+      formData = {
+        ...data,
+        software: {
+          versaoBD: data.software.versaoBD,
+          versaoSoftware: data.software.versaoSoftware,
+          LogsRO: data.software.LogsRO,
+      },
+        hardware: {},
+      };
+    }
+    try {
+      await api.post('ro/create', formData);
+      setFormSubmitted(true);
+      alert('Registro de Ocorrência criado com sucesso!');
+    } catch (error) {
+      console.error('RO Erro', error);
       alert('Erro ao criar o RO!');
-    });
-  setFormSubmitted(true);
-
-  } else {
-      const Data = {
-        orgao: data.orgao,
-        dataRegistro: data.dataRegistro,
-        horaRegistro: data.horaRegistro,
-        nomeRelator: data.nomeRelator,
-        nomeresponsavel: data.nomeresponsavel,
-        nomeColaborador: data.nomeColaborador,
-        defeito: data.defeito,
-        'hardware':{},
-        'software': {
-            versaoBD: data.software.versaoBD,
-            versaoSoftware: data.software.versaoSoftware,
-            LogsRO: data.software.LogsRO,
-        },
-        titulo: data.titulo,
-        descricao: data.descricao,
-        status: data.status,
-        categoria: data.categoria,
-    };
-    axios
-      .post('https://iacit.herokuapp.com/api/ro/create', Data)
-      .then(response => {
-        console.log(response.data);
-        alert('RO criado com sucesso!');
-      })
-      .catch(error => {
-        console.error('RO Erro');
-        alert('Erro ao criar o RO!');
-      });
-    setFormSubmitted(true);
+    } finally {
+      setData({
+        orgao: '',
+        nomeRelator: '',
+        nomeresponsavel: '',
+        nomeColaborador: '',
+        defeito: '',
+        software: {},
+        hardware: {},
+        titulo: '',
+        descricao: '',
+        'dataRegistro': moment().format('DD-MM-YYYY'),
+        'horaRegistro': moment().format('HH:mm:ss'),
+        'status': '',
+        categoria: '',
+        resolucao: '',
+      }); //zera os campos formulario
+      setIsHardwareSelected(false); //zera checkbox
+      setIsSoftwareSelected(false); //zera checkbox
+    }
   }
-};
 
   //verifica se o formulário foi enviado.
   useEffect(() => {
     if (formSubmitted) {
-      console.log('data: ', data);
+      console.log('data: ',data);
       setFormSubmitted(false); // Reinicia o valor para falso
     }
   }, [formSubmitted, data]);
-
-
 
   //titulos de cada pagina do form
   const FormTitle = [
@@ -158,6 +123,7 @@ function RegistroOcorrenciaForm() {
     'Dados Ocorrência',
   ];
 
+  //mudanças de formulario e seus respectivos dados de acordo com a tela
   const [screen, setScreen] = useState(0);
   const isLastScreen = screen === FormTitle.length - 1;
   const ScreenDisplay = () => {
@@ -215,18 +181,18 @@ function RegistroOcorrenciaForm() {
 
       {/* menu navegavel da tela principal */}
       <View style={styles.container3}>
-        <View style={styles.button1}>
+        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
           <Image source={require('../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
-        </View>
-        <View style={styles.button2}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button2}>
           <Image source={require('../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
-        </View>
-        <View style={styles.button3}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
           <Image source={require('../../imgs/registros.png')} />
           <Text style={styles.buttonsText}>Registros</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </>
   );

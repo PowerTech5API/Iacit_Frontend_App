@@ -33,7 +33,7 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Equipamento"
-            value={data.hardware.equipamento}
+            value={data.hardware && data.hardware.equipamento}
             onChangeText={equipamento => {
               setData({
                 ...data,
@@ -48,7 +48,7 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Posição"
-            value={data.hardware.posicao}
+            value={data.hardware && data.hardware.posicao}
             onChangeText={posicao => {
               setData({
                 ...data,
@@ -63,7 +63,7 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Part Number"
-            value={data.hardware.partnumber}
+            value={data.hardware && data.hardware.partnumber}
             onChangeText={partnumber => {
               setData({
                 ...data,
@@ -78,7 +78,7 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder='Serial Number'
-            value={data.hardware.serialNumber}
+            value={data.hardware && data.hardware.serialNumber}
             onChangeText={serialNumber => {
               setData({
                 ...data,
@@ -97,7 +97,7 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Versão da Base de Dados"
-            value={data.software.versaoBD}
+            value={data.software && data.software.versaoBD}
             onChangeText={versaoBD => {
               setData({
                 ...data,
@@ -112,7 +112,7 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="Versão do Software"
-            value={data.software.versaoSoftware}
+            value={data.software && data.software.versaoSoftware}
             onChangeText={versaoSoftware => {
               setData({
                 ...data,
@@ -127,7 +127,7 @@ function Form2({data, setData}) {
           <TextInput
             style={styles.inputView}
             placeholder="LogsRO"
-            value={data.software.LogsRO}
+            value={data.software && data.software.LogsRO}
             onChangeText={LogsRO => {
               setData({
                 ...data,

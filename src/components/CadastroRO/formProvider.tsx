@@ -2,7 +2,7 @@ import {useState} from 'react';
 import FormContext from '../../contexts/formContext';
 
 const FormProvider = ({children}) => {
-  const [formData, setFormData] = useState({});
+  const [data, setData] = useState({});
   const [isHardwareSelected, setIsHardwareSelected] = useState(false);
   const [isSoftwareSelected, setIsSoftwareSelected] = useState(false);
 
@@ -21,8 +21,8 @@ const FormProvider = ({children}) => {
   };
 
   const contextValue = {
-    formData,
-    setFormData,
+    data,
+    setData,
     isHardwareSelected,
     setIsHardwareSelected,
     isSoftwareSelected,
