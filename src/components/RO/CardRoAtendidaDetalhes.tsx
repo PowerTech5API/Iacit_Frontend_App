@@ -10,23 +10,42 @@ export default function CardRoAtendida(props){
     return(
             <View style={styles.mid1}>
               <ScrollView>
-                <Text style={{color: '#000000'}}>{titulo}</Text>
+                <Text style={styles.text}>Titulo: {titulo}</Text>
 
-                <Text style={{color: '#000000'}}>{descricao}</Text>
+                <Text style={styles.text1}>Descrição: {descricao}</Text>
 
-                <Text style={{color: '#6FCF97'}}>Atendida</Text>
+                <Text style={styles.text2}>Status: <Text style={{color: '#6FCF97', fontWeight:'bold'}}>Atendida</Text> </Text>
               </ScrollView>
             </View>
     )
         
 }
-
-
 const styles = StyleSheet.create({    
   
+    text:{
+        marginBottom: 10,
+        fontWeight: 'bold',
+        fontSize: 20, 
+        color: 'black',
+
+    },
+    text1:{
+        marginBottom: 10,
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: 'black',
+    },
+
+    text2:{
+        fontWeight: 'bold',
+        marginBottom: 15,
+        color: 'black',
+    },
+
+
     mid1: {
       width: '90%',
-      height: 70,
+      height: 'auto',
       backgroundColor: 'white',
       borderRadius: 4,
       shadowColor: '#000',
@@ -35,5 +54,7 @@ const styles = StyleSheet.create({
       marginTop: 10,
       marginBottom: 10,
       marginLeft: '5%',
+      fontWeight: 'bold',
+      
     },
   });

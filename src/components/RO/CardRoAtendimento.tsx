@@ -7,15 +7,15 @@ export default function CardRoAtendimento(props){
 
     return(
             <View style={styles.mid1}>
-                <Text style={{color: '#000000'}}>{titulo}</Text>
+                <Text style={{color: '#000000'}}>Titulo: {titulo}</Text>
 
-                <Text style={{color: '#000000'}}>{descricao}</Text>
+                <Text style={{color: '#000000'}}>Descrição: {descricao}</Text>
 
                 <Text style={{color: '#F2C94C'}}>Atendimento</Text>
             </View>
     )
         
-}
+} 
 
 
 const styles = StyleSheet.create({    
