@@ -34,10 +34,19 @@ export default function DetalhesRoAtendimento({navigation}){
         }}>
             <View style={styles.popUp}>
               <View>
-                <Text>Deseja finalizar a Ocorrência?{'\n'}
+                <Text style={styles.popTexto}>Deseja finalizar a Ocorrência?{'\n'}
                 Se finalizar a ocorrência e o problema{'\n'}
                 não tiver sido solucionado, deverá{'\n'}
                 abrir um novo Registro de Ocorrência.</Text>
+              </View>
+                <TouchableOpacity style={styles.popBotao} onPress={() => setModalVisible(true)}>
+                  <Text style={styles.textoBotao}>Sim, desejo finalizar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.popCancelar} onPress={() => setModalVisible(true)}>
+                  <Text style={styles.textoBotao}>Cancelar</Text>
+                </TouchableOpacity>
+              <View>
+                
               </View>
             </View>
           </Modal>
@@ -82,9 +91,34 @@ const styles = StyleSheet.create({
       height: '60%',
       marginTop: '30%',
       marginLeft: '10%',
-
       borderColor: 'black',
-      borderWidth: 5,
+      borderWidth: 1,
+    },
+    popTexto:{
+      color: 'black',
+      fontSize: 18,
+      marginLeft: 8,
+    },
+    popCancelar:{
+      backgroundColor: '#1E457E',
+      width: '30%',
+      height: 40,
+      marginLeft: '5%',
+      marginTop: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 5,
+    },
+
+    popBotao:{
+      backgroundColor: '#1E457E',
+      width: '63%',
+      height: 40,
+      marginLeft: '5%',
+      marginTop: 35,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 5,
     },
 
     div:{
@@ -104,6 +138,7 @@ const styles = StyleSheet.create({
       borderRadius: 5,
 
     },
+
     textoBotao:{
       color: 'white',
       fontWeight: 'bold',
