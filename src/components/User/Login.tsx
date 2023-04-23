@@ -11,6 +11,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import api from '../../service/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const schema = yup.object({
   email: yup.string().email('Email Invalido').required('Informe seu email'),
@@ -32,12 +33,30 @@ export default function Login({navigation}) {
 
   async function handleSignIn(data) {
     await api.post('user/login',(data)).then((response) =>  {
-      console.log(response.data);
-      if(response.data.isAdmin == true){
-        navigation.navigate('AdminMenu');
-      }else{
-        navigation.navigate('UserMenu');
-      }      
+      async function Token(){
+        try{
+          await AsyncStorage.setItem("userToken", response.data)
+          const userToken = await AsyncStorage.getItem("userToken")
+          console.log(userToken)
+        }catch(e) {
+          console.log(e)
+        }
+      }
+      Token();
+      
+      async function Admin(){
+        const userToken = await AsyncStorage.getItem("userToken")
+        await api.get('user/admin', {headers: {Authorization: `Bearer ${userToken}`}}).then((response) =>{
+
+          if(response.data.isAdmin === true){
+            navigation.navigate('AdminMenu');
+          } else{
+            navigation.navigate('UserMenu')
+          }
+          
+        })
+      }
+      Admin();
     }).catch(function (error) {
       console.error("Usuário ou senha inexistente");
     })

@@ -2,15 +2,21 @@ import React, { useState, useEffect } from 'react';
 import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
 import CardRoAtendida from './CardRoAtendida';
 import api from '../../service/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function RoAtendida({navigation}){
 
   const [ro, setRo] = useState([]);
 
   useEffect(() => {
-    api.get('ro/getAll').then(({data}) =>{
-      setRo(data);
-    })
+    async function Teste(){
+      const userToken = await AsyncStorage.getItem("userToken")
+      await api.get('ro/userStatus/3', {headers: {Authorization: `Bearer ${userToken}`}}).then(({data}) =>{
+        setRo(data);
+      })
+    }
+    Teste();
   }, [])
 
     return(

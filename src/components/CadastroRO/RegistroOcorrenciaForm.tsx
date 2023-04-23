@@ -7,6 +7,7 @@ import Form3 from './Form3';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import api from '../../service/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function RegistroOcorrenciaForm() {
   const navigation = useNavigation();
@@ -80,7 +81,8 @@ function RegistroOcorrenciaForm() {
       };
     }
     try {
-      await api.post('ro/create', formData);
+      const userToken = await AsyncStorage.getItem("userToken")
+      await api.post('ro/create', formData, {headers: {Authorization: `Bearer ${userToken}`}});
       setFormSubmitted(true);
       alert('Registro de Ocorrência criado com sucesso!');
     } catch (error) {
@@ -99,7 +101,7 @@ function RegistroOcorrenciaForm() {
         descricao: '',
         'dataRegistro': moment().format('DD-MM-YYYY'),
         'horaRegistro': moment().format('HH:mm:ss'),
-        'status': '',
+        'status': '1',
         categoria: '',
         resolucao: '',
       }); //zera os campos formulario
