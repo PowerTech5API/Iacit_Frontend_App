@@ -32,6 +32,7 @@ export default function CadastroUsuario({navigation}) {
   const {
     control,
     handleSubmit,
+    reset,
     formState: {errors},
   } = useForm({
     resolver: yupResolver(schema),
@@ -40,6 +41,8 @@ export default function CadastroUsuario({navigation}) {
   async function handleSignIn(data) {
     await api.post('user',(data)).then((response) =>  {
       console.log(response.data);
+      alert('Usuário cadastrado com sucesso!');
+      reset();
     }).catch(function (error) {
       console.error("Usuário já existe");
     })

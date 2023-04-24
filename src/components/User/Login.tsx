@@ -25,7 +25,7 @@ export default function Login({navigation}) {
   
   const {
     control,
-    handleSubmit,
+    handleSubmit,   
     formState: {errors},
   } = useForm({
     resolver: yupResolver(schema),
@@ -48,10 +48,10 @@ export default function Login({navigation}) {
         const userToken = await AsyncStorage.getItem("userToken")
         await api.get('user/admin', {headers: {Authorization: `Bearer ${userToken}`}}).then((response) =>{
 
-          if(response.data.isAdmin === true){
+          if(response.data.isAdmin === true){           
             navigation.navigate('AdminMenu');
-          } else{
-            navigation.navigate('UserMenu')
+          } else{          
+            navigation.navigate('UserMenu');
           }
           
         })

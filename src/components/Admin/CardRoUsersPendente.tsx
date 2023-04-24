@@ -1,23 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import {useNavigation} from '@react-navigation/native';
 
 
-export default function CardRoAtendida(props){
-    const navigation = useNavigation();
-
+export default function CardRoUsersPendente(props){
     
     const {titulo} = props;
     const {descricao} = props;
 
-    return(
-            <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('DetalhesRoAtendida')}>
+
+    return(            
+            <TouchableOpacity style={styles.mid1}>
               <ScrollView>
                 <Text style={{color: '#000000'}}>Titulo: {titulo}</Text>
 
                 <Text style={{color: '#000000'}}>Descrição: {descricao}</Text>
 
-                <Text style={{color: '#6FCF97'}}>Atendida</Text>
+                <Text style={{color: '#EB5757'}}>Pendente</Text>
               </ScrollView>
             </TouchableOpacity>
     )

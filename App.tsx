@@ -14,6 +14,10 @@ import AdminMenu from './src/components/Admin/AdminMenu';
 import DetalhesRoAtendida from './src/components/RO/DetalhesRoAtendida';
 import DetalhesRoPendente from './src/components/RO/DetalhesRoPendente';
 import DetalhesRoAtendimento from './src/components/RO/DetalhesRoAtendimento';
+import AcompanharROAdm from './src/components/Admin/AcompanharROAdm';
+import RoPendenteUsers from './src/components/Admin/RoPendenteUsers';
+import RoAtendimentoUsers from './src/components/Admin/RoAtendimentoUsers';
+import RoAtendidaUsers from './src/components/Admin/RoAtendidaUsers';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +41,10 @@ export default function App() {
         <Stack.Screen name="DetalhesRoAtendimento" component={DetalhesRoAtendimento} />
         <Stack.Screen name="DetalhesRoPendente" component={DetalhesRoPendente} />
         <Stack.Screen name="DetalhesRoAtendida" component={DetalhesRoAtendida} />
+        <Stack.Screen name="AcompanharROAdm" component={AcompanharROAdm} />
+        <Stack.Screen name="RoPendenteUsers" component={RoPendenteUsers} />
+        <Stack.Screen name="RoAtendimentoUsers" component={RoAtendimentoUsers} />
+        <Stack.Screen name="RoAtendidaUsers" component={RoAtendidaUsers} />
       </Stack.Navigator>
     </NavigationContainer>
     </FormProvider>

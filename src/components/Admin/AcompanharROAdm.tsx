@@ -2,7 +2,8 @@ import React from 'react';
 import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-export default function AdminMenu() {
+
+export default function AcompanharROAdm() {
   const navigation = useNavigation();
   
   return (
@@ -18,19 +19,25 @@ export default function AdminMenu() {
       </View>
 
       <View style={styles.container2}>
-        <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('AcompanharROAdm')}>
-          <Image source={require('../../imgs/registros2.png')}></Image>
-          <Text style={styles.mid1Text}>Registros</Text>
+        <View>
+          <Text style={styles.titulo}>Verifique as RO's</Text>
+        </View>
+
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoAtendidaUsers') }>
+          <Text style={styles.ROAtendida}>Registros Atendidos</Text>
+        </TouchableOpacity> 
+
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoAtendimentoUsers') }>
+          <Text style={styles.ROAtendimento}>Registros em Atendimento</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.mid2}>
-          <Image source={require('../../imgs/chat2.png')}></Image>
-          <Text style={styles.mid1Text}>Chat</Text>
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoPendenteUsers') }>
+          <Text style={styles.ROPendente}>Registros Pendentes</Text>
         </TouchableOpacity>
       </View>
-
+     
       <View style={styles.container3}>
-        <TouchableOpacity style={styles.button1}>
+        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('AdminMenu')}>
           <Image source={require('../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
         </TouchableOpacity>
@@ -48,6 +55,11 @@ export default function AdminMenu() {
     </>
   );
 }
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container1: {
@@ -67,39 +79,29 @@ const styles = StyleSheet.create({
 
   container2: {
     flex: 0.8,
-    flexDirection: 'row',
     backgroundColor: '#F2F2F2',
     paddingTop: '10%',
+    alignItems: 'center',
   },
 
-  mid1: {
-    width: '42.5%',
-    height: 120,
+  cards: {
+    width: '90%',
+    height: 70,
     backgroundColor: 'white',
     borderRadius: 4,
-    marginLeft: '5%',
-    alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
     elevation: 8,
+    marginTop: '10%',
   },
 
   mid1Text: {
-    fontSize: 20,
+    marginTop: 5,
+    fontSize: 14,
     fontWeight: 'bold',
-    color: '#1D2045',
+    color: '#6FCF97',
+    textAlign: 'center',
     fontFamily: 'Inter',
-  },
-
-  mid2: {
-    width: '42.5%',
-    height: 120,
-    backgroundColor: 'white',
-    borderRadius: 4,
-    marginLeft: '5%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
   },
 
   container3: {
@@ -132,5 +134,33 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#1E457E',
   },
+
+  ROPendente: {
+    color: '#EB5757',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginLeft: 10,
+
+  },
+  ROAtendimento: {
+    color: '#F2C94C',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginLeft: 10,
+
+  },
+  ROAtendida:{
+    color: '#6FCF97',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginLeft: 10,
+
+  },
+  titulo: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000000'
+  }
 
 });
