@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
-import CardRoUsersPendente from './CardRoUsersPendente';
 import api from '../../service/api';
 import {useNavigation} from '@react-navigation/native';
+import CardRoUsersAtendida from './CardRoUsersAtendida';
 
 
 export default function RoAtendidaUsers(){
@@ -35,7 +35,7 @@ export default function RoAtendidaUsers(){
         <View style={styles.container2}>
           <ScrollView>
             {ro.map(item => (
-              <CardRoUsersPendente key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
+              <CardRoUsersAtendida key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
             ))}            
           </ScrollView>
         </View>
