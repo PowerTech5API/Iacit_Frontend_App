@@ -1,57 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
-import CardRoAtendimento from './CardRoAtendimento';
-import api from '../../service/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import CardRoUsersPendente from '../Cards/CardRoUsersPendente';
+import api from '../../../../service/api';
+import {useNavigation} from '@react-navigation/native';
 
 
-export default function RoAtendimento({navigation}){
+export default function RoPendenteUsers(){
+  const navigation = useNavigation();
 
   const [ro, setRo] = useState([]);
 
+
   useEffect(() => {
     async function Teste(){
-      const userToken = await AsyncStorage.getItem("userToken")
-      await api.get('ro/userStatus/2', {headers: {Authorization: `Bearer ${userToken}`}}).then(({data}) =>{
+      await api.get('ro/status/1').then(({data}) =>{
         setRo(data);
       })
     }
     Teste();
   }, [])
-
+  
     return(
         <>
         <View style={styles.container1}>
           <TouchableOpacity style={styles.img1}>
-            <Image source={require('../../imgs/config.png')} />
+            <Image source={require('../../../../imgs/config.png')} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.img2}>
-            <Image source={require('../../imgs/notificacao.png')} />
+            <Image source={require('../../../../imgs/notificacao.png')} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.container2}>
           <ScrollView>
             {ro.map(item => (
-              <CardRoAtendimento key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
-            ))}
+              <CardRoUsersPendente key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
+            ))}            
           </ScrollView>
         </View>
 
         <View style={styles.container3}>
-          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
-            <Image source={require('../../imgs/inicio.png')} />
+          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('AdminMenu')}>
+            <Image source={require('../../../../imgs/inicio.png')} />
             <Text style={styles.buttonsText}>Inicio</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button2}>
-            <Image source={require('../../imgs/chat.png')} />
+            <Image source={require('../../../../imgs/chat.png')} />
             <Text style={styles.buttonsText}>Chat</Text>
           </TouchableOpacity>
         
-          <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
-            <Image source={require('../../imgs/registros.png')} />
+          <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharROAdm')}>
+            <Image source={require('../../../../imgs/registros.png')} />
             <Text style={styles.buttonsText}>Registros</Text>
           </TouchableOpacity>
         </View>

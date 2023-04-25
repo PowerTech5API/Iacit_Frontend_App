@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
-import api from '../../service/api';
+import api from '../../../../service/api';
 import {useNavigation} from '@react-navigation/native';
-import CardRoUsersAtendimento from './CardRoUsersAtendimento';
+import CardRoUsersAtendida from '../Cards/CardRoUsersAtendida';
 
 
-export default function RoAtendimentoUsers(){
+export default function RoAtendidaUsers(){
   const navigation = useNavigation();
 
   const [ro, setRo] = useState([]);
@@ -13,7 +13,7 @@ export default function RoAtendimentoUsers(){
 
   useEffect(() => {
     async function Teste(){
-      await api.get('ro/status/2').then(({data}) =>{
+      await api.get('ro/status/3').then(({data}) =>{
         setRo(data);
       })
     }
@@ -24,35 +24,35 @@ export default function RoAtendimentoUsers(){
         <>
         <View style={styles.container1}>
           <TouchableOpacity style={styles.img1}>
-            <Image source={require('../../imgs/config.png')} />
+            <Image source={require('../../../../imgs/config.png')} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.img2}>
-            <Image source={require('../../imgs/notificacao.png')} />
+            <Image source={require('../../../../imgs/notificacao.png')} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.container2}>
           <ScrollView>
             {ro.map(item => (
-              <CardRoUsersAtendimento key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
+              <CardRoUsersAtendida key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
             ))}            
           </ScrollView>
         </View>
 
         <View style={styles.container3}>
           <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('AdminMenu')}>
-            <Image source={require('../../imgs/inicio.png')} />
+            <Image source={require('../../../../imgs/inicio.png')} />
             <Text style={styles.buttonsText}>Inicio</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button2}>
-            <Image source={require('../../imgs/chat.png')} />
+            <Image source={require('../../../../imgs/chat.png')} />
             <Text style={styles.buttonsText}>Chat</Text>
           </TouchableOpacity>
         
           <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharROAdm')}>
-            <Image source={require('../../imgs/registros.png')} />
+            <Image source={require('../../../../imgs/registros.png')} />
             <Text style={styles.buttonsText}>Registros</Text>
           </TouchableOpacity>
         </View>

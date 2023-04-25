@@ -1,57 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
-import CardRoAtendida from './CardRoAtendida';
-import api from '../../service/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
 
-export default function RoAtendida({navigation}){
+export default function DetalhesROAtendida(props){
+  const navigation = useNavigation();
 
-  const [ro, setRo] = useState([]);
-
-  useEffect(() => {
-    async function Teste(){
-      const userToken = await AsyncStorage.getItem("userToken")
-      await api.get('ro/userStatus/3', {headers: {Authorization: `Bearer ${userToken}`}}).then(({data}) =>{
-        setRo(data);
-      })
-    }
-    Teste();
-  }, [])
+  const {titulo} = props;
+  const {descricao} = props;
 
     return(
         <>
         <View style={styles.container1}>
           <TouchableOpacity style={styles.img1}>
-            <Image source={require('../../imgs/config.png')} />
+            <Image source={require('../../../imgs/config.png')} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.img2}>
-            <Image source={require('../../imgs/notificacao.png')} />
+            <Image source={require('../../../imgs/notificacao.png')} />
+            
           </TouchableOpacity>
         </View>
 
         <View style={styles.container2}>
-          <ScrollView>
-            {ro.map(item => (
-              <CardRoAtendida key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
-            ))}
-          </ScrollView>
+          <View style={styles.mid1}>
+            <ScrollView>
+              <Text style={styles.text}>Titulo: {titulo}</Text>
+
+              <Text style={styles.text1}>Descrição: {descricao}</Text>
+
+              <Text style={styles.text2}>Status: <Text style={{color: '#6FCF97', fontWeight:'bold'}}>Atendida</Text> </Text>
+            </ScrollView>
+          </View>
         </View>
 
         <View style={styles.container3}>
           <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
-            <Image source={require('../../imgs/inicio.png')} />
+            <Image source={require('../../../imgs/inicio.png')} />
             <Text style={styles.buttonsText}>Inicio</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button2}>
-            <Image source={require('../../imgs/chat.png')} />
+            <Image source={require('../../../imgs/chat.png')} />
             <Text style={styles.buttonsText}>Chat</Text>
           </TouchableOpacity>
         
           <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
-            <Image source={require('../../imgs/registros.png')} />
+            <Image source={require('../../../imgs/registros.png')} />
             <Text style={styles.buttonsText}>Registros</Text>
           </TouchableOpacity>
         </View>
@@ -159,6 +154,42 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: 'bold',
       color: '#000000'
-    }
+    },
+
+    text:{
+      marginBottom: 10,
+      fontWeight: 'bold',
+      fontSize: 20, 
+      color: 'black',
+
+  },
+  text1:{
+      marginBottom: 10,
+      fontWeight: 'bold',
+      fontSize: 15,
+      color: 'black',
+  },
+
+  text2:{
+      fontWeight: 'bold',
+      marginBottom: 15,
+      color: 'black',
+  },
+
+
+  mid1: {
+    width: '90%',
+    height: 'auto',
+    backgroundColor: 'white',
+    borderRadius: 4,
+    shadowColor: '#000',
+    elevation: 8,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: '5%',
+    fontWeight: 'bold',
+    
+  },
   
   });

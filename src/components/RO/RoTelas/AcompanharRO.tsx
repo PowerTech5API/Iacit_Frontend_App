@@ -7,11 +7,11 @@ export default function AcompanharRO({navigation}) {
     <>
       <View style={styles.container1}>
         <TouchableOpacity style={styles.img1}>
-          <Image source={require('../../imgs/config.png')} />
+          <Image source={require('../../../imgs/config.png')} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.img2}>
-          <Image source={require('../../imgs/notificacao.png')} />
+          <Image source={require('../../../imgs/notificacao.png')} />
         </TouchableOpacity>
       </View>
 
@@ -35,17 +35,17 @@ export default function AcompanharRO({navigation}) {
      
       <View style={styles.container3}>
         <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
-          <Image source={require('../../imgs/inicio.png')} />
+          <Image source={require('../../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button2}>
-          <Image source={require('../../imgs/chat.png')} />
+          <Image source={require('../../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
-          <Image source={require('../../imgs/registros.png')} />
+          <Image source={require('../../../imgs/registros.png')} />
           <Text style={styles.buttonsText}>Registros</Text>
         </TouchableOpacity>
       </View>

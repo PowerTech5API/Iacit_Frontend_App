@@ -11,7 +11,6 @@ export default function CardRoPendente(props){
     const {titulo} = props;
     const {descricao} = props;
 
-
     return(            
             <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('DetalhesRoPendente')}>
               <ScrollView>

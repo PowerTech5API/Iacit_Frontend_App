@@ -9,39 +9,39 @@ export default function AdminMenu() {
     <>
       <View style={styles.container1}>
         <TouchableOpacity style={styles.img1}>
-          <Image source={require('../../imgs/config.png')} />
+          <Image source={require('../../../imgs/config.png')} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.img2}>
-          <Image source={require('../../imgs/notificacao.png')} />
+          <Image source={require('../../../imgs/notificacao.png')} />
         </TouchableOpacity>
       </View>
 
       <View style={styles.container2}>
         <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('AcompanharROAdm')}>
-          <Image source={require('../../imgs/registros2.png')}></Image>
+          <Image source={require('../../../imgs/registros2.png')}></Image>
           <Text style={styles.mid1Text}>Registros</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.mid2}>
-          <Image source={require('../../imgs/chat2.png')}></Image>
+          <Image source={require('../../../imgs/chat2.png')}></Image>
           <Text style={styles.mid1Text}>Chat</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.container3}>
         <TouchableOpacity style={styles.button1}>
-          <Image source={require('../../imgs/inicio.png')} />
+          <Image source={require('../../../imgs/inicio.png')} />
           <Text style={styles.buttonsText}>Inicio</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button2}>
-          <Image source={require('../../imgs/chat.png')} />
+          <Image source={require('../../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharROAdm')}>
-          <Image source={require('../../imgs/registros.png')} />
+          <Image source={require('../../../imgs/registros.png')} />
           <Text style={styles.buttonsText}>Registros</Text>
         </TouchableOpacity>
       </View>

@@ -1,26 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity, Modal, Alert} from 'react-native';
-import api from '../../service/api';
-import CardRoAtendimentoDetalhes from './CardRoAtendimentoDetalhes';
+import {useNavigation} from '@react-navigation/native';
 
 
-export default function DetalhesRoAtendimento({navigation}){
+
+
+export default function DetalhesRoAtendimento(props){
   const [modalVisible, setModalVisible] = useState(false);
+
+  const navigation = useNavigation();
+
+
+  const {titulo} = props;
+  const {descricao} = props;
+
     return(
         <>
         <View style={styles.container1}>
           <TouchableOpacity style={styles.img1}>
-            <Image source={require('../../imgs/config.png')} />
+            <Image source={require('../../../imgs/config.png')} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.img2}>
-            <Image source={require('../../imgs/notificacao.png')} />
+            <Image source={require('../../../imgs/notificacao.png')} />
             
           </TouchableOpacity>
         </View>
 
         <View style={styles.container2}>
-          <CardRoAtendimentoDetalhes />
+          <View style={styles.mid1}>
+            <ScrollView>
+              <Text style={styles.text}>Titulo: {titulo}</Text>
+
+              <Text style={styles.text1}>Descrição: {descricao}</Text>
+
+              <Text style={styles.text2}>Status: <Text style={{color: '#F2C94C', fontWeight:'bold'}}>Atendimento</Text> </Text>
+
+            </ScrollView>
+          </View>
+        
           <View style={styles.div}>
             <Text style={styles.texto}>Sua ocorrência foi resolvida?{'\n'}Se sim, por favor finalize a Ocorrência.</Text>
           </View>
@@ -58,17 +76,17 @@ export default function DetalhesRoAtendimento({navigation}){
 
         <View style={styles.container3}>
           <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
-            <Image source={require('../../imgs/inicio.png')} />
+            <Image source={require('../../../imgs/inicio.png')} />
             <Text style={styles.buttonsText}>Inicio</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button2}>
-            <Image source={require('../../imgs/chat.png')} />
+            <Image source={require('../../../imgs/chat.png')} />
             <Text style={styles.buttonsText}>Chat</Text>
           </TouchableOpacity>
         
           <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
-            <Image source={require('../../imgs/registros.png')} />
+            <Image source={require('../../../imgs/registros.png')} />
             <Text style={styles.buttonsText}>Registros</Text>
           </TouchableOpacity>
         </View>
@@ -129,7 +147,7 @@ const styles = StyleSheet.create({
     },
     botao:{
       backgroundColor: '#1E457E',
-      width: '28%',
+      width: 130,
       height: 40,
       marginLeft: '5%',
       marginTop: 35,
@@ -239,6 +257,40 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: 'bold',
       color: '#000000'
-    }
-  
-  });
+    },
+
+  text:{
+      marginBottom: 10,
+      fontWeight: 'bold',
+      fontSize: 20, 
+      color: 'black',
+
+  },
+  text1:{
+      marginBottom: 10,
+      fontWeight: 'bold',
+      fontSize: 15,
+      color: 'black',
+  },
+
+  text2:{
+      fontWeight: 'bold',
+      marginBottom: 15,
+      color: 'black',
+  },
+
+
+  mid1: {
+    width: '90%',
+    height: 'auto',
+    backgroundColor: 'white',
+    borderRadius: 4,
+    shadowColor: '#000',
+    elevation: 8,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: '5%',
+    fontWeight: 'bold',  
+  },
+});
