@@ -18,6 +18,7 @@ import AcompanharROAdm from './src/components/Admin/RO/RoTelas/AcompanharROAdm';
 import RoPendenteUsers from './src/components/Admin/RO/RoTelas/RoPendenteUsers';
 import RoAtendimentoUsers from './src/components/Admin/RO/RoTelas/RoAtendimentoUsers';
 import RoAtendidaUsers from './src/components/Admin/RO/RoTelas/RoAtendidaUsers';
+import SegurancaPrivacidade from './src/components/SegurancaPrivacidade/SegurancaPrivacidade';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,8 +46,15 @@ export default function App() {
         <Stack.Screen name="RoPendenteUsers" component={RoPendenteUsers} />
         <Stack.Screen name="RoAtendimentoUsers" component={RoAtendimentoUsers} />
         <Stack.Screen name="RoAtendidaUsers" component={RoAtendidaUsers} />
+        <Stack.Screen name="SegurancaPrivacidade" component={SegurancaPrivacidade} />
       </Stack.Navigator>
     </NavigationContainer>
     </FormProvider>
   );
 }
+
+
+
+
+
+
