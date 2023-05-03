@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -18,18 +19,43 @@ import AcompanharROAdm from './src/components/Admin/RO/RoTelas/AcompanharROAdm';
 import RoPendenteUsers from './src/components/Admin/RO/RoTelas/RoPendenteUsers';
 import RoAtendimentoUsers from './src/components/Admin/RO/RoTelas/RoAtendimentoUsers';
 import RoAtendidaUsers from './src/components/Admin/RO/RoTelas/RoAtendidaUsers';
+import MenuLateral from './src/components/MenuLateral/MenuLateral';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Screen } from '@react-navigation/elements';
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function DrawerScreen() {
+  return (
+    <Screen>
+      <Drawer.Navigator
+        screenOptions={{
+          drawerStyle: {
+            backgroundColor: '#c6cbef',
+            width: 240,
+          },
+        }}
+      >
+        <Drawer.Screen name="RegistroOcorrenciaForm" component={RegistroOcorrenciaForm} />
+      </Drawer.Navigator>
+    </Screen>
+  );
+}
+
+
 
 export default function App() {
   return (
     <FormProvider>
     <NavigationContainer>
+      <MenuLateral/>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Drawer" component={DrawerScreen} />
         <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} />
         <Stack.Screen name="UserMenu" component={UserMenu} />
         <Stack.Screen name="AdminMenu" component={AdminMenu} />
@@ -50,3 +76,9 @@ export default function App() {
     </FormProvider>
   );
 }
+
+
+
+
+
+
