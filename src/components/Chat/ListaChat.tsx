@@ -33,7 +33,6 @@ export default function ListaChat(props){
           </View>
           <UserMenu />
         </>
-
         )};
 
 
