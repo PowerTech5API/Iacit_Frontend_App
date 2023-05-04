@@ -37,7 +37,7 @@ export default function UserMenu() {
           <Text style={styles.buttonsText}>Inicio</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button2}>
+        <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('ListaChat')}>
           <Image source={require('../../imgs/chat.png')} />
           <Text style={styles.buttonsText}>Chat</Text>
         </TouchableOpacity>
