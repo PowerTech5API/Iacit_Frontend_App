@@ -1,5 +1,13 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+apply from: '../../node_modules/react-native-vector-icons/fonts.gradle'
+
+
+
+project.ext.vectoricons = [
+    iconFontName: ["AntDesign.ttf", "Feather.ttf","Ionicons.ttf"]
+]
+
 
 import com.android.build.OutputFile
 
