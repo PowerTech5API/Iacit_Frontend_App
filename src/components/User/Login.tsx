@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -49,9 +49,9 @@ export default function Login({navigation}) {
         await api.get('user/admin', {headers: {Authorization: `Bearer ${userToken}`}}).then((response) =>{
 
           if(response.data.isAdmin === true){           
-            navigation.navigate('AdminMenu');
+            navigation.navigate('Drawer', { screen: 'AdminMenu' });
           } else{          
-            navigation.navigate('UserMenu');
+            navigation.navigate('Drawer', { screen: 'UserMenu' });
           }
           
         })

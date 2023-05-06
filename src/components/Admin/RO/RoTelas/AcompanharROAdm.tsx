@@ -8,16 +8,6 @@ export default function AcompanharROAdm() {
   
   return (
     <>
-      <View style={styles.container1}>
-        <TouchableOpacity style={styles.img1}>
-          <Image source={require('../../../../imgs/config.png')} />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.img2}>
-          <Image source={require('../../../../imgs/notificacao.png')} />
-        </TouchableOpacity>
-      </View>
-
       <View style={styles.container2}>
         <View>
           <Text style={styles.titulo}>Verifique as RO's</Text>
@@ -33,23 +23,6 @@ export default function AcompanharROAdm() {
 
         <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoPendenteUsers') }>
           <Text style={styles.ROPendente}>Registros Pendentes</Text>
-        </TouchableOpacity>
-      </View>
-     
-      <View style={styles.container3}>
-        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('AdminMenu')}>
-          <Image source={require('../../../../imgs/inicio.png')} />
-          <Text style={styles.buttonsText}>Inicio</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button2}>
-          <Image source={require('../../../../imgs/chat.png')} />
-          <Text style={styles.buttonsText}>Chat</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharROAdm')}>
-          <Image source={require('../../../../imgs/registros.png')} />
-          <Text style={styles.buttonsText}>Registros</Text>
         </TouchableOpacity>
       </View>
     </>

@@ -7,18 +7,7 @@ export default function UserMenu() {
 
   return (
     <>
-      <View style={styles.container1}>
-        <TouchableOpacity style={styles.img1}>
-          <Image source={require('../../imgs/config.png')} />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.img2}>
-          <Image source={require('../../imgs/notificacao.png')} />
-        </TouchableOpacity>
-      </View>
-
       <View style={styles.container2}>
-
         <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('CadastroRO')}>
             <Image source={require('../../imgs/ocorrencia.png')} />          
             <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>          
@@ -27,24 +16,6 @@ export default function UserMenu() {
         <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('AcompanharRO')}>
           <Image source={require('../../imgs/fale_conosco.png')} />
           <Text style={styles.mid1Text}>Fale Conosco</Text>
-        </TouchableOpacity>
-
-      </View>
-
-      <View style={styles.container3}>
-        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
-          <Image source={require('../../imgs/inicio.png')} />
-          <Text style={styles.buttonsText}>Inicio</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button2}>
-          <Image source={require('../../imgs/chat.png')} />
-          <Text style={styles.buttonsText}>Chat</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
-          <Image source={require('../../imgs/registros.png')} />
-          <Text style={styles.buttonsText}>Registros</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -68,7 +39,7 @@ const styles = StyleSheet.create({
   },
 
   container2: {
-    flex: 0.8,
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#F2F2F2',
     paddingTop: '10%',

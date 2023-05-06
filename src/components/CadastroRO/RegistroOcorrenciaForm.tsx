@@ -140,13 +140,6 @@ function RegistroOcorrenciaForm() {
 
   return (
     <>
-      <View style={styles.container1}>
-        <Image style={styles.img1} source={require('../../imgs/config.png')} />
-        <Image
-          style={styles.img2}
-          source={require('../../imgs/notificacao.png')}
-        />
-      </View>
       <View style={styles.container2}>
         <Text style={styles.title}>{FormTitle[screen]}</Text>
         <View style={styles.container2}>{ScreenDisplay()}</View>
@@ -179,22 +172,6 @@ function RegistroOcorrenciaForm() {
             <Text style={styles.button}>Próximo</Text>
           </Pressable>
         )}
-      </View>
-
-      {/* menu navegavel da tela principal */}
-      <View style={styles.container3}>
-        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
-          <Image source={require('../../imgs/inicio.png')} />
-          <Text style={styles.buttonsText}>Inicio</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button2}>
-          <Image source={require('../../imgs/chat.png')} />
-          <Text style={styles.buttonsText}>Chat</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
-          <Image source={require('../../imgs/registros.png')} />
-          <Text style={styles.buttonsText}>Registros</Text>
-        </TouchableOpacity>
       </View>
     </>
   );
