@@ -1,24 +1,25 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import {useNavigation} from '@react-navigation/native';
 
 
-
-export default function CardRoPendente(props){
-    const navigation = useNavigation();
-
+export default function CardRoGeral(props){
     
     const {titulo} = props;
-    const {descricao} = props;
+    const {tipo} = props;
+    const {usuario} = props;
+    const {status} = props;
+
 
     return(            
-            <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('DetalhesRoPendente')}>
+            <TouchableOpacity style={styles.mid1}>
               <ScrollView>
                 <Text style={{color: '#000000'}}>Titulo: {titulo}</Text>
 
-                <Text style={{color: '#000000'}}>Usuário: {descricao}</Text>
+                <Text style={{color: '#000000'}}>Tipo: {tipo}</Text>
 
-                <Text style={{color: '#EB5757'}}>Pendente</Text>
+                <Text style={{color: '#000000'}}>Usuário: {usuario}</Text>                
+
+                <Text style={{color: '#EB5757'}}>{status}</Text>
               </ScrollView>
             </TouchableOpacity>
     )
@@ -30,14 +31,16 @@ const styles = StyleSheet.create({
   
     mid1: {
       width: '90%',
-      height: 70,
+      height: 100,
       backgroundColor: 'white',
       borderRadius: 4,
       shadowColor: '#000',
-      elevation: 8,
+      elevation: 5,
       paddingLeft: 10,
       marginTop: 10,
       marginBottom: 10,
       marginLeft: '5%',
+      borderWidth: 2,
+      borderColor: 'black',
     },
   });

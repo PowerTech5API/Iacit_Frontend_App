@@ -1,9 +1,34 @@
-import React from 'react';
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {View, Image, StyleSheet, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import SelectDropdown from 'react-native-select-dropdown';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import CardRoGeral from '../RO/Cards/CardRoGeral';
+import api from '../../../service/api';
+
 
 export default function AdminMenu() {
   const navigation = useNavigation();
+
+  const tipo = ["Hardware", "Software"];
+
+  const dataRo = ["Recente", "Antigo"];
+
+  const users = [];
+
+  const status = ["Pendente", "Em Atendimento", "Atendinda"];
+
+  const [ro, setRo] = useState([]);
+
+  useEffect(() => {
+    async function Teste(){
+      await api.get('ro/getAll').then(({data}) =>{
+        setRo(data);
+      })
+    }
+    Teste();
+  }, [])
+
   
   return (
     <>
@@ -18,15 +43,108 @@ export default function AdminMenu() {
       </View>
 
       <View style={styles.container2}>
-        <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('AcompanharROAdm')}>
-          <Image source={require('../../../imgs/registros2.png')}></Image>
-          <Text style={styles.mid1Text}>Registros</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity style={styles.mid2}>
-          <Image source={require('../../../imgs/chat2.png')}></Image>
-          <Text style={styles.mid1Text}>Chat</Text>
-        </TouchableOpacity>
+          <View style={styles.topo}>
+            <Text style={styles.topoTitulo}>Registros de Ocorrência</Text>
+          </View>
+
+          <View style={styles.filtro}>           
+            <Text style={styles.filtroTitulo}>Filtrar por:</Text>            
+            <View style={styles.filtros1}>
+
+              <SelectDropdown              
+                buttonStyle={styles.filtroBotao}
+                buttonTextStyle={styles.filtroTexto}
+                defaultButtonText='Tipo'
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                }}
+                dropdownIconPosition='right'
+                data={tipo}                
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item
+                }}
+              />
+
+              <SelectDropdown              
+                buttonStyle={styles.filtroBotao}
+                buttonTextStyle={styles.filtroTexto}
+                search
+                defaultButtonText='Usuários'
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                }}
+                dropdownIconPosition='right'
+                data={users}                
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item
+                }}
+              />
+
+              <SelectDropdown              
+                buttonStyle={styles.filtroBotao}
+                buttonTextStyle={styles.filtroTexto}
+                defaultButtonText='Status'
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                }}
+                dropdownIconPosition='right'
+                data={status}                
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item
+                }}
+              />
+            
+            </View>
+            <View style={styles.filtros2}>
+
+            <SelectDropdown              
+                buttonStyle={styles.filtroBotao}
+                buttonTextStyle={styles.filtroTexto}
+                defaultButtonText='Data'
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                }}
+                dropdownIconPosition='right'
+                data={dataRo}                
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item
+                }}
+              />
+
+            </View>
+          </View>
+
+          <ScrollView>
+            {ro.map(item => (
+              <CardRoGeral titulo={item.titulo} tipo={item.defeito} usuario={item.nomeRelator} status={item.status}/>
+            ))}            
+          </ScrollView>
+
       </View>
 
       <View style={styles.container3}>
@@ -67,39 +185,54 @@ const styles = StyleSheet.create({
 
   container2: {
     flex: 0.8,
-    flexDirection: 'row',
     backgroundColor: '#F2F2F2',
-    paddingTop: '10%',
   },
 
-  mid1: {
-    width: '42.5%',
-    height: 120,
-    backgroundColor: 'white',
-    borderRadius: 4,
-    marginLeft: '5%',
+  topo: {
     alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    elevation: 8,
+    marginTop: 20,
   },
 
-  mid1Text: {
+  topoTitulo: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#1D2045',
-    fontFamily: 'Inter',
+    color: 'black',
   },
 
-  mid2: {
-    width: '42.5%',
-    height: 120,
-    backgroundColor: 'white',
-    borderRadius: 4,
-    marginLeft: '5%',
+  filtro: {    
+    marginTop: 20,
+    paddingLeft: 20,      
+  },
+
+  filtroTitulo: {    
+    color: 'black',
+    fontSize: 12,   
+  },
+
+  filtros1: {
+    flexDirection: 'row',
+    height: 70,
     alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
+  },
+
+  filtros2: {
+    flexDirection: 'row',
+    height: 70,
+    alignItems: 'center',
+  },
+
+  filtroBotao: {
+    width: 100,
+    marginLeft: 10,
+    elevation: 5,
+    borderWidth: 2,
+    borderColor: 'black',
+  },
+
+  filtroTexto: {
+    fontSize: 10,
+    color: 'black',
+    textAlign: 'center',
   },
 
   container3: {
