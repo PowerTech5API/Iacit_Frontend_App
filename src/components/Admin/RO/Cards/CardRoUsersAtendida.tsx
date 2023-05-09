@@ -5,14 +5,14 @@ import { ScrollView } from "react-native-gesture-handler";
 export default function CardRoUsersAtendida(props){
     
     const {titulo} = props;
-    const {descricao} = props;
+    const {usuario} = props;
 
     return(
             <TouchableOpacity style={styles.mid1}>
               <ScrollView>
                 <Text style={{color: '#000000'}}>Titulo: {titulo}</Text>
 
-                <Text style={{color: '#000000'}}>Descrição: {descricao}</Text>
+                <Text style={{color: '#000000'}}>Descrição: {usuario}</Text>
 
                 <Text style={{color: '#6FCF97'}}>Atendida</Text>
               </ScrollView>
@@ -30,10 +30,12 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderRadius: 4,
       shadowColor: '#000',
-      elevation: 8,
+      elevation: 5,
       paddingLeft: 10,
       marginTop: 10,
       marginBottom: 10,
       marginLeft: '5%',
+      borderWidth: 2,
+      borderColor: 'black',
     },
   });

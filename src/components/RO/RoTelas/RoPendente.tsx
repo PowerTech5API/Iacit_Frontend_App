@@ -3,9 +3,16 @@ import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react
 import CardRoPendente from '../Cards/CardRoPendente';
 import api from '../../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
+import SelectDropdown from 'react-native-select-dropdown';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+export default function RoPendente(){
+  const navigation = useNavigation();
 
-export default function RoPendente({navigation}){
+  const tipo = ["Hardware", "Software"];
+
+  const data = ["data"];
 
   const [ro, setRo] = useState([]);
 
@@ -32,11 +39,44 @@ export default function RoPendente({navigation}){
         </View>
 
         <View style={styles.container2}>
+
+          <View style={styles.topo}>
+            <Text style={styles.topoTitulo}>Ocorrências em Pendência</Text>
+          </View>
+
+          <View style={styles.filtro}>           
+            <Text style={styles.filtroTitulo}>Filtrar por:</Text>            
+            <View style={styles.filtros}>
+
+              <SelectDropdown              
+                buttonStyle={styles.test}
+                defaultButtonText='Tipo'
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                }}
+                dropdownIconPosition='right'
+                data={tipo}                
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item
+                }}
+              />
+
+            
+            </View>
+          </View>
+
           <ScrollView>
             {ro.map(item => (
               <CardRoPendente key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
             ))}
           </ScrollView>
+
         </View>
 
         <View style={styles.container3}>
@@ -80,6 +120,41 @@ const styles = StyleSheet.create({
       flex: 0.8,
       backgroundColor: '#F2F2F2',
       paddingTop: 10,
+    },
+
+    topo: {
+      alignItems: 'center',
+      marginTop: 10,      
+    },
+
+    topoTitulo: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: 'black',
+    },
+
+    filtro: {    
+      marginTop: 20,
+      paddingLeft: 20,      
+    },
+
+    filtroTitulo: {    
+      color: 'black',
+      fontSize: 12,   
+    },
+
+    filtros: {
+      flexDirection: 'row',
+      width: '100%',
+      height: 70,
+      backgroundColor: 'red',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    test: {
+      width: 100,
+      marginRight: 10,
     },
   
     cards: {
