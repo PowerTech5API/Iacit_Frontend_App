@@ -27,9 +27,13 @@ import Login from '../User/Login';
 import SegurancaPrivacidade from '../SegurancaPrivacidade/SegurancaPrivacidade';
 import AdminMenu from '../Admin/AdminMenu/AdminMenu';
 import Chat from '../Chat/Chat';
+import Config from '../Config/Config';
 import CardRoAtendida from '../RO/Cards/CardRoAtendida';
 import CardRoAtendimento from '../RO/Cards/CardRoAtendimento';
 import CardRoPendente from '../RO/Cards/CardRoPendente';
+import CardRoUsersAtendida from '../Admin/RO/Cards/CardRoUsersAtendida';
+import CardRoUsersAtendimento from '../Admin/RO/Cards/CardRoUsersAtendimento';
+import CardRoUsersPendente from '../Admin/RO/Cards/CardRoUsersPendente';
 
 
 function CustomDrawerContent(props) {
@@ -93,7 +97,7 @@ export default function AppNavigator() {
 }
 
 
-function DrawerNavigation() {
+function DrawerNavigation({route}) {
   return (
     <Drawer.Navigator  screenOptions={{
       headerStyle: {
@@ -113,8 +117,16 @@ function DrawerNavigation() {
       <Stack.Screen name="CadastroRO" component={RegistroOcorrenciaForm} options={{drawerItemStyle: { display: 'none' }}}/>
       <Stack.Screen name="AcompanharROAdm" component={AcompanharROAdm} options={{drawerItemStyle: { display: 'none' }}}/>
       <Drawer.Screen name="Seguranca e Privacidade" component={SegurancaPrivacidade} options={{
-          drawerIcon: ({ color, size }) => (
+          drawerIcon: () => (
             <Icon name="shield-account" size={25} color="#1D2045" />
+          ),
+          drawerLabelStyle: {
+            marginLeft: -15,
+          },
+        }}/>
+      <Drawer.Screen name="Configurações da Conta" component={Config} options={{
+          drawerIcon: () => (
+            <Icon name="account-cog" size={25} color="#1D2045" />
           ),
           drawerLabelStyle: {
             marginLeft: -15,
@@ -136,13 +148,24 @@ function InicioStackScreen() {
   );
 }
 
+function AdminInicioStackScreen() {
+  return (
+    <InicioStack.Navigator screenOptions={{
+      headerShown: false,
+    }}>
+      <InicioStack.Screen name="HomeAdmin" component={AdminMenu} />
+      <InicioStack.Screen name="AcompanharROAdm" component={AcompanharROAdm}/>
+      <InicioStack.Screen name="Chat" component={Chat}/>
+    </InicioStack.Navigator>
+  );
+}
 
 function ROStackScreen() {
   return (
     <ROStack.Navigator screenOptions={{
       headerShown: false,
     }} >
-      <ROStack.Screen name="1" component={AcompanharRO} />
+      <ROStack.Screen name="AcompanharRO" component={AcompanharRO} />
       <ROStack.Screen name="2" component={RoAtendida} />
       <ROStack.Screen name="3" component={RoAtendimento} />
       <ROStack.Screen name="4" component={RoPendente} />
@@ -155,6 +178,27 @@ function ROStackScreen() {
       <ROStack.Screen name="11" component={CardRoAtendida} />
       <ROStack.Screen name="12" component={CardRoAtendimento} />
       <ROStack.Screen name="13" component={CardRoPendente} />
+      <Stack.Screen name="14" component={AcompanharROAdm}/>
+    </ROStack.Navigator>
+  );
+}
+
+
+function AdminROStackScreen() {
+  return (
+    <ROStack.Navigator screenOptions={{
+      headerShown: false,
+    }} >
+      <ROStack.Screen name="AcompanharROAdm" component={AcompanharROAdm}/>
+
+      <ROStack.Screen name="RoAtendidaUsers" component={RoAtendidaUsers} />
+      <ROStack.Screen name="RoAtendimentoUsers" component={RoAtendimentoUsers} />
+      <ROStack.Screen name="RoPendenteUsers" component={RoPendenteUsers} />
+
+      <ROStack.Screen name="CardRoUsersAtendida" component={CardRoUsersAtendida} />
+      <ROStack.Screen name="CardRoUsersAtendimento" component={CardRoUsersAtendimento} />
+      <ROStack.Screen name="CardRoUsersPendente" component={CardRoUsersPendente} />
+
     </ROStack.Navigator>
   );
 }
@@ -217,8 +261,8 @@ function AdminBottom(){
     <Bottom.Navigator
     screenOptions={{headerShown: false}}>
   <Bottom.Screen
-  name="AdminHome"
-  component={AdminMenu}
+  name="Início"
+  component={AdminInicioStackScreen}
   options={{
     tabBarIcon: () => (
        <Icon name="home" size={25} color="#000000"/>
@@ -228,20 +272,20 @@ function AdminBottom(){
   }}
   />
     <Bottom.Screen
-  name="ChatADM"
+  name="Chat"
   component={Chat}
   options={{
     tabBarIcon: () => (
-       <Icon name="message-square" size={25} color="#000000"/>
+       <Icon name="message-text" size={25} color="#000000"/>
     ),
   }}
   />
   <Bottom.Screen
-  name="AcompanharROADM"
-  component={AcompanharROAdm}
+  name="Registros dos Usuários"
+  component={AdminROStackScreen}
   options={{
     tabBarIcon: () => (
-       <Icon name="home" size={25} color="#000000"/>
+       <Icon name="file-multiple" size={25} color="#000000"/>
     ),
   }}
   />
