@@ -21,8 +21,10 @@ export default function AcompanharRO({navigation}) {
         </View>
 
         <TouchableOpacity style={styles.cards} onPress={() => navigation.navigate('CadastroRO')}>
-          <Text style={styles.RegistraRO}>Abrir Registro de Ocorrência</Text>
-          <Image style={styles.IconRO} source={require('../../../imgs/addRO.png')} />      
+          <View style={styles.IconRO}>
+            <Text style={styles.RegistraRO}>Abrir Registro de Ocorrência</Text>
+            <Image source={require('../../../imgs/addRO.png')} />   
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoAtendida') }>
@@ -163,6 +165,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'left',
     marginLeft: 10,
+    marginRight: 35,
+
   },
   titulo: {
     textAlign: 'center',
@@ -171,8 +175,9 @@ const styles = StyleSheet.create({
     color: '#000000'
   },
   IconRO: {
-    position:'absolute',
+    
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   }
 });
