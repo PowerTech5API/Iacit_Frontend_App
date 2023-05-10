@@ -12,7 +12,7 @@ export default function AdminMenu() {
           <Image source={require('../../../imgs/registros2.png')}></Image>
           <Text style={styles.mid1Text}>Registros</Text>
         </TouchableOpacity>
-
+        
         <TouchableOpacity style={styles.mid2}>
           <Image source={require('../../../imgs/chat2.png')}></Image>
           <Text style={styles.mid1Text}>Chat</Text>

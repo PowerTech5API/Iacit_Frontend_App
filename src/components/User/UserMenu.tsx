@@ -9,10 +9,9 @@ export default function UserMenu() {
     <>
       <View style={styles.container2}>
         <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('CadastroRO')}>
-            <Image source={require('../../imgs/ocorrencia.png')} />          
-            <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>          
+            <Image source={require('../../imgs/ocorrencia.png')} />
+            <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
         </TouchableOpacity>
-        
         <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('AcompanharRO')}>
           <Image source={require('../../imgs/fale_conosco.png')} />
           <Text style={styles.mid1Text}>Fale Conosco</Text>
