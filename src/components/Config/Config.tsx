@@ -1,44 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import api from '../../service/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function Config () {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+import { useAuth } from '../User/AuthProvider';
 
-    async function getUserData() {
-        const userToken = await AsyncStorage.getItem("userToken")
-        console.log(userToken)
-      
-        // fazer uma requisição para buscar o usuário pelo ID
-        const response = await api.get(`/user/getById/${userId}`);
-        const userData = response.data;
-        console.log(userData)
-      
-        // atualizar o estado com os dados do usuário
-        setName(userData.name);
-        setEmail(userData.email);
-      }
-
-    return (
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Configurações da Conta</Text>
-        </View>
-        <View style={styles.contentContainer}>
-          <Text style={styles.text}>
-            Nome: {name}
-          </Text>
-          <Text style={styles.text}>
-            E-mail: {email}
-          </Text>
-        </View>
-      </View>
-    );
-  }
-
-
+const Config: React.FC = () => {
+  const { name, email } = useAuth();
+  console.log(name)
+  console.log(email)
+  
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Name:</Text>
+      <Text style={styles.text}>{name}</Text>
+      <Text style={styles.title}>Email:</Text>
+      <Text style={styles.text}>{email}</Text>
+    </View>
+  );
+};
 
 
   const styles = StyleSheet.create({
@@ -70,4 +48,5 @@ function Config () {
       padding:10,
     },
   });
+  
 export default Config;

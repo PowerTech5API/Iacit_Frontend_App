@@ -12,6 +12,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import api from '../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../User/AuthProvider';
 
 const schema = yup.object({
   email: yup.string().email('Email Invalido').required('Informe seu email'),
@@ -22,6 +23,8 @@ const schema = yup.object({
 });
 
 export default function Login({navigation}) {
+  const [, setIsAdmin] = useState(false);
+  const { name, setName, email, setEmail } = useAuth();
   
   const {
     control,
@@ -47,18 +50,26 @@ export default function Login({navigation}) {
       async function Admin(){
         const userToken = await AsyncStorage.getItem("userToken")
         await api.get('user/admin', {headers: {Authorization: `Bearer ${userToken}`}}).then((response) =>{
-
-          if(response.data.isAdmin === true){           
-            navigation.navigate('Drawer', { screen: 'AdminMenu' });
-          } else{          
-            navigation.navigate('Drawer', { screen: 'UserMenu' });
-          }
+          console.log('login ',response.data.isAdmin);
           
-        })
-      }
-      Admin();
+          console.log(response.data.name)
+          console.log(response.data.email)
+          setName(response.data.name);
+          setEmail(response.data.email);
+
+          if (response.data.isAdmin === true) {
+            setIsAdmin(true);
+            navigation.navigate('DrawerADM', { screen: 'AdminMenu' });
+          } else {
+            setIsAdmin(false);
+            navigation.navigate('DrawerUser', { screen: 'UserMenu' });
+          }
+        });
+    }
+
+    Admin();
     }).catch(function (error) {
-      console.error("Usuário ou senha inexistente");
+      console.error('Usuário ou senha inexistente');
     })
   } 
 
