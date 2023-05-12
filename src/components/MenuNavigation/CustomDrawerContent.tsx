@@ -6,8 +6,26 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function CustomDrawerContent(props) {
+  const navigation = useNavigation();
+
+      // Função de logout
+      async function handleLogout() {
+        try {
+          await AsyncStorage.removeItem('userToken');
+          const userToken = await AsyncStorage.getItem("userToken")
+          // Redirecionar para a tela de login
+          console.log('Logout realizado, token:', userToken);
+          navigation.navigate('Login');
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
     return (
       <View style={{flex: 1}} >
         <DrawerContentScrollView
@@ -39,7 +57,7 @@ export default function CustomDrawerContent(props) {
         <View>
         <DrawerItem
           label="Sair"
-          onPress={() => props.navigation.navigate('Login')}
+          onPress={handleLogout}
           icon={({color, size}) => (<Icon name="logout" size={25} color="#1D2045" />)}
           labelStyle={{ marginLeft: -15 }}
         />

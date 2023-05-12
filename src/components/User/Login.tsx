@@ -14,6 +14,30 @@ import api from '../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../User/AuthProvider';
 
+   // Função para obter o adminResponse
+   export async function getAdmin(userToken) {
+    try {
+      const adminResponse = await api.get('user/admin', {
+        headers: { Authorization: `Bearer ${userToken}` },
+      });
+      return adminResponse;
+    } catch (error) {
+      console.error('Erro ao verificar se o usuário é admin:', error);
+      throw error;
+    }
+  }
+  
+  // Função para redirecionamento com base no isAdmin
+  export function handleRedirect  (isAdmin, navigation) {
+
+    if (isAdmin === true) {
+      navigation.navigate('DrawerADM', { screen: 'AdminMenu' });
+    } else {
+      navigation.navigate('DrawerUser', { screen: 'UserMenu' });
+    }
+  };
+  
+
 const schema = yup.object({
   email: yup.string().email('Email Invalido').required('Informe seu email'),
   password: yup
@@ -24,7 +48,7 @@ const schema = yup.object({
 
 export default function Login({navigation}) {
   const [, setIsAdmin] = useState(false);
-  const { name, setName, email, setEmail } = useAuth();
+  const { setName, setEmail} = useAuth();
   
   const {
     control,
@@ -34,45 +58,38 @@ export default function Login({navigation}) {
     resolver: yupResolver(schema),
   });
 
+   // Função para obter os dados do administrador
+  const getAdminDados = (adminResponse) => {
+    console.log('É Admin?', adminResponse.data.isAdmin);
+    console.log('Nome:', adminResponse.data.name);
+    console.log('E-mail:', adminResponse.data.email);
+
+    setName(adminResponse.data.name);
+    setEmail(adminResponse.data.email);
+  };
+
   async function handleSignIn(data) {
-    await api.post('user/login',(data)).then((response) =>  {
-      async function Token(){
-        try{
-          await AsyncStorage.setItem("userToken", response.data)
-          const userToken = await AsyncStorage.getItem("userToken")
-          console.log(userToken)
-        }catch(e) {
-          console.log(e)
-        }
-      }
-      Token();
-      
-      async function Admin(){
-        const userToken = await AsyncStorage.getItem("userToken")
-        await api.get('user/admin', {headers: {Authorization: `Bearer ${userToken}`}}).then((response) =>{
-          console.log('login ',response.data.isAdmin);
-          
-          console.log(response.data.name)
-          console.log(response.data.email)
-          setName(response.data.name);
-          setEmail(response.data.email);
+    try {
+      const response = await api.post('user/login', data);
+      await AsyncStorage.setItem('userToken', response.data);
+      const userToken = await AsyncStorage.getItem('userToken');
 
-          if (response.data.isAdmin === true) {
-            setIsAdmin(true);
-            navigation.navigate('DrawerADM', { screen: 'AdminMenu' });
-          } else {
-            setIsAdmin(false);
-            navigation.navigate('DrawerUser', { screen: 'UserMenu' });
-          }
-        });
+      console.log('Usuário Logado! Token: ',userToken);
+
+      const adminResponse = await getAdmin(userToken);
+
+      // Obter os dados do administrador
+      getAdminDados(adminResponse);
+
+      // Redirecionar com base no isAdmin
+      handleRedirect(adminResponse.data.isAdmin, navigation);
+
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      console.error('Usuário ou senha inválidos');
     }
-
-    Admin();
-    }).catch(function (error) {
-      console.error('Usuário ou senha inexistente');
-    })
-  } 
-
+  }
+  
   return (
     <>
       <View style={styles.container1}>
@@ -219,3 +236,4 @@ const styles = StyleSheet.create({
     color: '#ff375b',
   },
 });
+
