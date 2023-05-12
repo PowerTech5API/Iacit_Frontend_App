@@ -19,6 +19,7 @@ import RoPendenteUsers from './src/components/Admin/RO/RoTelas/RoPendenteUsers';
 import RoAtendimentoUsers from './src/components/Admin/RO/RoTelas/RoAtendimentoUsers';
 import RoAtendidaUsers from './src/components/Admin/RO/RoTelas/RoAtendidaUsers';
 import ListaChat from './src/components/Chat/ListaChat';
+import Chat from './src/components/Chat/Chat';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,7 +32,8 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Login" component={Login} />
+          
+        <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} />
         <Stack.Screen name="UserMenu" component={UserMenu} />
         <Stack.Screen name="AdminMenu" component={AdminMenu} />
