@@ -58,9 +58,9 @@ export default function UserDrawerNavigator () {
             <Stack.Screen name="AcompanharRO" component={AcompanharRO} options={{drawerItemStyle: { display: 'none' } }}/>
             <Stack.Screen name="CadastroRO" component={RegistroOcorrenciaForm} options={{drawerItemStyle: { display: 'none' }}}/>
       
-            <Drawer.Screen name="Seguranca e Privacidade" component={SegurancaPrivacidade} options={{
+            <Drawer.Screen name="Segurança e Privacidade" component={SegurancaPrivacidade} options={{
                 drawerIcon: () => (
-                  <Icon name="shield-account" size={25} color="#1D2045" />
+                  <Icon name="shield-account" size={25} color="#1D2045" style={{marginLeft: -3}} />
                 ),
                 drawerLabelStyle: {
                   marginLeft: -15,

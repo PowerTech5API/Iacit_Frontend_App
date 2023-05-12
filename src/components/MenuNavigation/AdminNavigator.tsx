@@ -1,10 +1,9 @@
 import React from 'react';
-import { TouchableOpacity, View, Image} from 'react-native';
+import { TouchableOpacity} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { DrawerItemList, DrawerItem } from '@react-navigation/drawer';
-import { DrawerContentScrollView, createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -47,7 +46,7 @@ export default function AdminDrawerNavigation() {
   
         <Drawer.Screen name="Seguranca e Privacidade" component={SegurancaPrivacidade} options={{
             drawerIcon: () => (
-              <Icon name="shield-account" size={25} color="#1D2045" />
+              <Icon name="shield-account" size={25} color="#1D2045" style={{marginLeft: -3}} />
             ),
             drawerLabelStyle: {
               marginLeft: -15,
