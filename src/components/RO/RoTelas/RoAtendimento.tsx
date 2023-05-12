@@ -12,7 +12,7 @@ export default function RoAtendimento({navigation}){
   useEffect(() => {
     async function Teste(){
       const userToken = await AsyncStorage.getItem("userToken")
-      await api.get('ro/userStatus/2', {headers: {Authorization: `Bearer ${userToken}`}}).then(({data}) =>{
+      await api.get('ro/userStatus/Em atendimento', {headers: {Authorization: `Bearer ${userToken}`}}).then(({data}) =>{
         setRo(data);
       })
     }
@@ -33,8 +33,8 @@ export default function RoAtendimento({navigation}){
 
         <View style={styles.container2}>
           <ScrollView>
-            {ro.map(item => (
-              <CardRoAtendimento key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
+            {ro.map((item, index) => (
+              <CardRoAtendimento key={index} id={item._id} titulo={item.titulo} descricao={item.descricao} status={item.status}/>
             ))}
           </ScrollView>
         </View>

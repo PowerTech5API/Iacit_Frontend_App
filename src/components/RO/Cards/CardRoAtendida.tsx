@@ -1,24 +1,31 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export default function CardRoAtendida(props){
     const navigation = useNavigation();
-
     
     const {titulo} = props;
     const {descricao} = props;
+    const {status} = props;
+    const {id} = props;
+
+    async function enviarIdRo(){
+      await AsyncStorage.setItem("roId", id);
+      const roId = await AsyncStorage.getItem("roId");
+      console.log(roId);
+      navigation.navigate('DetalhesRoAtendida');
+    }
 
     return(
-            <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('DetalhesRoAtendida')}>
-              <ScrollView>
+            <TouchableOpacity style={styles.mid1} onPress={enviarIdRo}>
                 <Text style={{color: '#000000'}}>Titulo: {titulo}</Text>
 
                 <Text style={{color: '#000000'}}>Descrição: {descricao}</Text>
 
-                <Text style={{color: '#6FCF97'}}>Atendida</Text>
-              </ScrollView>
+                <Text style={{color: '#6FCF97'}}>{status}</Text>
             </TouchableOpacity>
     )
         
@@ -29,7 +36,6 @@ const styles = StyleSheet.create({
   
     mid1: {
       width: '90%',
-      height: 70,
       backgroundColor: 'white',
       borderRadius: 4,
       shadowColor: '#000',
