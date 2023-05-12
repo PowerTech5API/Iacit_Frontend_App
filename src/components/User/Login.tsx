@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import api from '../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../User/AuthProvider';
+import {whiteLogo} from '../../imgs/Images'
 
    // Função para obter o adminResponse
    export async function getAdmin(userToken) {
@@ -47,7 +48,6 @@ const schema = yup.object({
 });
 
 export default function Login({navigation}) {
-  const [, setIsAdmin] = useState(false);
   const { setName, setEmail} = useAuth();
   
   const {
@@ -93,7 +93,7 @@ export default function Login({navigation}) {
   return (
     <>
       <View style={styles.container1}>
-        <Image source={require('../../imgs/logo.png')}></Image>
+        <Image source={whiteLogo} />
       </View>
 
       <View style={styles.container2}>

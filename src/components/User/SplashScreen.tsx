@@ -5,6 +5,7 @@ import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 import api from '../../service/api';
 import { handleRedirect } from './Login';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming} from 'react-native-reanimated';
+import {whiteLogo} from '../../imgs/Images'
 
 
 
@@ -47,7 +48,7 @@ const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.logoContainer, fadeStyle]}>
-        <Image source={require('../../imgs/logo.png')} />
+        <Image source={whiteLogo} />
       </Animated.View>
       <ActivityIndicator size="large" color="white" />
     </View>
