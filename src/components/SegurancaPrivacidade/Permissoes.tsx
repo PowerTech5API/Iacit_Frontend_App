@@ -4,7 +4,7 @@ import { StyleSheet, Switch, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-export default function Privacidade() {
+export default function Permissoes({navigation}) {
     const [receberEmail, setReceberEmail] = useState(false);
     const [receberNotificacao, setReceberNotificacao] = useState(false);
   
@@ -15,7 +15,8 @@ export default function Privacidade() {
     const handleReceberNotificacao = () => {
       setReceberNotificacao(!receberNotificacao);
     };
-  
+
+
     return (
       <View style={styles.container}>
       <View>
