@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Badge } from 'react-native-elements';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,6 +20,7 @@ import CardRoUsersAtendida from '../Admin/RO/Cards/CardRoUsersAtendida';
 import CardRoUsersAtendimento from '../Admin/RO/Cards/CardRoUsersAtendimento';
 import CardRoUsersPendente from '../Admin/RO/Cards/CardRoUsersPendente';
 import CustomDrawerContent from './CustomDrawerContent'
+import TermosPrivacidade from '../SegurancaPrivacidade/TermosPrivacidade';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -35,7 +37,8 @@ export default function AdminDrawerNavigation() {
         headerTitle: '',
         headerRight: () => (
           <TouchableOpacity onPress={() => navigation.navigate('UserMenu')}>
-            <Icon name="bell" size={24} color="white" />
+            <Icon name="bell" size={24} color="white" style={{marginRight: 15}}/>
+            <Badge value={3} status="error"  containerStyle={{ position: 'absolute', top: -5, right:8 }}/> 
           </TouchableOpacity>
         ),
       }}
@@ -74,6 +77,8 @@ export default function AdminDrawerNavigation() {
         <InicioStack.Screen name="HomeAdmin" component={AdminMenu} />
         <InicioStack.Screen name="AcompanharROAdm" component={AcompanharROAdm}/>
         <InicioStack.Screen name="Chat" component={Chat}/>
+        <InicioStack.Screen name="TermosPrivacidade" component={TermosPrivacidade} />
+        <InicioStack.Screen name="SegurancaPrivacidade" component={SegurancaPrivacidade} />
       </InicioStack.Navigator>
     );
   }
@@ -84,6 +89,9 @@ export default function AdminDrawerNavigation() {
       <ROStack.Navigator screenOptions={{
         headerShown: false,
       }} >
+        <ROStack.Screen name="TermosPrivacidade" component={TermosPrivacidade} />
+        <ROStack.Screen name="SegurancaPrivacidade" component={SegurancaPrivacidade} />
+
         <ROStack.Screen name="AcompanharROAdm" component={AcompanharROAdm}/>
   
         <ROStack.Screen name="RoAtendidaUsers" component={RoAtendidaUsers} />
