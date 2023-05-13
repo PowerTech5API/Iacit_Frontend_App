@@ -10,15 +10,15 @@ export default function AcompanharRO({navigation}) {
           <Text style={styles.titulo}>Acompanhe suas RO's</Text>
         </View>
 
-        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('2', { screen: 'RoAtendida' }) }>
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoAtendida') }>
           <Text style={styles.ROAtendida}>Registros Atendidos</Text>
         </TouchableOpacity> 
 
-        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('3', { screen: 'RoAtendimento' }) }>
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate( 'RoAtendimento' ) }>
           <Text style={styles.ROAtendimento}>Registros em Atendimento</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('4', { screen: 'RoPendente' }) }>
+        <TouchableOpacity style={styles.cards} onPress={ () => navigation.navigate('RoPendente' ) }>
           <Text style={styles.ROPendente}>Registros Pendentes</Text>
         </TouchableOpacity>
       </View>

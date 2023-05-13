@@ -12,7 +12,7 @@ export default function UserMenu() {
             <Image source={require('../../imgs/ocorrencia.png')} />
             <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('AcompanharRO')}>
+        <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('ListaChat')}>
           <Image source={require('../../imgs/fale_conosco.png')} />
           <Text style={styles.mid1Text}>Fale Conosco</Text>
         </TouchableOpacity>
