@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, KeyboardAvoidingView, SectionList, StatusBar,
-     StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView} from "react-native";
-import { TextInput } from "react-native";
-
-//import {Icon} from "react-native-vector-icons/dist/MaterialCommunityIcons";
+import { Image, KeyboardAvoidingView, SectionList, StatusBar,StyleSheet, Text, View, Dimensions, TouchableOpacity, TextInput} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {messageList} from './Mensagens';
 import groupBy from 'lodash/groupBy';
 const {width} = Dimensions.get('window');
 import moment from 'moment';
 
-
 export default function Chat() {
     const [listMsg, setListMsg] = useState([]);
     const [msg, setMsg] = useState('');
     const screenWidth = Dimensions.get('window').width;
+    const navigation = useNavigation();
   
     useEffect(() => {
       const groupedList = Object.values(
@@ -35,7 +32,7 @@ export default function Chat() {
   
       sortedList.forEach((dia) => {
         var section = {
-            title: moment(dia[0].createdAt).format('DD:MM:yy'),
+            title: moment(dia[0].createdAt).format('DD/MM/yy'),
           data: [...dia],
         };
         data.push(section);
@@ -70,15 +67,13 @@ export default function Chat() {
     }
   
     return (
-
-      <SafeAreaView style={styles.container}>
-
+    <SafeAreaView style={styles.container}>
     <StatusBar barStyle='light-content' />
         <View style={styles.header}>
-          {/* <Icon name="chevron-left" size={36} color="red" /> */}
+           <Icon name="chevron-left" size={36} color='#1D2045'  onPress={() => navigation.goBack()}/> 
           <Image style={styles.avatar} source={{ uri: 'https://i.pravatar.cc/50?img=5' }} />
           <View>
-            <Text style={styles.name}>RO ID: 123</Text>
+            <Text style={styles.name}>RO #0123</Text>
             <Text style={styles.Status}>Visto por último hoje às 16:05</Text>
           </View>
         </View>
@@ -97,33 +92,29 @@ export default function Chat() {
         </View>
       
         <View style={styles.footer}>
-        <KeyboardAvoidingView behavior="padding">
-        
-        <TextInput 
-        style={[styles.inputView, { width: screenWidth * 0.8 }]} 
-        value={msg} 
-        onChangeText={setMsg}
-        placeholder="Digite aqui"></TextInput>
+          <KeyboardAvoidingView behavior="padding" style={{ flexDirection: 'row', alignItems: 'center'}}>
+            <TextInput 
+            style={[styles.inputView, { width: screenWidth * 0.8 }]} 
+            value={msg} 
+            onChangeText={setMsg}
+            placeholder="Digite aqui" />
             <TouchableOpacity>
-                {/* <Icon name="send" size={26} color={'#007dff'} /> */}
+                <Icon name="send" size={26} color={'#1D2045'} />
             </TouchableOpacity>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
         </View>
       </SafeAreaView>
-
     );
   }
-  
 
 const styles = StyleSheet.create({    
     container:{
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         flex:1,
         
     },
-
     footer: {
-        borderTopColor: '#444',
+        borderTopColor: '#b5b3b3',
         borderTopWidth: 1,
         backgroundColor: '#f2f2f2',
         flexDirection: 'row',
@@ -142,15 +133,13 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderTopWidth: 1,
         borderBottomWidth: 1,
+        borderColor: '#b5b3b3',
         backgroundColor: 'white',
         color: 'black',
         marginHorizontal: 20,
         marginVertical: 7,
         borderWidth: 1,
-
-
       },
-    
     title:{
         fontSize: 13,
         color: '#fff', 
@@ -162,34 +151,29 @@ const styles = StyleSheet.create({
         borderRadius: 22,
         marginHorizontal: 7,
     },
-
     header:{
-        backgroundColor:'#1D2045',
+        backgroundColor:'#474A73' + '3D',
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomColor: '#444',
+        borderBottomColor: '#808194',
         borderBottomWidth: 1,
         paddingVertical: 7,
         paddingHorizontal: 10,
         flex: 0
     },
-
     name:{
-        color: '#fff',
+        color: '#1D2045',
         fontSize: 16,
         fontWeight: 'bold',
     },
-
     Status:{
-        color: '#fff',
+        color: '#1D2045',
         fontSize: 13,
     },
-
     content:{
         backgroundColor: 'white',
         flex: 1,
     },
-
     data:{
         backgroundColor:'#808080',
         alignSelf: 'center',
@@ -208,7 +192,6 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 15,
         marginLeft: 20,
     },
-
     fromMe:{
         backgroundColor: 'rgba(78, 170, 209, 0.24)',
         padding: 10,
@@ -224,13 +207,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'black',
     },
-
     hour:{
         fontSize: 11,
         color:'#808080',
         textAlign: 'right',
     },
   });
-
-
-  
