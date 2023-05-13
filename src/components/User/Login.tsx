@@ -15,13 +15,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../User/AuthProvider';
 import {whiteLogo} from '../../imgs/Images'
 
-   // Função para obter o adminResponse
+   // Função para obter o userResponse
    export async function getAdmin(userToken) {
     try {
-      const adminResponse = await api.get('user/admin', {
+      const userResponse = await api.get('user/admin', {
         headers: { Authorization: `Bearer ${userToken}` },
       });
-      return adminResponse;
+      return userResponse;
     } catch (error) {
       console.error('Erro ao verificar se o usuário é admin:', error);
       throw error;
@@ -59,13 +59,13 @@ export default function Login({navigation}) {
   });
 
    // Função para obter os dados do administrador
-  const getAdminDados = (adminResponse) => {
-    console.log('É Admin?', adminResponse.data.isAdmin);
-    console.log('Nome:', adminResponse.data.name);
-    console.log('E-mail:', adminResponse.data.email);
+  const getUserDados = (userResponse) => {
+    console.log('É Admin?', userResponse.data.isAdmin);
+    console.log('Nome:', userResponse.data.name);
+    console.log('E-mail:', userResponse.data.email);
 
-    setName(adminResponse.data.name);
-    setEmail(adminResponse.data.email);
+    setName(userResponse.data.name);
+    setEmail(userResponse.data.email);
   };
 
   async function handleSignIn(data) {
@@ -76,13 +76,15 @@ export default function Login({navigation}) {
 
       console.log('Usuário Logado! Token: ',userToken);
 
-      const adminResponse = await getAdmin(userToken);
+      const userResponse = await getAdmin(userToken);
 
       // Obter os dados do administrador
-      getAdminDados(adminResponse);
+      getUserDados(userResponse);
 
       // Redirecionar com base no isAdmin
-      handleRedirect(adminResponse.data.isAdmin, navigation);
+      handleRedirect(userResponse.data.isAdmin, navigation);
+
+      const { name, email } = userResponse.data;
 
     } catch (error) {
       console.error('Erro ao fazer login:', error);

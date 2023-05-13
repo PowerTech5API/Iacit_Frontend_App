@@ -81,7 +81,7 @@ function RegistroOcorrenciaForm() {
       };
     }
     try {
-      const userToken = await AsyncStorage.getItem("userToken")
+      const userToken = await AsyncStorage.getItem('userToken')
       await api.post('ro/create', formData, {headers: {Authorization: `Bearer ${userToken}`}});
       setFormSubmitted(true);
       alert('Registro de Ocorrência criado com sucesso!');
@@ -148,7 +148,7 @@ function RegistroOcorrenciaForm() {
       {/*// incluir verificação do tipo de usuário que está logado p/ definir para qual menu o botão de anterior deve direcionar*/}
       <View style={styles.buttonContainer}>
         {screen === 0 && (
-          <Pressable onPress={() => navigation.navigate('UserMenu')}>
+          <Pressable onPress={() => navigation.goBack()}>
             <Text style={styles.button}>Anterior</Text>
           </Pressable>
         )}
@@ -178,22 +178,9 @@ function RegistroOcorrenciaForm() {
 }
 
 const styles = StyleSheet.create({
-  container1: {
-    flex: 0.1,
-    flexDirection: 'row',
-    backgroundColor: '#1D2045',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 
-  img1: {
-    right: 100,
-  },
-  img2: {
-    left: 100,
-  },
   container2: {
-    flex: 0.8,
+    flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
@@ -222,35 +209,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     textAlign: 'center',
-  },
-  container3: {
-    flex: 0.1,
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderTopWidth: 5,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  button1: {
-    flex: 0.33,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button2: {
-    flex: 0.34,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button3: {
-    flex: 0.33,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  buttonsText: {
-    fontSize: 11,
-    color: '#1E457E',
   },
 });
 

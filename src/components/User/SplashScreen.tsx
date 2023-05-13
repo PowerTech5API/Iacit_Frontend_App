@@ -7,8 +7,6 @@ import { handleRedirect } from './Login';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {whiteLogo} from '../../imgs/Images'
 
-
-
 const SplashScreen = () => {
   const navigation = useNavigation();
   const fadeOpacity = useSharedValue(1);
