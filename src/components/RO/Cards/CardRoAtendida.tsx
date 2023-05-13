@@ -39,10 +39,12 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderRadius: 4,
       shadowColor: '#000',
-      elevation: 8,
+      elevation: 5,
       paddingLeft: 10,
       marginTop: 10,
       marginBottom: 10,
       marginLeft: '5%',
+      borderWidth: 2,
+      borderColor: 'black',
     },
   });

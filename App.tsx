@@ -18,6 +18,9 @@ import AcompanharROAdm from './src/components/Admin/RO/RoTelas/AcompanharROAdm';
 import RoPendenteUsers from './src/components/Admin/RO/RoTelas/RoPendenteUsers';
 import RoAtendimentoUsers from './src/components/Admin/RO/RoTelas/RoAtendimentoUsers';
 import RoAtendidaUsers from './src/components/Admin/RO/RoTelas/RoAtendidaUsers';
+import DetalhesRoUsersPendente from './src/components/Admin/RO/RoDetalhes/DetalhesRoUsersPendente';
+import DetalhesRoUsersAtendimento from './src/components/Admin/RO/RoDetalhes/DetalhesRoUsersAtendimento';
+import DetalhesRoUsersAtendida from './src/components/Admin/RO/RoDetalhes/DetalhesRoUsersAtendida';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +48,9 @@ export default function App() {
         <Stack.Screen name="RoPendenteUsers" component={RoPendenteUsers} />
         <Stack.Screen name="RoAtendimentoUsers" component={RoAtendimentoUsers} />
         <Stack.Screen name="RoAtendidaUsers" component={RoAtendidaUsers} />
+        <Stack.Screen name="DetalhesRoUsersPendente" component={DetalhesRoUsersPendente} />
+        <Stack.Screen name="DetalhesRoUsersAtendimento" component={DetalhesRoUsersAtendimento} />
+        <Stack.Screen name="DetalhesRoUsersAtendida" component={DetalhesRoUsersAtendida} />
       </Stack.Navigator>
     </NavigationContainer>
     </FormProvider>

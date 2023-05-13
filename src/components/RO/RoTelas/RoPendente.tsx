@@ -35,10 +35,6 @@ export default function RoPendente(){
 
         <View style={styles.container2}>
 
-          <View style={styles.topo}>
-            <Text style={styles.topoTitulo}>Ocorrências em Pendência</Text>
-          </View>
-
           <ScrollView>
             {ro.map((item, index) => (
               <CardRoPendente key={index} id={item._id} titulo={item.titulo} descricao={item.descricao} status={item.status}/>
@@ -88,17 +84,6 @@ const styles = StyleSheet.create({
       flex: 0.8,
       backgroundColor: '#F2F2F2',
       paddingTop: 10,
-    },
-
-    topo: {
-      alignItems: 'center',
-      marginTop: 10,      
-    },
-
-    topoTitulo: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: 'black',
     },
   
     cards: {

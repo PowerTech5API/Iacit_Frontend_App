@@ -10,13 +10,13 @@ import api from '../../../service/api';
 export default function AdminMenu() {
   const navigation = useNavigation();
 
-  const tipo = ["Hardware", "Software"];
+  const tipo = ["hardware", "software"];
 
   const dataRo = ["Recente", "Antigo"];
 
   const users = [];
 
-  const status = ["Pendente", "Em Atendimento", "Atendinda"];
+  const status = ["Pendente", "Em Atendimento", "Atendida"];
 
   const [ro, setRo] = useState([]);
 
@@ -136,12 +136,16 @@ export default function AdminMenu() {
                 }}
               />
 
+            <TouchableOpacity style={styles.botaoFiltro}>
+              <Text style={styles.botaoFiltroText}>Filtrar</Text>
+            </TouchableOpacity>
+
             </View>
           </View>
 
           <ScrollView>
-            {ro.map(item => (
-              <CardRoGeral titulo={item.titulo} tipo={item.defeito} usuario={item.nomeRelator} status={item.status}/>
+            {ro.map((item, index) => (
+              <CardRoGeral key={index} titulo={item.titulo} tipo={item.defeito} usuario={item.nomeRelator} status={item.status}/>
             ))}            
           </ScrollView>
 
@@ -233,6 +237,25 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: 'black',
     textAlign: 'center',
+  },
+
+  botaoFiltro: {
+    width: 100,
+    height: 50,
+    marginLeft: 0,
+    elevation: 5,
+    borderWidth: 2,
+    borderColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1E457E',
+  },
+
+  botaoFiltroText: {
+    fontSize: 15,
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 
   container3: {

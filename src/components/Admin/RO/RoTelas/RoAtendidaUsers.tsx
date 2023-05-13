@@ -21,7 +21,7 @@ export default function RoAtendidaUsers(){
 
   useEffect(() => {
     async function Teste(){
-      await api.get('ro/status/3').then(({data}) =>{
+      await api.get('ro/status/Atendida').then(({data}) =>{
         setRo(data);
       })
     }
@@ -116,8 +116,8 @@ export default function RoAtendidaUsers(){
 
 
           <ScrollView>
-            {ro.map(item => (
-              <CardRoUsersAtendida key={ro.id} titulo={item.titulo} usuario={item.nomeRelator}/>
+            {ro.map((item, index) => (
+              <CardRoUsersAtendida key={index} id={item._id} titulo={item.titulo} usuario={item.nomeRelator} status={item.status}/>
             ))}            
           </ScrollView>
 

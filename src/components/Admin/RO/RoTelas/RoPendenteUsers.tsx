@@ -21,7 +21,7 @@ export default function RoPendenteUsers(){
 
   useEffect(() => {
     async function Teste(){
-      await api.get('ro/status/1').then(({data}) =>{
+      await api.get('ro/status/Pendente').then(({data}) =>{
         setRo(data);
       })
     }
@@ -116,8 +116,8 @@ export default function RoPendenteUsers(){
 
 
           <ScrollView>
-            {ro.map(item => (
-              <CardRoUsersPendente key={ro.id} titulo={item.titulo} usuario={item.nomeRelator}/>
+            {ro.map((item, index) => (
+              <CardRoUsersPendente key={index} id={item._id} titulo={item.titulo} usuario={item.nomeRelator} status={item.status}/>
             ))}            
           </ScrollView>
 
