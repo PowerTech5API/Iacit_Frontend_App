@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,  } from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import CardRoPendente from '../Cards/CardRoPendente';
 import api from '../../../service/api';
@@ -88,3 +88,7 @@ const styles = StyleSheet.create({
     }
   
   });
+
+function useEffect(arg0: () => void, arg1: never[]) {
+  throw new Error('Function not implemented.');
+}
