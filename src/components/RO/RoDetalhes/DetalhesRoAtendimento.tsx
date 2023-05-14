@@ -1,28 +1,56 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, ScrollView, TouchableOpacity, Modal, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import api from '../../../service/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DetalhesRoAtendimento(props){
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation();
 
+  const [ro, setRo] = useState([]);
 
-  const {titulo} = props;
-  const {descricao} = props;
+  useEffect(() => {
+    async function Teste(){
+      const roId = await AsyncStorage.getItem("roId")
+      await api.get(`ro/getById/${roId}`).then((response) =>{
+        setRo(response.data);
+      })
+    }
+    Teste();
+  }, [])
+
+  const enviar = {
+    "_id": ro._id,
+    "status": "Atendida"
+  }
+
+  async function alterar(){
+    await api.put('ro/update', enviar).then((response) =>{
+      console.log(response.data);
+      alert('Ocorrência finalizada com sucesso!');
+      navigation.navigate('AcompanharRO');
+    }).catch(function (error) {
+        console.log(error);
+        alert('Algo deu errado!');
+        setModalVisible(false);
+      })
+  }    
+
 
     return(
         <>
         <View style={styles.container2}>
+          <ScrollView>
           <View style={styles.mid1}>
-            <ScrollView>
-              <Text style={styles.text}>Titulo: {titulo}</Text>
 
-              <Text style={styles.text1}>Descrição: {descricao}</Text>
+              <Text style={styles.text}>Titulo: {ro.titulo}</Text>
+
+              <Text style={styles.text1}>Descrição: {ro.descricao}</Text>
 
               <Text style={styles.text2}>Status: <Text style={{color: '#F2C94C', fontWeight:'bold'}}>Atendimento</Text> </Text>
 
-            </ScrollView>
           </View>
         
           <View style={styles.div}>
@@ -43,10 +71,10 @@ export default function DetalhesRoAtendimento(props){
                 não tiver sido solucionado, deverá{'\n'}
                 abrir um novo Registro de Ocorrência.</Text>
               </View>
-                <TouchableOpacity style={styles.popBotao} onPress={() => setModalVisible(true)}>
+                <TouchableOpacity style={styles.popBotao} onPress={alterar}>
                   <Text style={styles.textoBotao}>Sim, desejo finalizar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.popCancelar} onPress={() => setModalVisible(true)}>
+                <TouchableOpacity style={styles.popCancelar} onPress={() => setModalVisible(false)}>
                   <Text style={styles.textoBotao}>Cancelar</Text>
                 </TouchableOpacity>
               <View>
@@ -58,6 +86,8 @@ export default function DetalhesRoAtendimento(props){
           <TouchableOpacity style={styles.botao} onPress={() => setModalVisible(true)}>
             <Text style={styles.textoBotao}>Finalizar RO</Text>
           </TouchableOpacity>
+
+          </ScrollView>
         </View>
         </>
 
@@ -81,9 +111,9 @@ const styles = StyleSheet.create({
     },
     popCancelar:{
       backgroundColor: '#1E457E',
-      width: '30%',
+      width: '75%',
       height: 40,
-      marginLeft: '5%',
+      marginLeft: '12.5%',
       marginTop: 20,
       justifyContent: 'center',
       alignItems: 'center',
@@ -92,9 +122,9 @@ const styles = StyleSheet.create({
 
     popBotao:{
       backgroundColor: '#1E457E',
-      width: '63%',
-      height: 40,
-      marginLeft: '5%',
+      width: '75%',
+      height: 50,
+      marginLeft: '12.5%',
       marginTop: 35,
       justifyContent: 'center',
       alignItems: 'center',

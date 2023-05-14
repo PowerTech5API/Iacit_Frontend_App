@@ -1,24 +1,60 @@
 import React, {  } from 'react';
 import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import api from '../../../service/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DetalhesRoPendente(props){
     const navigation = useNavigation();
 
-    const {titulo} = props;
-    const {descricao} = props;
+    const [ro, setRo] = useState([]);
 
+    useEffect(() => {
+      async function Teste(){
+        const roId = await AsyncStorage.getItem("roId")
+        await api.get(`ro/getById/${roId}`).then((response) =>{
+          setRo(response.data);
+        })
+      }
+      Teste();
+    }, [])
 
+   function renderElement(){
+      if(ro.defeito == "hardware"){
+        return (
+          <>
+            <Text style={styles.text1}>Equipamento: {ro.hardware.equipamento}</Text>
+            <Text style={styles.text1}>Posição: {ro.hardware.posicao}</Text>
+            <Text style={styles.text1}>Part Number: {ro.hardware.partnumber}</Text>
+            <Text style={styles.text1}>Serial Number: {ro.hardware.serialNumber}</Text>
+          </>        
+        )
+      }
+      if(ro.defeito == "software"){
+        return (
+          <>
+            <Text style={styles.text1}>Versão da Base de Dados: {ro.software.versaoBD}</Text>
+            <Text style={styles.text1}>Versão do Software: {ro.software.versaoSoftware}</Text>
+            <Text style={styles.text1}>Logs anexadas: {ro.software.LogsRO}</Text>         
+          </>        
+        )
+      }
+   }
+    
     return(
         <>
         <View style={styles.container2}>
           <View style={styles.mid1}>
             <ScrollView>
-              <Text style={styles.text}>Titulo: {titulo}</Text>
+              <Text style={styles.text2}>Status: <Text style={{color: '#EB5757', fontWeight:'bold'}}>{ro.status}</Text> </Text>
 
-              <Text style={styles.text1}>Descrição: {descricao}</Text>
+              <Text style={styles.text}>Titulo: {ro.titulo}</Text>
 
-              <Text style={styles.text2}>Status: <Text style={{color: '#EB5757', fontWeight:'bold'}}>Pendente</Text> </Text>
+              <Text style={styles.text1}>Descrição: {ro.descricao}</Text>         
+
+              <Text style={styles.text1}>Defeito: {ro.defeito}</Text> 
+
+              { renderElement() }   
             </ScrollView>
           </View>
         </View>

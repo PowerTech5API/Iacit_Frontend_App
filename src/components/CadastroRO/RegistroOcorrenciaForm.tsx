@@ -32,7 +32,7 @@ function RegistroOcorrenciaForm() {
     },
     titulo: '',
     descricao: '',
-    'status': '1',
+    'status': 'Pendente',
     'dataRegistro': moment().format('DD-MM-YYYY'),
     'horaRegistro': moment().format('HH:mm:ss'),
     categoria: '',
@@ -101,7 +101,7 @@ function RegistroOcorrenciaForm() {
         descricao: '',
         'dataRegistro': moment().format('DD-MM-YYYY'),
         'horaRegistro': moment().format('HH:mm:ss'),
-        'status': '1',
+        'status': 'Pendente',
         categoria: '',
         resolucao: '',
       }); //zera os campos formulario

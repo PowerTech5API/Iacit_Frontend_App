@@ -3,17 +3,25 @@ import {View, Image, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react
 import api from '../../../../service/api';
 import {useNavigation} from '@react-navigation/native';
 import CardRoUsersAtendimento from '../Cards/CardRoUsersAtendimento';
+import SelectDropdown from 'react-native-select-dropdown';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 export default function RoAtendimentoUsers(){
   const navigation = useNavigation();
+
+  const tipo = ["Hardware", "Software"];
+
+  const dataRo = ["Recente", "Antigo"];
+
+  const users = [];
 
   const [ro, setRo] = useState([]);
 
 
   useEffect(() => {
     async function Teste(){
-      await api.get('ro/status/2').then(({data}) =>{
+      await api.get('ro/status/Em atendimento').then(({data}) =>{
         setRo(data);
       })
     }
@@ -23,11 +31,85 @@ export default function RoAtendimentoUsers(){
     return(
         <>
         <View style={styles.container2}>
+
+        <View style={styles.topo}>
+            <Text style={styles.topoTitulo}>Ocorrências em Atendimento</Text>
+          </View>
+
+          <View style={styles.filtro}>           
+            <Text style={styles.filtroTitulo}>Filtrar por:</Text>            
+            <View style={styles.filtros}>
+
+              <SelectDropdown              
+                buttonStyle={styles.filtroBotao}
+                buttonTextStyle={styles.filtroTexto}
+                defaultButtonText='Tipo'
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                }}
+                dropdownIconPosition='right'
+                data={tipo}                
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item
+                }}
+              />
+
+              <SelectDropdown              
+                buttonStyle={styles.filtroBotao}
+                buttonTextStyle={styles.filtroTexto}
+                search
+                defaultButtonText='Usuários'
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                }}
+                dropdownIconPosition='right'
+                data={users}                
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item
+                }}
+              />
+
+              <SelectDropdown              
+                buttonStyle={styles.filtroBotao}
+                buttonTextStyle={styles.filtroTexto}
+                defaultButtonText='Data'
+                renderDropdownIcon={isOpened => {
+                  return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                }}
+                dropdownIconPosition='right'
+                data={dataRo}                
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item
+                }}
+              />
+            
+            </View>
+          </View>
+
           <ScrollView>
-            {ro.map(item => (
-              <CardRoUsersAtendimento key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
+            {ro.map((item, index) => (
+              <CardRoUsersAtendimento key={index} id={item._id} titulo={item.titulo} usuario={item.nomeRelator} status={item.status}/>
             ))}            
           </ScrollView>
+
         </View>
         </>
 
@@ -54,6 +136,47 @@ const styles = StyleSheet.create({
       flex: 0.8,
       backgroundColor: '#F2F2F2',
       paddingTop: 10,
+    },
+
+    topo: {
+      alignItems: 'center',
+      marginTop: 10,      
+    },
+
+    topoTitulo: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: 'black',
+    },
+
+    filtro: {    
+      marginTop: 20,
+      paddingLeft: 20,      
+    },
+
+    filtroTitulo: {    
+      color: 'black',
+      fontSize: 12,   
+    },
+
+    filtros: {
+      flexDirection: 'row',
+      height: 70,
+      alignItems: 'center',
+    },
+
+    filtroBotao: {
+      width: 100,
+      marginLeft: 10,
+      elevation: 5,
+      borderWidth: 2,
+      borderColor: 'black',
+    },
+
+    filtroTexto: {
+      fontSize: 10,
+      color: 'black',
+      textAlign: 'center',
     },
   
     cards: {

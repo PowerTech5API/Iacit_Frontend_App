@@ -3,30 +3,34 @@ import {View, StyleSheet, ScrollView} from 'react-native';
 import CardRoPendente from '../Cards/CardRoPendente';
 import api from '../../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
-
-export default function RoPendente({navigation}){
+export default function RoPendente(){
+  const navigation = useNavigation();
 
   const [ro, setRo] = useState([]);
 
   useEffect(() => {
     async function Teste(){
       const userToken = await AsyncStorage.getItem("userToken")
-      await api.get('ro/userStatus/1', {headers: {Authorization: `Bearer ${userToken}`}}).then(({data}) =>{
+      await api.get('ro/userStatus/Pendente', {headers: {Authorization: `Bearer ${userToken}`}}).then(({data}) =>{
         setRo(data);
       })
     }
     Teste();
   }, [])
+
   
     return(
         <>
         <View style={styles.container2}>
+
           <ScrollView>
-            {ro.map(item => (
-              <CardRoPendente key={ro.id} titulo={item.titulo} descricao={item.descricao}/>
+            {ro.map((item, index) => (
+              <CardRoPendente key={index} id={item._id} titulo={item.titulo} descricao={item.descricao} status={item.status}/>
             ))}
           </ScrollView>
+
         </View>
         </>
 
