@@ -137,5 +137,4 @@ export const messageList=[
         message: 'Obrigado novamente. Tenha um ótimo dia você também. Até mais!',
         status: 1, //0 enviado, 1 recebido, 2 lido.
     },
-    
 ];

@@ -77,6 +77,7 @@ export default function AdminDrawerNavigation() {
         <InicioStack.Screen name="HomeAdmin" component={AdminMenu} />
         <InicioStack.Screen name="AcompanharROAdm" component={AcompanharROAdm}/>
         <InicioStack.Screen name="Chat" component={Chat}/>
+        
         <InicioStack.Screen name="TermosPrivacidade" component={TermosPrivacidade} />
         <InicioStack.Screen name="SegurancaPrivacidade" component={SegurancaPrivacidade} />
       </InicioStack.Navigator>
