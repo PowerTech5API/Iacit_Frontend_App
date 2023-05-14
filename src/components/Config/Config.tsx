@@ -5,8 +5,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function Config() {
   const { name, email } = useAuth();
-  console.log(name);
-  console.log(email);
 
   return (
     <View style={styles.container}>

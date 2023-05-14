@@ -14,22 +14,18 @@ import {whiteLogo} from '../../imgs/Images'
 
 export default function CustomDrawerContent(props) {
   const navigation = useNavigation();
-  const { name, email } = useAuth();
-  console.log(name)
-  console.log(email)
+  const { name, email, clearEmail,clearName } = useAuth();
 
-      // Função de logout
-      async function handleLogout() {
-        try {
-          await AsyncStorage.removeItem('userToken');
-          const userToken = await AsyncStorage.getItem("userToken")
-          // Redirecionar para a tela de login
-          console.log('Logout realizado, token:', userToken);
-          navigation.navigate('Login');
-        } catch (e) {
-          console.log(e);
-        }
-      }
+  // Função de logout
+   async function handleLogout() {
+    await AsyncStorage.removeItem('userToken');
+    clearName();
+    clearEmail();
+    const userToken = await AsyncStorage.getItem("userToken")
+    console.log('Logout realizado, token:', userToken);
+    // Redirecionar para a tela de login
+    navigation.navigate('Login');
+  }
 
     return (
       <View style={styles.drawerStyle} >
