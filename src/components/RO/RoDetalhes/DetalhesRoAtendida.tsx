@@ -1,6 +1,6 @@
  import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -70,7 +70,7 @@ export default function DetalhesROAtendida(props){
 const styles = StyleSheet.create({
 
     container2: {
-      flex: 0.8,
+      flex: 1,
       backgroundColor: '#F2F2F2',
       paddingTop: 10,
     },
