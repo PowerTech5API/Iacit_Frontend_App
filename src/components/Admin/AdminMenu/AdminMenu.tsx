@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
 
   container2: {
-    flex: 0.8,
+    flex: 1,
     backgroundColor: '#F2F2F2',
   },
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import api from '../../../../service/api';
 import {useNavigation} from '@react-navigation/native';
 import CardRoUsersAtendida from '../Cards/CardRoUsersAtendida';
@@ -118,23 +118,8 @@ export default function RoAtendidaUsers(){
 }
 
 const styles = StyleSheet.create({
-    container1: {
-      flex: 0.1,
-      flexDirection: 'row',
-      backgroundColor: '#1D2045',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-
-    img1: {
-      right: 100,
-    },
-    img2: {
-      left: 100,
-    },
-
     container2: {
-      flex: 0.8,
+      flex: 1,
       backgroundColor: '#F2F2F2',
       paddingTop: 10,
     },

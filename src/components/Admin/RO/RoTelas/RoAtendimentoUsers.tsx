@@ -117,21 +117,6 @@ export default function RoAtendimentoUsers(){
 }
 
 const styles = StyleSheet.create({
-    container1: {
-      flex: 0.1,
-      flexDirection: 'row',
-      backgroundColor: '#1D2045',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  
-    img1: {
-      right: 100,
-    },
-    img2: {
-      left: 100,
-    },
-  
     container2: {
       flex: 0.8,
       backgroundColor: '#F2F2F2',

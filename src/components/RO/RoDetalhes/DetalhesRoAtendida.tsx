@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+ import {View, StyleSheet, Text, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import api from '../../../service/api';

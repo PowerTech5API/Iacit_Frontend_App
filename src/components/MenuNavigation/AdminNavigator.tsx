@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,14 +21,23 @@ import CardRoUsersAtendimento from '../Admin/RO/Cards/CardRoUsersAtendimento';
 import CardRoUsersPendente from '../Admin/RO/Cards/CardRoUsersPendente';
 import CustomDrawerContent from './CustomDrawerContent'
 import TermosPrivacidade from '../SegurancaPrivacidade/TermosPrivacidade';
+import Permissoes from '../SegurancaPrivacidade/Permissoes';
+import ListaChat from '../Chat/ListaChat';
+import { useNavigation } from '@react-navigation/native';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const ROStack = createNativeStackNavigator();
 const InicioStack = createNativeStackNavigator();
+const SegurancaStack = createNativeStackNavigator();
+const ConfigStack = createNativeStackNavigator();
+const ChatStack = createNativeStackNavigator();
 
 export default function AdminDrawerNavigation() {
+  const navigation = useNavigation();
+  const [badgeCount, setBadgeCount] = useState(3); // Valor inicial do badge, inserir contagem de notificações posteriormente
+
     return (
       <Drawer.Navigator  screenOptions={{
         headerStyle: {
@@ -36,7 +45,7 @@ export default function AdminDrawerNavigation() {
         headerTintColor: 'white',
         headerTitle: '',
         headerRight: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('UserMenu')}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeAdmin')}>
             <Icon name="bell" size={24} color="white" style={{marginRight: 15}}/>
             <Badge value={3} status="error"  containerStyle={{ position: 'absolute', top: -5, right:8 }}/> 
           </TouchableOpacity>
@@ -45,9 +54,8 @@ export default function AdminDrawerNavigation() {
       drawerContent={props => <CustomDrawerContent {...props} />}
         >
         <Stack.Screen name="Bottomadm" component={AdminBottom} options={{drawerItemStyle: { display: 'none' }}}/>
-        <Stack.Screen name="AcompanharROAdm" component={AcompanharROAdm} options={{drawerItemStyle: { display: 'none' }}}/>
-  
-        <Drawer.Screen name="Seguranca e Privacidade" component={SegurancaPrivacidade} options={{
+        
+        <Drawer.Screen name="Seguranca e Privacidade" component={SegurancaStackScreen} options={{
             drawerIcon: () => (
               <Icon name="shield-account" size={25} color="#1D2045" style={{marginLeft: -3}} />
             ),
@@ -55,7 +63,7 @@ export default function AdminDrawerNavigation() {
               marginLeft: -15,
             },
           }}/>
-        <Drawer.Screen name="Configurações da Conta" component={Config} options={{
+        <Drawer.Screen name="Configurações da Conta" component={ConfigStackScreen} options={{
             drawerIcon: () => (
               <Icon name="account-cog" size={25} color="#1D2045" />
             ),
@@ -76,9 +84,6 @@ export default function AdminDrawerNavigation() {
       }}>
         <InicioStack.Screen name="HomeAdmin" component={AdminMenu} />
         <InicioStack.Screen name="AcompanharROAdm" component={AcompanharROAdm}/>
-        <InicioStack.Screen name="Chat" component={Chat}/>
-        <InicioStack.Screen name="TermosPrivacidade" component={TermosPrivacidade} />
-        <InicioStack.Screen name="SegurancaPrivacidade" component={SegurancaPrivacidade} />
       </InicioStack.Navigator>
     );
   }
@@ -89,8 +94,7 @@ export default function AdminDrawerNavigation() {
       <ROStack.Navigator screenOptions={{
         headerShown: false,
       }} >
-        <ROStack.Screen name="TermosPrivacidade" component={TermosPrivacidade} />
-        <ROStack.Screen name="SegurancaPrivacidade" component={SegurancaPrivacidade} />
+        
 
         <ROStack.Screen name="AcompanharROAdm" component={AcompanharROAdm}/>
   
@@ -125,12 +129,12 @@ export default function AdminDrawerNavigation() {
     }}
     />
       <Bottom.Screen
-    name="Chat"
-    component={Chat}
+    name="Chats"
+    component={ChatStackScreen}
     options={{
       tabBarIcon: () => (
          <Icon name="message-text" size={25} color="#000000"/>
-      ),
+      ),tabBarLabel: 'Chat'
     }}
     />
     <Bottom.Screen
@@ -146,3 +150,29 @@ export default function AdminDrawerNavigation() {
     );
   }
   
+  function SegurancaStackScreen() {
+    return (
+      <SegurancaStack.Navigator screenOptions={{headerShown: false}}>
+        <SegurancaStack.Screen name="SegurancaPrivacidade" component={SegurancaPrivacidade} />
+        <SegurancaStack.Screen name="Permissões" component={Permissoes} />
+        <SegurancaStack.Screen name="TermosPrivacidade" component={TermosPrivacidade} />
+      </SegurancaStack.Navigator>
+    );
+  }
+
+  function ConfigStackScreen() {
+    return (
+      <ConfigStack.Navigator screenOptions={{headerShown: false}}>
+        <ConfigStack.Screen name="Config" component={Config} />
+      </ConfigStack.Navigator>
+    );
+  }
+
+  function ChatStackScreen() {
+    return (
+      <ChatStack.Navigator screenOptions={{headerShown: false}}>
+        <ChatStack.Screen name="ListaChat" component={ListaChat} />
+        <ChatStack.Screen name="Chat" component={Chat} />
+      </ChatStack.Navigator>
+    );
+  }

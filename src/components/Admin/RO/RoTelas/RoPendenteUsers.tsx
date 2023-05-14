@@ -30,16 +30,6 @@ export default function RoPendenteUsers(){
   
     return(
         <>
-        <View style={styles.container1}>
-          <TouchableOpacity style={styles.img1}>
-            <Image source={require('../../../../imgs/config.png')} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.img2}>
-            <Image source={require('../../../../imgs/notificacao.png')} />
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.container2}>     
 
         <View style={styles.topo}>
@@ -128,14 +118,6 @@ export default function RoPendenteUsers(){
 }
 
 const styles = StyleSheet.create({
-    container1: {
-      flex: 0.1,
-      flexDirection: 'row',
-      backgroundColor: '#1D2045',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  
     img1: {
       right: 100,
     },
@@ -144,7 +126,7 @@ const styles = StyleSheet.create({
     },
   
     container2: {
-      flex: 0.8,
+      flex: 1,
       backgroundColor: '#F2F2F2',
       paddingTop: 10,
     },
