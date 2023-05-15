@@ -81,15 +81,13 @@ export default function UserDrawerNavigator () {
       <ROStack.Navigator screenOptions={{headerShown: false}} >
         <ROStack.Screen name="AcompanharRO" component={AcompanharRO} />
         <ROStack.Screen name="RoAtendida" component={RoAtendida} />
-        <ROStack.Screen name="RoAtendimento" component={RoAtendimento} />
-        <ROStack.Screen name="RoPendente" component={RoPendente} />
-
         <ROStack.Screen name="DetalhesRoAtendida" component={DetalhesRoAtendida} />
-        <ROStack.Screen name="DetalhesRoAtendimento" component={DetalhesRoAtendimento} />
-        <ROStack.Screen name="DetalhesRoPendente" component={DetalhesRoPendente} />
-
         <ROStack.Screen name="CardRoAtendida" component={CardRoAtendida} />
+        <ROStack.Screen name="RoAtendimento" component={RoAtendimento} />
+        <ROStack.Screen name="DetalhesRoAtendimento" component={DetalhesRoAtendimento} />
         <ROStack.Screen name="CardRoAtendimento" component={CardRoAtendimento} />
+        <ROStack.Screen name="RoPendente" component={RoPendente} />
+        <ROStack.Screen name="DetalhesRoPendente" component={DetalhesRoPendente} />
         <ROStack.Screen name="CardRoPendente" component={CardRoPendente} />
       </ROStack.Navigator>
     );
