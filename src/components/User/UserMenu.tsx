@@ -15,11 +15,7 @@ export default function UserMenu() {
 
   return (
     <>
-
-
-
     <View>
-
       <View style={styles.campoTexto}>
         <Text style={styles.texto}>Olá, estes são os seus registros de ocorrências, para mais informações clique no registro ou clique
           em ‘Registros’ no menu abaixo. </Text>
@@ -34,8 +30,6 @@ export default function UserMenu() {
                 <FiltroIcon />
             </View>
       </View>
-
-
     </>
   );
 }
