@@ -1,20 +1,62 @@
 import React from 'react';
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, Image, StyleSheet, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import SelectDropdown from 'react-native-select-dropdown';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import CardRoGeral from '../Admin/RO/Cards/CardRoGeral';
+import FiltroIcon from './FiltroIcon';
 
 export default function UserMenu() {
   const navigation = useNavigation();
+  const tipo = ["Hardware", "Software"];
+  const dataRo = ["Recente", "Antigo"];
+  const users = [];
+  const status = ["Pendente", "Em Atendimento", "Atendinda"];
 
   return (
     <>
-      <View style={styles.container2}>
-        <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('CadastroRO')}>
-            <Image source={require('../../imgs/ocorrencia.png')} />
-            <Text style={styles.mid1Text}>Abrir Registro de Ocorrência</Text>
+      <View style={styles.container1}>
+        <TouchableOpacity style={styles.img1}>
+          <Image source={require('../../imgs/config.png')} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.mid1} onPress={() => navigation.navigate('ListaChat')}>
-          <Image source={require('../../imgs/fale_conosco.png')} />
-          <Text style={styles.mid1Text}>Fale Conosco</Text>
+
+        <TouchableOpacity style={styles.img2}>
+          <Image source={require('../../imgs/notificacao.png')} />
+        </TouchableOpacity>
+      </View>
+
+
+    <View>
+
+      <View style={styles.campoTexto}>
+        <Text style={styles.texto}>Olá, estes são os seus registros de ocorrências, para mais informações clique no registro ou clique
+          em ‘Registros’ no menu abaixo. </Text>
+      </View>
+
+      <View>
+        <Text style={styles.filtroTexto}>
+          Filtrar por:
+        </Text>           
+            </View>
+            <View>
+                <FiltroIcon />
+            </View>
+      </View>
+
+      <View style={styles.container3}>
+        <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('UserMenu')}>
+          <Image source={require('../../imgs/inicio.png')} />
+          <Text style={styles.buttonsText}>Inicio</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('ListaChat')}>
+          <Image source={require('../../imgs/chat.png')} />
+          <Text style={styles.buttonsText}>Chat</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharRO')}>
+          <Image source={require('../../imgs/registros.png')} />
+          <Text style={styles.buttonsText}>Registros</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -42,38 +84,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#F2F2F2',
     paddingTop: '10%',
-  },
-
-  mid1: {
-    width: '42.5%',
-    height: 120,
-    backgroundColor: 'white',
-    borderRadius: 4,
-    marginLeft: '5%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    elevation: 8,
-  },
-
-  mid1Text: {
-    marginTop: 5,
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#1D2045',
-    textAlign: 'center',
-    fontFamily: 'Inter',
-  },
-
-  mid2: {
-    width: '42.5%',
-    height: 120,
-    backgroundColor: 'white',
-    borderRadius: 4,
-    marginLeft: '5%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
   },
 
   container3: {
@@ -105,5 +115,22 @@ const styles = StyleSheet.create({
   buttonsText: {
     fontSize: 11,
     color: '#1E457E',
+  },
+  texto:{
+    fontSize: 15,
+    color: 'black'
+  },
+  campoTexto:{
+    marginLeft: 10,
+    marginRight: 10,
+    alignItems: 'center',
+    backgroundColor: '#D9D9D9',
+  },
+  filtroTexto:{
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    marginTop: 5,
+    marginLeft: 8,
   },
 });
