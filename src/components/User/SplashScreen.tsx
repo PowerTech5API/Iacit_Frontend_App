@@ -14,26 +14,26 @@ const SplashScreen = () => {
   useEffect(() => {
     const checkToken = async () => {
       const userToken = await AsyncStorage.getItem('userToken');
-
+    
       if (userToken) {
-               // O usuário está logado, verificar se é admin
-               const adminResponse = await api.get('user/admin', {
-                headers: { Authorization: `Bearer ${userToken}` },
-              });
-      
-              if (adminResponse.data.isAdmin) {
-                handleRedirect(true, navigation);
-              } else {
-                handleRedirect(false, navigation);
-              }
+        // O usuário está logado, verificar se é admin
+        const adminResponse = await api.get('user/admin', {
+          headers: { Authorization: `Bearer ${userToken}` },
+        });
+    
+        if (adminResponse.data.isAdmin) {
+          handleRedirect(true, navigation);
+        } else {
+          handleRedirect(false, navigation);
+        }
       } else {
-        // O usuário não está logado, redirecionar para a tela de login
-        navigation.navigate('Login');
+        // se o usuário não está logado, redireciona para a tela de login
+        navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
       }
     };
 
     checkToken();
-   // Iniciar a transição de fade
+   // iniciar a transição de fade
     fadeOpacity.value = withTiming(0, { duration: 1000 });
   }, []);
 
