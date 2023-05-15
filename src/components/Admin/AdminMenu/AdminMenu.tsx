@@ -16,7 +16,7 @@ export default function AdminMenu() {
 
   const users = [];
 
-  const status = ["Pendente", "Em Atendimento", "Atendida"];
+  const status = ["Pendente", "Em atendimento", "Atendida"];
 
   const [ro, setRo] = useState([]);
 
@@ -28,6 +28,77 @@ export default function AdminMenu() {
     }
     Teste();
   }, [])
+
+
+  const [a, setA] = useState("tudo");
+  const [c, setC] = useState("tudo");
+  const [d, setD] = useState("tudo");
+
+  async function filtragem(){
+    console.log(a)
+    console.log(c)
+    console.log(d)  
+    
+    if(a == "tudo" && c == "tudo" && d == "tudo"){
+      await api.get('ro/getAll').then(({data}) =>{
+        setRo(data);
+      })
+    }
+
+    if(a == "hardware" && c == "Pendente" && d == "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "status": c}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+
+    if(a != "tudo" && c == "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"defeito": a}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+
+    if(a == "tudo" && c != "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"status": c}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+
+    if(a == "tudo" && c == "tudo" && d == "Antigo"){
+      await api.post('ro/filterRo', {"dataOrg": 1}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+
+    if(a == "tudo" && c == "tudo" && d == "Recente"){
+      await api.post('ro/filterRo', {"dataOrg": -1}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+
+    if(a != "tudo" && c == "tudo" && d == "Antigo"){
+      await api.post('ro/filterRo', {"defeito": a, "dataOrg": 1}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+
+    if(a != "tudo" && c == "tudo" && d == "Recente"){
+      await api.post('ro/filterRo', {"defeito": a, "dataOrg": -1}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+
+    if(a == "tudo" && c != "tudo" && d == "Antigo"){
+      await api.post('ro/filterRo', {"status": c, "dataOrg": 1}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+
+    if(a == "tudo" && c != "tudo" && d == "Recente"){
+      await api.post('ro/filterRo', {"status": c, "dataOrg": -1}).then(({data}) =>{
+        setRo(data)
+      })
+    }
+  }
 
   
   return (
@@ -53,6 +124,7 @@ export default function AdminMenu() {
                 data={tipo}                
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
+                  setA(selectedItem)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem
@@ -94,6 +166,7 @@ export default function AdminMenu() {
                 data={status}                
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
+                  setC(selectedItem)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem
@@ -117,6 +190,7 @@ export default function AdminMenu() {
                 data={dataRo}                
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
+                  setD(selectedItem)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem
@@ -126,7 +200,7 @@ export default function AdminMenu() {
                 }}
               />
 
-            <TouchableOpacity style={styles.botaoFiltro}>
+            <TouchableOpacity style={styles.botaoFiltro} onPress={filtragem}>
               <Text style={styles.botaoFiltroText}>Filtrar</Text>
             </TouchableOpacity>
 
