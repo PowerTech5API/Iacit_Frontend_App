@@ -1,4 +1,4 @@
-import React, { useState,  } from 'react';
+import React, { useEffect, useState,  } from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import CardRoPendente from '../Cards/CardRoPendente';
 import api from '../../../service/api';
@@ -20,8 +20,7 @@ export default function RoPendente(){
     Teste();
   }, [])
 
-  
-    return(
+    return (
         <>
         <View style={styles.container2}>
 
@@ -93,6 +92,4 @@ const styles = StyleSheet.create({
   
   });
 
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}
+
