@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, StyleSheet, Text, ScrollView, TouchableOpacity, Modal, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import api from '../../../service/api';
