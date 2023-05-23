@@ -1,16 +1,19 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import LimparFiltro from "./LimparFiltro";
 
 const tipo = ["Hardware", "Software"];
 const dataRo = ["Recente", "Antigo"];
-const orgao = [];
+const orgao = [""];
 const status = ["Pendente", "Em Atendimento", "Atendinda"];
 
 export default function FiltroIcon(){
     return(
-       <View style={styles.alinhamento}>
+    <View>
+      <View style={styles.filtros}>
+        
         <SelectDropdown              
           buttonStyle={styles.filtroBotaoTipo}
           buttonTextStyle={styles.filtroTexto}
@@ -87,6 +90,12 @@ export default function FiltroIcon(){
               return item
           }}
         />
+        </View>
+        <View>
+          < LimparFiltro />
+        </View>
+          
+        
       </View>
     );
 }
@@ -124,6 +133,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       height: 70,
       alignItems: 'center',
+      
     },
   
     filtroBotao: {
@@ -133,12 +143,15 @@ const styles = StyleSheet.create({
       elevation: 5,
       borderWidth: 2,
       borderColor: 'black',
+      
+      
     },
   
     filtroTexto: {
       fontSize: 13,
       color: 'black',
       textAlign:'left',
+      
     },
     alinhamento:{
       justifyContent:'center',
@@ -152,5 +165,20 @@ const styles = StyleSheet.create({
       elevation: 5,
       borderWidth: 2,
       borderColor: 'black',
-    }
+      
+    },
+
+    limparFiltro: {
+      marginTop: 10, // Adicione um valor de espaçamento adequado aqui
+      fontSize: 13,
+      color: 'black',
+      textAlign: 'left',
+    },
+
+    filtros: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: 10,
+    },
 });

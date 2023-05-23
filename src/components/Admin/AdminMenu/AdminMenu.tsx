@@ -199,6 +199,7 @@ export default function AdminMenu() {
                   return item
                 }}
               />
+              
 
             <TouchableOpacity style={styles.botaoFiltro} onPress={filtragem}>
               <Text style={styles.botaoFiltroText}>Filtrar</Text>
