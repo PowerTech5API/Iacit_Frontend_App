@@ -76,22 +76,7 @@ export default function DetalhesRoUsersAtendimento(){
           </ScrollView>
         </View>
 
-        <View style={styles.container3}>
-          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('AdminMenu')}>
-            <Image source={require('../../../../imgs/inicio.png')} />
-            <Text style={styles.buttonsText}>Inicio</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button2}>
-            <Image source={require('../../../../imgs/chat.png')} />
-            <Text style={styles.buttonsText}>Chat</Text>
-          </TouchableOpacity>
         
-          <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharROAdm')}>
-            <Image source={require('../../../../imgs/registros.png')} />
-            <Text style={styles.buttonsText}>Registros</Text>
-          </TouchableOpacity>
-        </View>
         </>
 
         )
