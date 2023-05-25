@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
         color: '#1D2045',
         textAlign:'left',
         marginLeft: 10,
-        marginTop: 10,
+        marginTop: 15,
+        marginBottom: 15,
     },
 });

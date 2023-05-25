@@ -93,9 +93,7 @@ export default function FiltroIcon(){
         </View>
         <View>
           < LimparFiltro />
-        </View>
-          
-        
+        </View> 
       </View>
     );
 }
@@ -118,24 +116,6 @@ const styles = StyleSheet.create({
       paddingLeft: 20,      
     },
   
-    filtroTitulo: {    
-      color: 'black',
-      fontSize: 12,   
-    },
-  
-    filtros1: {
-      flexDirection: 'row',
-      height: 70,
-      alignItems: 'center',
-    },
-  
-    filtros2: {
-      flexDirection: 'row',
-      height: 70,
-      alignItems: 'center',
-      
-    },
-  
     filtroBotao: {
       width: '23%',
       height: 30,
@@ -143,7 +123,6 @@ const styles = StyleSheet.create({
       elevation: 5,
       borderWidth: 2,
       borderColor: 'black',
-      
       
     },
   
