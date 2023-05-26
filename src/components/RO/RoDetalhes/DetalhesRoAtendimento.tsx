@@ -84,7 +84,7 @@ export default function DetalhesRoAtendimento(props){
           </Modal>
         <View style={styles.btn}>
 
-          <TouchableOpacity style={styles.botaoRecorrer}>
+          <TouchableOpacity style={styles.botaoRecorrer} onPress={ () => navigation.navigate('RecorrerRo') }>
             <Text style={styles.textoBotaoRecorrer}>Recorrer</Text>
           </TouchableOpacity>
 

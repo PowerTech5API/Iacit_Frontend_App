@@ -28,6 +28,7 @@ import TermosPrivacidade from '../SegurancaPrivacidade/TermosPrivacidade';
 import Permissoes from '../SegurancaPrivacidade/Permissoes';
 import { useNavigation } from '@react-navigation/native';
 import ListaChat from '../Chat/ListaChat';
+import RecorrerRo from '../User/RecorrerRo';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -89,6 +90,7 @@ export default function UserDrawerNavigator () {
         <ROStack.Screen name="RoPendente" component={RoPendente} />
         <ROStack.Screen name="DetalhesRoPendente" component={DetalhesRoPendente} />
         <ROStack.Screen name="CardRoPendente" component={CardRoPendente} />
+        <ROStack.Screen name="RecorrerRo" component={RecorrerRo} />
       </ROStack.Navigator>
     );
   }
