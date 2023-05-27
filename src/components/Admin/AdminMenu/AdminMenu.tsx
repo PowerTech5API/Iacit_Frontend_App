@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {View, Image, StyleSheet, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -17,6 +17,12 @@ export default function AdminMenu() {
   const users = [];
 
   const status = ["Pendente", "Em atendimento", "Atendida"];
+
+  const dropdownRefTipo = useRef<SelectDropdown>(null);
+
+  const dropdownRefStatus = useRef<SelectDropdown>(null);
+
+  const dropdownRefData = useRef<SelectDropdown>(null);
 
   const [ro, setRo] = useState([]);
 
@@ -45,8 +51,8 @@ export default function AdminMenu() {
       })
     }
 
-    if(a == "hardware" && c == "Pendente" && d == "tudo"){
-      await api.post('ro/filterRo', {"defeito": a, "status": c}).then(({data}) =>{
+    if(a != "tudo" && c != "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "status": c, "dataOrg": d}).then(({data}) =>{
         setRo(data)
       })
     }
@@ -63,41 +69,33 @@ export default function AdminMenu() {
       })
     }
 
-    if(a == "tudo" && c == "tudo" && d == "Antigo"){
-      await api.post('ro/filterRo', {"dataOrg": 1}).then(({data}) =>{
-        setRo(data)
-      })
-    }
-
-    if(a == "tudo" && c == "tudo" && d == "Recente"){
-      await api.post('ro/filterRo', {"dataOrg": -1}).then(({data}) =>{
+    if(a == "tudo" && c == "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"dataOrg": d}).then(({data}) =>{
         setRo(data)
       })
     }
 
     if(a != "tudo" && c == "tudo" && d == "Antigo"){
-      await api.post('ro/filterRo', {"defeito": a, "dataOrg": 1}).then(({data}) =>{
+      await api.post('ro/filterRo', {"defeito": a, "dataOrg": d}).then(({data}) =>{
         setRo(data)
       })
     }
 
-    if(a != "tudo" && c == "tudo" && d == "Recente"){
-      await api.post('ro/filterRo', {"defeito": a, "dataOrg": -1}).then(({data}) =>{
-        setRo(data)
-      })
-    }
 
     if(a == "tudo" && c != "tudo" && d == "Antigo"){
-      await api.post('ro/filterRo', {"status": c, "dataOrg": 1}).then(({data}) =>{
+      await api.post('ro/filterRo', {"status": c, "dataOrg": d}).then(({data}) =>{
         setRo(data)
       })
     }
+  }
 
-    if(a == "tudo" && c != "tudo" && d == "Recente"){
-      await api.post('ro/filterRo', {"status": c, "dataOrg": -1}).then(({data}) =>{
-        setRo(data)
-      })
-    }
+  function limpar(){
+    dropdownRefTipo.current.reset();
+    dropdownRefStatus.current.reset();
+    dropdownRefData.current.reset();
+    setA("tudo");
+    setC("tudo");
+    setD("tudo");
   }
 
   
@@ -113,7 +111,8 @@ export default function AdminMenu() {
             <Text style={styles.filtroTitulo}>Filtrar por:</Text>            
             <View style={styles.filtros1}>
 
-              <SelectDropdown              
+              <SelectDropdown 
+                ref={dropdownRefTipo}             
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 defaultButtonText='Tipo'
@@ -134,7 +133,7 @@ export default function AdminMenu() {
                 }}
               />
 
-              <SelectDropdown              
+              <SelectDropdown 
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 search
@@ -155,7 +154,8 @@ export default function AdminMenu() {
                 }}
               />
 
-              <SelectDropdown              
+              <SelectDropdown
+                ref={dropdownRefStatus}               
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 defaultButtonText='Status'
@@ -179,7 +179,8 @@ export default function AdminMenu() {
             </View>
             <View style={styles.filtros2}>
 
-            <SelectDropdown              
+            <SelectDropdown 
+                ref={dropdownRefData}              
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 defaultButtonText='Data'
@@ -202,6 +203,10 @@ export default function AdminMenu() {
 
             <TouchableOpacity style={styles.botaoFiltro} onPress={filtragem}>
               <Text style={styles.botaoFiltroText}>Filtrar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.botaoLimpar} onPress={limpar}>
+              <Text style={styles.botaoLimparText}>Limpar</Text>
             </TouchableOpacity>
 
             </View>
@@ -299,6 +304,25 @@ const styles = StyleSheet.create({
   },
 
   botaoFiltroText: {
+    fontSize: 15,
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  botaoLimpar: {
+    width: 100,
+    height: 50,
+    marginLeft: 10,
+    elevation: 5,
+    borderWidth: 2,
+    borderColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1E457E',
+  },
+
+  botaoLimparText: {
     fontSize: 15,
     color: 'white',
     textAlign: 'center',
