@@ -1,215 +1,315 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, KeyboardAvoidingView, SectionList, StatusBar,StyleSheet, Text, View, Dimensions, TouchableOpacity, TextInput} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {messageList} from './Mensagens';
-import groupBy from 'lodash/groupBy';
-const {width} = Dimensions.get('window');
-import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { GiftedChat, IMessage } from 'react-native-gifted-chat';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../service/api'; // Importe a configuração correta da sua API
+import { useAuth } from '../User/AuthProvider';
+import { Alert, StyleSheet } from 'react-native';
 
-export default function Chat() {
-    const [listMsg, setListMsg] = useState([]);
-    const [msg, setMsg] = useState('');
-    const screenWidth = Dimensions.get('window').width;
-    const navigation = useNavigation();
-  
-    useEffect(() => {
-      const groupedList = Object.values(
-        groupBy(messageList, function (n) {
-          return n.createdAt.substr(0, 10);
-        })
-      );
-  
-      // Ordenar a lista de mensagens por data
-      const sortedList = groupedList.sort((a, b) => {
-        const dateA = new Date(a[0].createdAt);
-        const dateB = new Date(b[0].createdAt);
-        return dateA - dateB;
+interface ChatMessage {
+  senderName: string;
+  _id: string;
+  sender: string;
+  content: string;
+  createdAt: Date;
+}
+
+interface Chat {
+  _id: string;
+  messages: ChatMessage[];
+}
+
+export function Chat({ chatId }: { chatId: string }) {
+  const { id, name } = useAuth();
+  const [messages, setMessages] = useState<IMessage[]>([]);
+
+  const loadMessages = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const response = await api.get<Chat>(`/chat/getById/${chatId}`, {
+        headers: { Authorization: `Bearer ${userToken}` },
       });
-  
-      var data = []; // Vai receber as mensagens
-  
-      sortedList.forEach((dia) => {
-        var section = {
-            title: moment(dia[0].createdAt).format('DD/MM/yy'),
-          data: [...dia],
-        };
-        data.push(section);
-      });
-  
-      setListMsg(data);
-    }, []);
-  
-     function renderMsg({ item }) {
-      if (item.from === 1) {
-        return (
-          <View style={styles.ForMe}>
-            <Text style={styles.msgTxt}>{item.message}</Text>
-            <View><Text style={styles.hour}>{item.createdAt.substr(11, 5)}</Text></View>
-          </View>
-        );
-      } else {
-        return (
-          <View style={styles.fromMe}>
-            <Text style={styles.msgTxt}>{item.message}</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'baseline', alignSelf: 'flex-end' }}>
-              {<Text style={styles.hour}>{item.createdAt.substr(11, 5)}</Text>}
-              {/*<Icon 
-              name="check-all"
-              size={18}
-              style={{marginLeft: 5}}
-        color={item.status === 2 ? '#007dff' : '#aaa'} />*/}
-            </View>
-          </View>
-        );
-      }
+
+      const chat = response.data;
+      const giftedChatMessages: IMessage[] = chat.messages.map((message) => ({
+        _id: message._id,
+        text: message.content,
+        createdAt: message.createdAt,
+        user: {
+          _id: message.sender,
+          name: message.senderName,
+        },
+      }));
+
+      setMessages(giftedChatMessages);
+    } catch (error) {
+      console.error(error);
     }
-  
-    return (
-    <SafeAreaView style={styles.container}>
-    <StatusBar barStyle='light-content' />
-        <View style={styles.header}>
-           <Icon name="chevron-left" size={36} color='#1D2045'  onPress={() => navigation.goBack()}/> 
-          <Image style={styles.avatar} source={{ uri: 'https://i.pravatar.cc/50?img=5' }} />
-          <View>
-            <Text style={styles.name}>RO #0123</Text>
-            <Text style={styles.Status}>Visto por último hoje às 16:05</Text>
-          </View>
-        </View>
+  };
 
-        <View style={styles.content}>
-          <SectionList
-            sections={listMsg}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={renderMsg}
-            renderSectionHeader={({ section: { title } }) => (
-              <View style={styles.data}>
-                <Text style={styles.title}>{title}</Text>
-              </View>
-            )}
-          />
-        </View>
-      
-        <View style={styles.footer}>
-          <KeyboardAvoidingView behavior="padding" style={{ flexDirection: 'row', alignItems: 'center'}}>
-            <TextInput 
-            style={[styles.inputView, { width: screenWidth * 0.8 }]} 
-            value={msg} 
-            onChangeText={setMsg}
-            placeholder="Digite aqui" />
-            <TouchableOpacity>
-                <Icon name="send" size={26} color={'#1D2045'} />
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-        </View>
-      </SafeAreaView>
-    );
+  useEffect(() => {
+    loadMessages();
+  }, []);
+
+  const sendMessage = async (newMessages: IMessage[]) => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+      const messageContent = newMessages[0].text;
+      const response = await api.post('/chat/messages', {
+        chatId,
+        senderId: id,
+        content: messageContent,
+      }, {
+        headers: { Authorization: `Bearer ${userToken}` },
+      });
+
+      if (response.data.msg === 'Mensagem enviada') {
+        const sentMessage: IMessage = {
+          _id: response.data.messageId,
+          text: messageContent,
+          createdAt: new Date(),
+          user: {
+            _id: id,
+            name,
+          },
+        };
+
+        setMessages((previousMessages) => GiftedChat.append(previousMessages, [sentMessage]));
+      } else {
+        console.error('Falha ao enviar mensagem');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error);
+    }
+  };
+
+  return (
+    <GiftedChat
+      messages={messages}
+      onSend={sendMessage}
+      user={{
+        _id: id,
+        name,
+      }}
+    />
+  );
+}
+  /*
+  interface IMessage {
+    _id: string | number;
+    text: string;
+    createdAt: Date | number;
+    user: {
+      _id: string;
+      name: string;
+      avatar: string;
+    };
+    sent?: boolean;
+    received?: boolean;
+    pending?: boolean;
   }
 
-const styles = StyleSheet.create({    
-    container:{
-        backgroundColor: 'white',
-        flex:1,
-        
-    },
-    footer: {
-        borderTopColor: '#b5b3b3',
-        borderTopWidth: 1,
-        backgroundColor: '#f2f2f2',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 15,
-    },
-    inputView: {
-        width: '80%',
-        fontSize: 15,
-        marginTop: 5,
-        borderRadius: 40,
-        height: 40,
-        paddingLeft: 10,
-        borderLeftWidth: 1,
-        borderRightWidth: 1,
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: '#b5b3b3',
-        backgroundColor: 'white',
-        color: 'black',
-        marginHorizontal: 20,
-        marginVertical: 7,
-        borderWidth: 1,
-      },
-    title:{
-        fontSize: 13,
-        color: '#fff', 
-        textAlign: 'center',
-    },
-    avatar:{
-        height: 44,
-        width: 44,
-        borderRadius: 22,
-        marginHorizontal: 7,
-    },
-    header:{
-        backgroundColor:'#474A73' + '3D',
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomColor: '#808194',
-        borderBottomWidth: 1,
-        paddingVertical: 7,
-        paddingHorizontal: 10,
-        flex: 0
-    },
-    name:{
-        color: '#1D2045',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    Status:{
-        color: '#1D2045',
-        fontSize: 13,
-    },
-    content:{
-        backgroundColor: 'white',
-        flex: 1,
-    },
-    data:{
-        backgroundColor:'#808080',
-        alignSelf: 'center',
-        marginTop: 12,
-        paddingVertical: 3,
-        paddingHorizontal: 12,
-        borderRadius: 12,
-    },
-    ForMe:{
-        backgroundColor: '#5B4E46' + '3D',
-        padding: 10,
-        marginVertical: 10,
-        maxWidth: width * 0.8,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        borderBottomRightRadius: 15,
-        marginLeft: 20,
-    },
-    fromMe:{
-        backgroundColor: 'rgba(78, 170, 209, 0.24)',
-        padding: 10,
-        marginVertical: 10,
-        maxWidth: width * 0.8,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        borderBottomLeftRadius: 15,
-        marginLeft: 60,
-    },
+  export interface Message {
+  _id: string;
+  text: string;
+  createdAt: Date;
+  user: {
+    _id: string;
+    name: string;
+    avatar?: string;
+  };
+}
 
-    msgTxt:{
-        fontSize: 16,
-        color: 'black',
+  const [refresh, setRefresh] = useState(false);
+
+  const renderAvatar = (props) => {
+    const initials = name
+      .split(' ')
+      .map((name) => name.charAt(0))
+      .join('');
+    console.log(initials);
+    return (
+      <View style={styles.avatarContainer}>
+        <Text style={styles.avatarText}>{initials}</Text>
+      </View>
+    );
+  };
+
+  useEffect(()=>{
+    (async () => {
+      try {
+    const response = await api.get(`/chat/ro/${roId}`);
+    console.log(response);
+    setMessages(response.data);
+  } catch (error) {
+    console.log('Erro ao enviar mensagem:', error);
+  }
+  })();
+}, [roId]);
+
+
+async function enviarMensagem(messages) {
+  try {
+    const response = await api.post('/chat/messages', {
+      sender: id,
+      senderName: name,
+      content: messages[0].text,
+    });
+    console.log(response);
+    Alert.alert(response.data);
+  } catch (error) {
+    console.log('Erro ao enviar mensagem:', error);
+  }
+}
+
+let giftedChatMessages = messages.map((chatMessage) => {
+  let gcm = {
+    _id: chatMessage.id,
+    text: chatMessage.content,
+    user: {
+      _id: chatMessage.id,
+      name: chatMessage.name,
     },
-    hour:{
-        fontSize: 11,
-        color:'#808080',
-        textAlign: 'right',
+  };
+  return gcm;
+});
+
+// console.log(giftedChatMessages)
+const onSend = useCallback(async (messages = []) => {
+  setRefresh(true);
+  setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
+  await enviarMensagem(messages);
+}, [enviarMensagem]);
+
+  return (
+    <GiftedChat
+      messages={messages}
+      onSend={onSend}
+      user={{
+        _id: id,
+        name: name,
+        avatar: renderAvatar,
+      }}
+    />
+  );
+}
+*/
+
+
+  const styles = StyleSheet.create({
+    avatarContainer: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: '#000000',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    avatarText: {
+      color: '#FFFFFF',
+      fontSize: 14,
+      fontWeight: 'bold',
     },
   });
+
+
+   /* const onSend = useCallback(async (messages = []) => {
+    try {
+      const response = await api.post('/chat/messages', {
+        senderId: id,
+        chatId: chatId,
+        content: messages[0].text,
+      });
+
+      // Lógica adicional para manipular a resposta do servidor, se necessário
+
+    } catch (error) {
+      console.log('Erro ao enviar mensagem:', error);
+    }
+  }, [id, chatId]);
+*/
+
+/*
+import React, { useState, useCallback, useEffect } from 'react';
+import { GiftedChat } from 'react-native-gifted-chat';
+import api from '../../service/api';
+import { useAuth } from '../User/AuthProvider';
+import { useRoute } from '@react-navigation/native';
+
+export function Chat() {
+  const { name, id } = useAuth();
+  const route = useRoute();
+  const { roId } = route.params;
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    async function fetchChatMessages() {
+      console.log('RO que veio da tela anterior:', roId);
+      try {
+        const response = await api.get(`/chat/getAllByRO/${roId}`);
+        const roChats = response.data;
+        console.log(response.data);
+
+        const formattedMessages = roChats.messages.map((message) => ({
+          _id: message._id,
+          text: message.content,
+          createdAt: new Date(message.timestamp),
+          user: {
+            _id: message.sender._id,
+            name: message.sender.name,
+            avatar: 'https://placeimg.com/140/140/any',
+          },
+        }));
+
+        setMessages(formattedMessages);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          // Trate o caso em que não há mensagens ainda
+          console.log('Nenhuma mensagem encontrada');
+          setMessages([]);
+        } else {
+          console.error('Erro ao obter as mensagens do chat:', error);
+        }
+      }
+    }
+
+    fetchChatMessages();
+  }, [roId]);
+
+  const onSend = useCallback(async (messages = []) => {
+    try {
+      const newMessage = messages[0].text;
+      await api.post(`/chat/addMessage/${roId}`, {
+        sender: id,
+        content: newMessage,
+      });
+
+      const formattedMessage = {
+        _id: messages[0]._id,
+        text: newMessage,
+        createdAt: new Date(),
+        user: {
+          _id: id,
+          name: name,
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      };
+
+      setMessages(previousMessages =>
+        GiftedChat.append(previousMessages, [formattedMessage])
+      );
+    } catch (error) {
+      console.error('Erro ao enviar a mensagem:', error);
+    }
+  }, [roId, id, name]);
+
+  return (
+    <GiftedChat
+      messages={messages}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: id,
+      }}
+    />
+  );
+}
+*/

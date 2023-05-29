@@ -14,7 +14,7 @@ import RoPendenteUsers from '../Admin/RO/RoTelas/RoPendenteUsers';
 import RoAtendimentoUsers from '../Admin/RO/RoTelas/RoAtendimentoUsers';
 import RoAtendidaUsers from '../Admin/RO/RoTelas/RoAtendidaUsers';
 import SegurancaPrivacidade from '../SegurancaPrivacidade/SegurancaPrivacidade';
-import Chat from '../Chat/Chat';
+import {Chat} from '../Chat/Chat';
 import Config from '../Config/Config';
 import CardRoUsersAtendida from '../Admin/RO/Cards/CardRoUsersAtendida';
 import CardRoUsersAtendimento from '../Admin/RO/Cards/CardRoUsersAtendimento';
@@ -22,7 +22,6 @@ import CardRoUsersPendente from '../Admin/RO/Cards/CardRoUsersPendente';
 import CustomDrawerContent from './CustomDrawerContent'
 import TermosPrivacidade from '../SegurancaPrivacidade/TermosPrivacidade';
 import Permissoes from '../SegurancaPrivacidade/Permissoes';
-import ListaChat from '../Chat/ListaChat';
 import { useNavigation } from '@react-navigation/native';
 import ListaChatAdm from '../Admin/Chat/ListaChatAdm';
 
