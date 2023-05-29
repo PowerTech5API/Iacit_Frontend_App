@@ -203,8 +203,6 @@ export default function FiltroIconAdm() {
               return item
             }}
           />
-        
-
       </View>
       <View>
           < LimparFiltro handleLimparFiltro={handleLimparFiltro}/>
