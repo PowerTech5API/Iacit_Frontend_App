@@ -22,6 +22,7 @@ import {whiteLogo} from '../../imgs/Images'
         headers: { Authorization: `Bearer ${userToken}` },
       });
       return userResponse;
+
     } catch (error) {
       console.error('Erro ao verificar se o usuário é admin:', error);
       throw error;
@@ -48,7 +49,7 @@ const schema = yup.object({
 });
 
 export default function Login({navigation}) {
-  const { setName, setEmail} = useAuth();
+  const { setId, setName, setEmail} = useAuth();
   
   const {
     control,
@@ -63,7 +64,9 @@ export default function Login({navigation}) {
     console.log('É Admin?', userResponse.data.isAdmin);
     console.log('Nome:', userResponse.data.name);
     console.log('E-mail:', userResponse.data.email);
+    console.log('ID:', userResponse.data._id);
 
+    setId(userResponse.data._id)
     setName(userResponse.data.name);
     setEmail(userResponse.data.email);
   };
@@ -84,7 +87,7 @@ export default function Login({navigation}) {
       // Redirecionar com base no isAdmin
       handleRedirect(userResponse.data.isAdmin, navigation);
 
-      const { name, email } = userResponse.data;
+      const { id, name, email } = userResponse.data;
 
     } catch (error) {
       console.error('Erro ao fazer login:', error);
