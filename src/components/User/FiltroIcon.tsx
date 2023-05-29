@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -9,11 +9,22 @@ const dataRo = ["Recente", "Antigo"];
 const orgao = [""];
 const status = ["Pendente", "Em Atendimento", "Atendinda"];
 
-export default function FiltroIcon(){
-    return(
+export default function FiltroIcon() {
+  const [selectedTipo, setSelectedTipo] = useState("");
+  const [selectedOrgao, setSelectedOrgao] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedData, setSelectedData] = useState("");
+
+  const handleLimparFiltro = () => {
+    setSelectedTipo("");
+    setSelectedOrgao("");
+    setSelectedStatus("");
+    setSelectedData("");
+  };
+
+  return (
     <View>
       <View style={styles.filtros}>
-        
         <SelectDropdown              
           buttonStyle={styles.filtroBotaoTipo}
           buttonTextStyle={styles.filtroTexto}
@@ -90,14 +101,13 @@ export default function FiltroIcon(){
               return item
           }}
         />
-        </View>
-        <View>
-          < LimparFiltro />
-        </View> 
       </View>
-    );
+      <View>
+        <LimparFiltro onPress={handleLimparFiltro} />
+      </View>
+    </View>
+  );
 }
-
 
 const styles = StyleSheet.create({ 
     topo: {

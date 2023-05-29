@@ -17,8 +17,7 @@ export default function UserMenu() {
     <>
     <View>
       <View style={styles.campoTexto}>
-        <Text style={styles.texto}>Olá, estes são os seus registros de ocorrências, para mais informações clique no registro ou clique
-          em ‘Registros’ no menu abaixo. </Text>
+        <Text style={styles.texto}>Olá, estes são os seus registros de ocorrências, para mais informações clique no registro. </Text>
       </View>
 
       <View>

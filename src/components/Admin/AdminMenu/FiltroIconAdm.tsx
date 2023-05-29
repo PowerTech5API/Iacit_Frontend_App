@@ -5,9 +5,23 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import LimparFiltro from "../../User/LimparFiltro";
 import CardRoGeral from "../RO/Cards/CardRoGeral";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../../service/api";
 
 
 export default function FiltroIconAdm() {
+ 
+  const [selectedTipo, setSelectedTipo] = useState("");
+  const [selectedOrgao, setSelectedOrgao] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedData, setSelectedData] = useState("");
+
+  const handleLimparFiltro = () => {
+    setSelectedTipo("");
+    setSelectedOrgao("");
+    setSelectedStatus("");
+    setSelectedData("");
+  };
+
 
   const navigation = useNavigation();
 
@@ -191,13 +205,12 @@ export default function FiltroIconAdm() {
           />
         
 
-        <TouchableOpacity style={styles.filtroBotao} onPress={filtragem}>
-          <Text style={styles.botaoFiltroText}>Filtrar</Text>
-        </TouchableOpacity>
-
       </View>
       <View>
-          < LimparFiltro />
+          < LimparFiltro handleLimparFiltro={handleLimparFiltro}/>
+          <TouchableOpacity style={styles.Filtrar} onPress={filtragem}>
+            <Text style={styles.botaoFiltroText}>Filtrar</Text>
+        </TouchableOpacity>
       </View>
     
       <ScrollView>
@@ -269,5 +282,14 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     
   },
+  Filtrar:{
+    width: '23%',
+    height: 30,
+    marginLeft: 10,
+    elevation: 5,
+    borderWidth: 2,
+    borderColor: 'black',
+    backgroundColor: '#1E457E',
+  }
 });
 

@@ -1,11 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function limparFiltro(){
+export default function limparFiltro({ handleLimparFiltro }){
+
+    
+
+
     return(
-        <View>
-            <Text style={styles.limparFiltro}>Limpar filtro</Text>
-        </View>
+        <TouchableOpacity style={styles.limparFiltro} onPress={handleLimparFiltro}>
+             <Text style={styles.limparFiltroText}>Limpar filtro</Text>
+        </TouchableOpacity>
     );
 }
 const styles = StyleSheet.create({ 
@@ -18,4 +22,12 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 15,
     },
+    limparFiltroText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#1D2045',
+        textAlign: 'left',
+        marginTop: 10,
+        marginBottom: 15,
+      },
 });
