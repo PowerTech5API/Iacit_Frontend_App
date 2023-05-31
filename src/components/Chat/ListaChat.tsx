@@ -72,7 +72,7 @@ export default function ListaChat({ navigation }) {
         <TouchableOpacity
           key={chat._id}
           style={styles.cards}
-          onPress={() => navigation.navigate("Chat")}
+          onPress={() => navigation.navigate("Chat", { chatId: chat._id })}
         >
           <Text style={[styles.text, { flex: 1 }]}>
             <Text>{`RO #`}</Text>
