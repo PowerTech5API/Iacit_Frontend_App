@@ -34,6 +34,7 @@ export default function NovoChat() {
         const roList = [...pendenteROs, ...emAtendimentoROs];
 
         setRo(roList);
+        await fetchChats(roList, userToken); // Chama fetchChats após definir as ROs
       } catch (error) {
         console.log(error);
         // Trate os erros de recuperação das ROs
@@ -42,51 +43,43 @@ export default function NovoChat() {
     fetchROs();
   }, []);
 
+// Função que verifica se as ROs puxadas já possuem um chat
+const fetchChats = async (roList, userToken) => {
+  try {
+    const roIds = roList.map((ro) => ro._id); // Array de IDs das ROs
+    console.log("RO IDs:", roIds);
 
-    //função que verifica se as ROs puxadas já possuem um chat
-  const fetchChats = async (roList) => {
-    try {
-      const userToken = await AsyncStorage.getItem("userToken");
-      const roIds = roList.map((ro) => ro._id); // Array de IDs das ROs
-  
-      console.log("RO IDs:", roIds);
+    const chatIds = []; // Array de IDs dos chats existentes
 
-      const chatIds = []; // Array de IDs dos chats existentes
-  
-      for (const roId of roIds) {
-        try {
-          const response = await api.get(`/chat/ro/${roId}`, {
-            headers: { Authorization: `Bearer ${userToken}` },
-          });
-  
-          const chat = response.data;
-  
-          chatIds.push(chat);
-          console.log('IDS dos CHATS: ',chatIds)
+    for (const roId of roIds) {
+      try {
+        const response = await api.get(`/chat/ro/${roId}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        });
 
+        const chat = response.data;
+        chatIds.push(chat);
 
-        } catch (error) {
-          console.error("Error fetching chat:", error);
-          // Lidar com o RO não encontrado e continuar para o próximo RO
-          continue;
-        }
+        console.log('Chat que já possui RO: ', chatIds);
+
+        console.log('RO ENCONTRADO:', roId);
+      } catch (error) {
+        console.log('RO NÃO ENCONTRADO:', roId);
+        // Lidar com o RO não encontrado e continuar para o próximo RO
+        continue;
       }
-      
-  
-      setChat(chatIds);
-    } catch (error) {
-      console.error("Error fetching chats:", error);
     }
-  };
+    const rosSemChat = roList.filter((ro) => !chatIds.find((chat) => chat.ro === ro._id));
 
+    //const rosIdsSemChat = rosSemChat.map((ro) => ro._id);
 
-  // Filtra as ROs que não possuem um chat associado com o roId correspondente
-  const availableROs = ro.filter((RO) => {
-    return !chat.some((c) => c === RO._id);
-  });
+    console.log('IDs dos ROs sem chat:', rosSemChat);
 
-  const ROID = availableROs;
-  console.log(ROID);
+    setChat(rosSemChat);
+  } catch (error) {
+    console.error("Erro ao buscar chats:", error);
+  }
+};
 
   //função que inicia um chat com o Id do usuário logado e o Id do RO selecionado na lista
 async function NewChat(roId) {
@@ -113,20 +106,20 @@ async function NewChat(roId) {
   }
 }
   
- const handleChatPress = async (roId) => {
-    setSelectedRoId(roId);
-    const chatIds = await fetchChats(); // Obtenha os IDs dos chats existentes
-    if (!chatIds.includes(roId)) {
-      await NewChat(roId); // Chama a função NewChat apenas se a RO não tiver um chat
-    } else {
-      console.log("A RO já possui um chat aberto");
-    }
-  };
+const handleChatPress = async (roId) => {
+  setSelectedRoId(roId);
+  const chatIds = await fetchChats(); // Obtenha os IDs dos chats existentes
+  if (!chatIds.includes(roId)) {
+    await NewChat(roId); // Chama a função NewChat apenas se a RO não tiver um chat
+  } else {
+    console.log("A RO já possui um chat aberto");
+  }
+};
 
   return (
     <View style={styles.container2}>
       <Text style={styles.titulo}>Chatss</Text>
-      {availableROs.map(Ro => (
+      {chat.map(Ro => (
         <TouchableOpacity
           key={Ro._id}
           style={styles.cards}

@@ -53,7 +53,7 @@ export default function ListaChat({ navigation }) {
           chats.push(chat);
           console.log('RO ENCONTRADO :', roId ,'Titulo:', roTitulo);
         } catch (error) {
-          console.error('RO NÃO ENCONTRADO:', ro._id, error);
+          console.log('RO NÃO ENCONTRADO:', ro._id);
           // Lidar com o RO não encontrado e continuar para o próximo RO
           continue;
         }
