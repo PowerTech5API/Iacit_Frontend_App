@@ -25,6 +25,7 @@ import Permissoes from '../SegurancaPrivacidade/Permissoes';
 import ListaChat from '../Chat/ListaChat';
 import { useNavigation } from '@react-navigation/native';
 import ListaChatAdm from '../Admin/Chat/ListaChatAdm';
+import DetalhesRoUsersPendente from '../Admin/RO/RoDetalhes/DetalhesRoUsersPendente';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -106,6 +107,7 @@ export default function AdminDrawerNavigation() {
         <ROStack.Screen name="CardRoUsersAtendida" component={CardRoUsersAtendida} />
         <ROStack.Screen name="CardRoUsersAtendimento" component={CardRoUsersAtendimento} />
         <ROStack.Screen name="CardRoUsersPendente" component={CardRoUsersPendente} />
+        <ROStack.Screen name="DetalhesRoUsersPendente" component={DetalhesRoUsersPendente} />
   
       </ROStack.Navigator>
     );

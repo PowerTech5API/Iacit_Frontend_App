@@ -11,9 +11,7 @@ export default function RecorrerRo(){
                 </Text>
                 <View style={styles.CampoInput}>
                 <TextInput style={styles.input}
-                    multiline
-                    numberOfLines={5}
-                    maxLength={180}>
+                    multiline={true}>
                     
                 </TextInput>
                 </View>
@@ -81,7 +79,7 @@ const styles = StyleSheet.create({
     },
     input:{
         fontSize: 18,
-        color: 'pink',
+        color: 'black',
     },
     CampoInput:{
         backgroundColor: 'white',
@@ -91,5 +89,9 @@ const styles = StyleSheet.create({
         maxWidth: 380,
         height: 150,
         marginTop:10,
+        padding: 5,
+        elevation: 5,
+        borderColor: 'black',
+        borderWidth: 1,
     }
 })
