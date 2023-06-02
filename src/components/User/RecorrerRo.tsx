@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AuthProvider from "./AuthProvider";
+import axios from "axios";
+import api from "../../service/api";
+
+
 
 export default function RecorrerRo(){
+    const [motivo, setMotivo] = useState("");
+
+    const enviarMotivo = async () => {
+      try {
+        await api.post("https://iacit.herokuapp.com/api", { motivo });
+         
+      } catch (error) {
+        console.error("Motivo recorrencia Erro", error);
+      }
+    };
+
+
     return(
         <View>
             <View>
@@ -12,6 +28,7 @@ export default function RecorrerRo(){
                 <View style={styles.CampoInput}>
                 <TextInput style={styles.input}
                     multiline={true}>
+                    onChangeText={(text) => setMotivo(text)}
                     
                 </TextInput>
                 </View>
@@ -22,7 +39,7 @@ export default function RecorrerRo(){
                     </TouchableOpacity>
 
 
-                    <TouchableOpacity style={styles.Enviar}>
+                    <TouchableOpacity style={styles.Enviar} onPress={enviarMotivo}>
                     <Text style={styles.TextoBotao}>Enviar</Text>
                     </TouchableOpacity>
                 </View>
