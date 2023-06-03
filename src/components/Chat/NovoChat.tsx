@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../../service/api';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../User/AuthProvider';
-import { v4 as uuidv4 } from 'uuid'; // Importar a função v4 do pacote uuid
 
 export default function NovoChat() {
   const {id} = useAuth();
@@ -23,16 +22,19 @@ export default function NovoChat() {
         const response = await api.get('ro/userStatus/Pendente', {
           headers: { Authorization: `Bearer ${userToken}` }
         });
-  
+
         const pendenteROs = response.data;
-  
+
+
+
         const response2 = await api.get('ro/userStatus/Em atendimento', {
           headers: { Authorization: `Bearer ${userToken}` }
         });
-  
+
         const emAtendimentoROs = response2.data;
 
         const roList = [...pendenteROs, ...emAtendimentoROs];
+
 
         setRo(roList);
         await fetchChats(roList, userToken); // Chama fetchChats após definir as ROs
@@ -59,9 +61,10 @@ const fetchChats = async (roList, userToken) => {
         });
 
         const chat = response.data;
-        chatIds.push(chat);
 
-        console.log('Chat que já possui RO: ', chatIds);
+        chatIds.push(chat._id);
+
+        console.log('Chat que já possui RO:', chatIds);
 
         console.log('RO ENCONTRADO:', roId);
       } catch (error) {
@@ -70,13 +73,14 @@ const fetchChats = async (roList, userToken) => {
         continue;
       }
     }
-    const rosSemChat = roList.filter((ro) => !chatIds.find((chat) => chat.ro === ro._id));
 
-    //const rosIdsSemChat = rosSemChat.map((ro) => ro._id);
+    const rosSemChat = roList.filter((ro) => !chatIds.includes(ro._id));
 
     console.log('IDs dos ROs sem chat:', rosSemChat);
 
     setChat(rosSemChat);
+    
+    return chatIds; // Retorne os IDs dos chats existentes
   } catch (error) {
     console.error("Erro ao buscar chats:", error);
   }
@@ -108,8 +112,8 @@ async function NewChat(roId) {
 }
   
 const handleChatPress = async (roId) => {
-  setSelectedRoId(roId);
-  const chatIds = await fetchChats(); // Obtenha os IDs dos chats existentes
+  const userToken = await AsyncStorage.getItem("userToken");
+  const chatIds = await fetchChats(ro, userToken); // Obtenha os IDs dos chats existentes
   if (!chatIds.includes(roId)) {
     await NewChat(roId); // Chama a função NewChat apenas se a RO não tiver um chat
   } else {
@@ -117,24 +121,26 @@ const handleChatPress = async (roId) => {
   }
 };
 
-  return (
-    <View style={styles.container2}>
-      <Text style={styles.titulo}>Chatss</Text>
-      {chat.map(Ro => (
-        <TouchableOpacity
-          key={Ro._id}
-          style={styles.cards}
-          onPress={() => handleChatPress(Ro._id)} // Passe a roId para a função handleChatPress
-        >
-          <Text style={[styles.text, { flex: 1 }]}>
-            <Text>{`RO #`}</Text>
-            <Text>{Ro.titulo}</Text>
-          </Text>
-          <Icon name="chevron-right" size={35} style={styles.iconRight} />
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
+
+return (
+  <View style={styles.container2}>
+    <Text style={styles.titulo}>Chatss</Text>
+    {chat.map(Ro => (
+      <TouchableOpacity
+        key={Ro._id}
+        style={styles.cards}
+        onPress={() => handleChatPress(Ro._id)} // Passe a roId para a função handleChatPress
+      >
+        <Text style={[styles.text, { flex: 1 }]}>
+          <Text>{`RO #`}</Text>
+          <Text>{Ro.titulo}</Text>
+        </Text>
+        <Icon name="chevron-right" size={35} style={styles.iconRight} />
+      </TouchableOpacity>
+    ))}
+  </View>
+);
+
 }
 
 const styles = StyleSheet.create({
