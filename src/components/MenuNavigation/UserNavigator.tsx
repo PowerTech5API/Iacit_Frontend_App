@@ -27,7 +27,6 @@ import CustomDrawerContent from './CustomDrawerContent';
 import TermosPrivacidade from '../SegurancaPrivacidade/TermosPrivacidade';
 import Permissoes from '../SegurancaPrivacidade/Permissoes';
 import { useNavigation } from '@react-navigation/native';
-
 import { Chat } from '../Chat/Chat';
 import NovoChat from '../Chat/NovoChat';
 import Chats from '../Chat/Chats';

@@ -23,7 +23,7 @@ import CustomDrawerContent from './CustomDrawerContent'
 import TermosPrivacidade from '../SegurancaPrivacidade/TermosPrivacidade';
 import Permissoes from '../SegurancaPrivacidade/Permissoes';
 import { useNavigation } from '@react-navigation/native';
-import ListaChatAdm from '../Admin/Chat/ListaChatAdm';
+import ListaChatAdmin from '../Admin/ChatAdmin/ListaChatAdmin';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -171,7 +171,7 @@ export default function AdminDrawerNavigation() {
   function ChatStackScreen() {
     return (
       <ChatStack.Navigator screenOptions={{headerShown: false}}>
-        <ChatStack.Screen name="ListaChat" component={ListaChatAdm} />
+        <ChatStack.Screen name="ListaChat" component={ListaChatAdmin} />
         <ChatStack.Screen name="Chat" component={Chat} />
       </ChatStack.Navigator>
     );

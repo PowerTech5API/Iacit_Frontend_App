@@ -67,7 +67,7 @@ export default function ListaChat({ navigation }) {
 
   return (
     <View style={styles.container2}>
-      <Text style={styles.titulo}>Cha</Text>
+      <Text style={styles.titulo}>Chats Abertos</Text>
       {chats.map((chat) => (
         <TouchableOpacity
           key={chat._id}

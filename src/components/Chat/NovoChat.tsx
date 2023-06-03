@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../../service/api';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../User/AuthProvider';
+import { v4 as uuidv4 } from 'uuid'; // Importar a função v4 do pacote uuid
 
 export default function NovoChat() {
   const {id} = useAuth();

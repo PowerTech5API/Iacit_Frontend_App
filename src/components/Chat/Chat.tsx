@@ -1,63 +1,77 @@
-import React, { useEffect, useState } from 'react';
-import { GiftedChat, IMessage, MessageText, Send, Bubble } from 'react-native-gifted-chat';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../../service/api'; // Importe a configuração correta da sua API
-import { useAuth } from '../User/AuthProvider';
-import { StyleSheet, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {  Bubble, GiftedChat, IMessage, Send } from 'react-native-gifted-chat';
+import api from '../../service/api';
 import { useRoute } from '@react-navigation/native';
+import { useAuth } from '../User/AuthProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment-timezone';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ChatHeader from './ChatHeader';
+import { StyleSheet, View } from 'react-native';
 
 interface ChatMessage {
-  senderName: string;
-  _id: string;
-  sender: string;
-  content: string;
-  createdAt: Date;
+  content?: string;
+  _id?: string;
+  senderName?: string;
+  sender?: string;
+  senderId?:string;
+  createdAt?: Date;
 }
 
-interface Chat {
+interface Chat{
   _id: string;
   messages: ChatMessage[];
 }
 
 export function Chat() {
   const { id, name } = useAuth();
-  const [messages, setMessages] = useState<IMessage[]>([]);
   const route = useRoute();
-  const { chatId } = route.params;
-
-  const loadMessages = async () => {
-    try {
-      const userToken = await AsyncStorage.getItem('userToken');
-      const response = await api.get<Chat>(`/chat/getById/${chatId}`, {
-        headers: { Authorization: `Bearer ${userToken}` },
-      });
-
-      const chat = response.data;
-
-      const giftedChatMessages: IMessage[] = chat.messages.map((message) => {
-        return {
-          _id: message._id,
-          text: message.content,
-          createdAt: message.createdAt,
-          user: {
-            _id: message.sender,
-            name: message.senderName,
-          },
-        };
-      });
-
-      setMessages(giftedChatMessages.reverse());
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { chatId , roTitulo} = route.params;
+  const [messages, setMessages] = useState<IMessage[]>([]);
 
   useEffect(() => {
-    loadMessages();
-  }, []);
+    const fetchData = async () => {
+      try {
+        // obtendo mensagens do backend
+        const userToken = await AsyncStorage.getItem('userToken');
+        const response = await api.get(`/chat/getById/${chatId}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        });
+        const chatData = response.data;
+  
+        // Transforme as mensagens recebidas em um formato adequado para o GiftedChat
+        const transformedMessages = chatData.messages.map((message: ChatMessage) => {
+          let senderId = message.senderId;
 
-  const sendMessage = async (newMessages: IMessage[]) => {
+          //console.log('NOME ',senderId)
+  
+          const createdAt = `${message.day} ${message.hour}`;
+          const formattedDate = moment
+            .tz(createdAt, 'DD/MM/YYYY HH:mm', 'America/Sao_Paulo')
+            .toDate();
+  
+          return {
+            _id: message._id,
+            text: message.content,
+            createdAt: formattedDate,
+            user: {
+              _id: senderId,
+              name: message.senderName,
+            },
+          };
+        });
+  
+        setMessages(transformedMessages.reverse());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchData();
+  }, [chatId]);
+  
+
+  const onSend = async (newMessages = []) => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
       const messageContent = newMessages[0].text;
@@ -69,18 +83,17 @@ export function Chat() {
         headers: { Authorization: `Bearer ${userToken}` },
       });
 
-      if (response.data.msg === 'Mensagem enviada') {
+      if (response.data._id) {
         const sentMessage: IMessage = {
-          _id: response.data.messageId,
+          _id: response.data._id,
           text: messageContent,
           createdAt: new Date(),
           user: {
             _id: id,
-            name,
+            name: name,
           },
         };
-
-        setMessages((previousMessages) => GiftedChat.append(previousMessages, [sentMessage]));
+        setMessages((previousMessages) => GiftedChat.append(previousMessages, [sentMessage].reverse()));
       } else {
         console.error('Falha ao enviar mensagem');
       }
@@ -89,46 +102,40 @@ export function Chat() {
     }
   };
 
-  const renderMessageText = (props: any) => {
+const renderBubble = (props:  any) => {
+  const { currentMessage } = props;
     return (
-      <MessageText
-        {...props}
-        textStyle={{
-          left: {
-            color: '#000000',
-          },
-          right: {
-            color: 'black',
-          },
-        }}
-      />
-    );
-  };
-
-  const renderBubble = (props) => {
-    return (
-      <Bubble
-        {...props}
+    <Bubble
+    {...props}
         wrapperStyle={{
-          left: {
-            backgroundColor: '#5B4E46' + '3D',
-          },
           right: {
             backgroundColor: 'rgba(78, 170, 209, 0.24)',
+            borderBottomRightRadius: 0 ,
+            borderBottomLeftRadius: 15,
+            borderTopRightRadius:  15,
+            borderTopLeftRadius: 15,
+          },
+          left: {
+            backgroundColor: '#5B4E46' + '2D' ,
+            borderBottomRightRadius: 15 ,
+            borderBottomLeftRadius: 15,
+            borderTopRightRadius: 0,
+            borderTopLeftRadius: 15,
           },
         }}
         textStyle={{
           left: {
-            color: 'white',
+            color: 'black',
           },
           right: {
             color: 'black',
           },
         }}
-      />
-    );
-  };
 
+      />
+    );};
+
+    
   const renderSend = (props: any) => {
     return (
       <Send {...props} containerStyle={{ justifyContent: 'center' }}>
@@ -139,18 +146,19 @@ export function Chat() {
 
   return (
     <View style={styles.container}>
-      <GiftedChat
-        messages={messages}
-        onSend={sendMessage}
-        user={{
-          _id: id,
-          name: name,
-        }}
-        renderMessageText={renderMessageText}
-        renderBubble={renderBubble}
-        renderSend={renderSend}
-        placeholder="Digite sua mensagem"
-      />
+      <ChatHeader roTitulo={roTitulo} />
+    <GiftedChat
+      messages={messages}
+      onSend={newMessages => onSend(newMessages)}
+      user={{
+        _id: id,
+        name: name,
+      }}
+
+      renderBubble={renderBubble}
+      renderSend={renderSend}
+      placeholder="Digite sua mensagem"
+    />
     </View>
   );
 }
