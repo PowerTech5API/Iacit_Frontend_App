@@ -14,11 +14,15 @@ export default function AdminMenu() {
 
   const dataRo = ["Recente", "Antigo"];
 
-  const users = [];
+  const [users, setUsers] = useState(new Array<String>);
+
+  const [users2, setUsers2] = useState([]);
 
   const status = ["Pendente", "Em atendimento", "Atendida"];
 
   const dropdownRefTipo = useRef<SelectDropdown>(null);
+
+  const dropdownRefUsuarios = useRef<SelectDropdown>(null);
 
   const dropdownRefStatus = useRef<SelectDropdown>(null);
 
@@ -28,72 +32,239 @@ export default function AdminMenu() {
 
   useEffect(() => {
     async function Teste(){
+      
       await api.get('ro/getAll').then(({data}) =>{
         setRo(data);
       })
+      
+    }    
+
+    Teste();
+
+  }, [])
+
+  useEffect(() => {
+    async function Teste(){
+      await api.get('user/getAll').then(({data}) =>{
+        setUsers2(data);
+      })
     }
+
+    users2.map((item, index) => (
+      users.push(item.name)
+    )) 
+    console.log(users)
+    
+
     Teste();
   }, [])
 
-
   const [a, setA] = useState("tudo");
+  const [b, setB] = useState("tudo");
   const [c, setC] = useState("tudo");
   const [d, setD] = useState("tudo");
 
   async function filtragem(){
     console.log(a)
+    console.log(b)
     console.log(c)
     console.log(d)  
     
-    if(a == "tudo" && c == "tudo" && d == "tudo"){
+    if(a == "tudo" && b == "tudo" && c == "tudo" && d == "tudo"){
       await api.get('ro/getAll').then(({data}) =>{
         setRo(data);
       })
     }
 
-    if(a != "tudo" && c != "tudo" && d != "tudo"){
-      await api.post('ro/filterRo', {"defeito": a, "status": c, "dataOrg": d}).then(({data}) =>{
-        setRo(data)
+    if(a != "tudo" && b != "tudo" && c != "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "nomeRelator": b, "status": c, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
 
-    if(a != "tudo" && c == "tudo" && d == "tudo"){
+    if(a != "tudo" && b == "tudo" && c == "tudo" && d == "tudo"){
       await api.post('ro/filterRo', {"defeito": a}).then(({data}) =>{
-        setRo(data)
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }   
       })
     }
 
-    if(a == "tudo" && c != "tudo" && d == "tudo"){
+    if(a == "tudo" && b != "tudo" && c == "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"nomeRelator": b}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }   
+      })
+    }
+
+    if(a == "tudo" && b == "tudo" && c != "tudo" && d == "tudo"){
       await api.post('ro/filterRo', {"status": c}).then(({data}) =>{
-        setRo(data)
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }   
       })
     }
 
-    if(a == "tudo" && c == "tudo" && d != "tudo"){
+    if(a == "tudo" && b == "tudo" && c == "tudo" && d != "tudo"){
       await api.post('ro/filterRo', {"dataOrg": d}).then(({data}) =>{
-        setRo(data)
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }   
       })
     }
 
-    if(a != "tudo" && c == "tudo" && d == "Antigo"){
+    if(a != "tudo" && b != "tudo" && c == "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "nomeRelator": b}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a != "tudo" && b == "tudo" && c != "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "status": c}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a != "tudo" && b == "tudo" && c == "tudo" && d != "tudo"){
       await api.post('ro/filterRo', {"defeito": a, "dataOrg": d}).then(({data}) =>{
-        setRo(data)
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
 
+    if(a != "tudo" && b != "tudo" && c != "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "nomeRelator": b, "status": c}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
 
-    if(a == "tudo" && c != "tudo" && d == "Antigo"){
+    if(a != "tudo" && b != "tudo" && c == "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "nomeRelator": b, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a != "tudo" && b == "tudo" && c != "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "status": c, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a == "tudo" && b != "tudo" && c != "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"nomeRelator": b, "status": c}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a == "tudo" && b != "tudo" && c == "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"nomeRelator": b, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a == "tudo" && b != "tudo" && c != "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"nomeRelator": b, "status": c, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a == "tudo" && b == "tudo" && c != "tudo" && d != "tudo"){
       await api.post('ro/filterRo', {"status": c, "dataOrg": d}).then(({data}) =>{
-        setRo(data)
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
+
   }
 
-  function limpar(){
+  async function limpar(){
     dropdownRefTipo.current.reset();
+    dropdownRefUsuarios.current.reset();
     dropdownRefStatus.current.reset();
     dropdownRefData.current.reset();
     setA("tudo");
+    setB("tudo");
     setC("tudo");
     setD("tudo");
   }
@@ -134,6 +305,7 @@ export default function AdminMenu() {
               />
 
               <SelectDropdown 
+                ref={dropdownRefUsuarios}
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 search
@@ -145,6 +317,7 @@ export default function AdminMenu() {
                 data={users}                
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
+                  setB(selectedItem)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem
