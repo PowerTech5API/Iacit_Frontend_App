@@ -68,19 +68,23 @@ export default function ListaChat({ navigation }) {
   return (
     <View style={styles.container2}>
       <Text style={styles.titulo}>Chats Abertos</Text>
-      {chats.map((chat) => (
-        <TouchableOpacity
-          key={chat._id}
-          style={styles.cards}
-          onPress={() => navigation.navigate("Chat", { chatId: chat._id })}
-        >
-          <Text style={[styles.text, { flex: 1 }]}>
-            <Text>{`RO #`}</Text>
-            <Text>{chat.roTitulo}</Text>
-          </Text>
-          <Icon name="chevron-right" size={35} style={styles.iconRight} />
-        </TouchableOpacity>
-      ))}
+      {chats.length === 0 ? (
+        <Text style={styles.semChatsText}>Não há chats abertos</Text>
+      ) : (
+        chats.map((chat) => (
+          <TouchableOpacity
+            key={chat._id}
+            style={styles.cards}
+            onPress={() => navigation.navigate("Chat", { chatId: chat._id })}
+          >
+            <Text style={[styles.text, { flex: 1 }]}>
+              <Text>{`RO #`}</Text>
+              <Text>{chat.roTitulo}</Text>
+            </Text>
+            <Icon name="chevron-right" size={35} style={styles.iconRight} />
+          </TouchableOpacity>
+        ))
+      )}
     </View>
   );
 }
@@ -91,6 +95,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#F2F2F2',
       paddingTop: '10%',
       alignItems: 'center',
+    },
+    semChatsText: {
+      fontSize: 18,
+      fontWeight: 'regular',
+      color: '#808080',
+      marginTop: 200,
     },
     cards: {
       width: '90%',
