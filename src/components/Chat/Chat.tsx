@@ -39,7 +39,7 @@ export function Chat() {
         });
         const chatData = response.data;
   
-        // Transforme as mensagens recebidas em um formato adequado para o GiftedChat
+        // transformar mensagens recebidas num formato adequado para o GiftedChat
         const transformedMessages = chatData.messages.map((message: ChatMessage) => {
           let senderId = message.senderId;
 
@@ -135,7 +135,6 @@ const renderBubble = (props:  any) => {
       />
     );};
 
-    
   const renderSend = (props: any) => {
     return (
       <Send {...props} containerStyle={{ justifyContent: 'center' }}>

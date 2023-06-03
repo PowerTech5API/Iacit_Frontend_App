@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import api from '../../service/api';
@@ -11,10 +11,11 @@ export default function NovoChat() {
   const navigation = useNavigation();
   const [ro, setRo] = useState([]);
   const [chat,setChat] = useState([]);
-  const [selectedRoId, setSelectedRoId] = useState(null); // Estado para armazenar a roId selecionada
+  const [selectedRoId, setSelectedRoId] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
 
-  //função que pega os ROs do usuário logado com estados 'Pendente' e 'Em atendimento'
+  //pega os ROs do usuário logado com estados 'Pendente' e 'Em atendimento'
   useEffect(() => {
     async function fetchROs() {
       try {
@@ -46,7 +47,8 @@ export default function NovoChat() {
     fetchROs();
   }, []);
 
-// Função que verifica se as ROs puxadas já possuem um chat
+
+// verifica se as ROs puxadas já possuem um chat
 const fetchChats = async (roList, userToken) => {
   try {
     const roIds = roList.map((ro) => ro._id); // Array de IDs das ROs
@@ -62,31 +64,35 @@ const fetchChats = async (roList, userToken) => {
 
         const chat = response.data;
 
-        chatIds.push(chat._id);
+      
+        const RoResponse = await api.get(`/ro/getById/${roId}`, {
+            headers: { Authorization: `Bearer ${userToken}` },
+          });
 
-        console.log('Chat que já possui RO:', chatIds);
+          const RoData = RoResponse.data;
+          const roTitulo = RoData.titulo;
 
-        console.log('RO ENCONTRADO:', roId);
+
+        chatIds.push(chat);
+
+        //console.log('RO ENCONTRADO:', roId);
       } catch (error) {
-        console.log('RO NÃO ENCONTRADO:', roId);
-        // Lidar com o RO não encontrado e continuar para o próximo RO
+        //console.log('RO NÃO ENCONTRADO:', roId);
         continue;
       }
     }
-
-    const rosSemChat = roList.filter((ro) => !chatIds.includes(ro._id));
-
-    console.log('IDs dos ROs sem chat:', rosSemChat);
+    const rosSemChat = roList.filter((ro) => !chatIds.find((chat) => chat.ro === ro._id));
+    //console.log('IDs dos ROs sem chat:', rosSemChat);
 
     setChat(rosSemChat);
-    
-    return chatIds; // Retorne os IDs dos chats existentes
+    setLoading(false); // define loading falso após a busca dos chats
   } catch (error) {
     console.error("Erro ao buscar chats:", error);
   }
 };
 
-  //função que inicia um chat com o Id do usuário logado e o Id do RO selecionado na lista
+
+  //inicia um chat com o Id do usuário logado e o Id do RO selecionado na lista
 async function NewChat(roId) {
   const userId = id;
   try {
@@ -101,35 +107,42 @@ async function NewChat(roId) {
         headers: { Authorization: `Bearer ${userToken}` }
       }
     );
-    const chatId = chatResponse.data._id; // Obtenha o ID do chat criado
+    const chatId = chatResponse.data._id;
     console.log('Chat criado com sucesso! RO:', roId, 'Chat:', chatId);
 
-    // Navegar para a página do chat passando o ID do chat como parâmetro
-    navigation.navigate('Chat', { chatId: chatId });
+    // navegar para o chat passando o ID do chat 
+    navigation.navigate('Chat', { chatId: chatId, roTitulo: chat.roTitulo });
   } catch (error) {
     console.error('Erro ao criar o Chat:', error);
   }
 }
   
 const handleChatPress = async (roId) => {
+  setSelectedRoId(roId);
   const userToken = await AsyncStorage.getItem("userToken");
-  const chatIds = await fetchChats(ro, userToken); // Obtenha os IDs dos chats existentes
+  await fetchChats(ro, userToken);
+
+  const chatIds = chat.map((chat) => chat.ro); // obter IDs dos chats existentes
+
   if (!chatIds.includes(roId)) {
-    await NewChat(roId); // Chama a função NewChat apenas se a RO não tiver um chat
+    await NewChat(roId); 
   } else {
-    console.log("A RO já possui um chat aberto");
+    console.log("A RO já possui um chat aberto!");
   }
 };
 
-
 return (
   <View style={styles.container2}>
-    <Text style={styles.titulo}>Chatss</Text>
-    {chat.map(Ro => (
+    <Text style={styles.titulo}>Chats</Text>
+    {loading ? (
+        <ActivityIndicator size="large" color="#808080" style={styles.loadingIndicator} />
+      ) : chat.length === 0 ? (
+        <Text style={styles.semChatsText}>Não há chats abertos</Text>
+      ) : (chat.map(Ro => (
       <TouchableOpacity
         key={Ro._id}
         style={styles.cards}
-        onPress={() => handleChatPress(Ro._id)} // Passe a roId para a função handleChatPress
+        onPress={() => handleChatPress(Ro._id)}
       >
         <Text style={[styles.text, { flex: 1 }]}>
           <Text>{`RO #`}</Text>
@@ -137,7 +150,8 @@ return (
         </Text>
         <Icon name="chevron-right" size={35} style={styles.iconRight} />
       </TouchableOpacity>
-    ))}
+    ))
+    )}
   </View>
 );
 
@@ -160,7 +174,7 @@ const styles = StyleSheet.create({
     elevation: 8,
     marginTop: '10%',
     alignItems: 'center',
-    justifyContent: 'space-between', // Distribui o espaço entre os elementos
+    justifyContent: 'space-between', 
   },
   icon: {
     color: '#1D2045',
@@ -173,7 +187,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   text: {
-    flex: 1, // Ocupa o espaço disponível
+    flex: 1,
     marginBottom: 5,
     marginTop: 2,
     marginLeft: 5,
@@ -182,6 +196,15 @@ const styles = StyleSheet.create({
     color: '#1D2045',
     textAlign: 'left',
     fontFamily: 'Inter',
+  },
+  semChatsText: {
+    fontSize: 18,
+    fontWeight: 'regular',
+    color: '#808080',
+    marginTop: 200,
+  },
+  loadingIndicator: {
+    marginTop: '50%',
   },
   titulo: {
     textAlign: 'center',

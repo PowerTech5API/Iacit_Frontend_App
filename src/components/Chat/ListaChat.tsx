@@ -3,12 +3,13 @@ import api from '../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../User/AuthProvider';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { Text } from 'react-native-elements';
 
 export default function ListaChat({ navigation }) {
   const { id } = useAuth();
   const [chats, setChats] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchROs = async () => {
@@ -18,10 +19,10 @@ export default function ListaChat({ navigation }) {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         const roList = response.data;
-        fetchChats(roList, userToken); // Passamos o token como argumento
-        console.log("ROs do usuário listados");
+        fetchChats(roList, userToken); 
+        console.log('ROs do usuário listados');
       } catch (error) {
-        console.error("Error fetching ROs:", error);
+        console.error('Error fetching ROs:', error);
       }
     };
 
@@ -39,6 +40,8 @@ export default function ListaChat({ navigation }) {
           });
 
           const chat = response.data;
+
+        
           const roId = chat.ro; // ID da RO associada ao chat
 
           const roResponse = await api.get(`/ro/getById/${roId}`, {
@@ -47,38 +50,42 @@ export default function ListaChat({ navigation }) {
 
           const roData = roResponse.data;
           const roTitulo = roData.titulo;
+          const roCodigo = roData.codigo 
 
-          chat.roTitulo = roTitulo; // Adicionamos o título da RO ao chat
+          chat.roTitulo = roTitulo; // add o titulo da RO ao chat
+          chat.roCodigo = roCodigo; // add o cod. da RO ao chat
 
           chats.push(chat);
-          console.log('RO ENCONTRADO :', roId ,'Titulo:', roTitulo);
+          //console.log('RO ENCONTRADO :', roId, 'Titulo:', roTitulo,'COD: ',roCodigo);
         } catch (error) {
-          console.log('RO NÃO ENCONTRADO:', ro._id);
-          // Lidar com o RO não encontrado e continuar para o próximo RO
+          //console.log('RO NÃO ENCONTRADO:', ro._id);
           continue;
         }
       }
 
       setChats(chats);
+      setLoading(false); // define loading falso após a busca dos chats
     } catch (error) {
-      console.error("Error fetching chats:", error);
+      console.error('Error fetching chats:', error);
     }
   };
 
   return (
     <View style={styles.container2}>
       <Text style={styles.titulo}>Chats Abertos</Text>
-      {chats.length === 0 ? (
+      {loading ? (
+        <ActivityIndicator size="large" color="#808080" style={styles.loadingIndicator} />
+      ) : chats.length === 0 ? (
         <Text style={styles.semChatsText}>Não há chats abertos</Text>
       ) : (
         chats.map((chat) => (
           <TouchableOpacity
             key={chat._id}
             style={styles.cards}
-            onPress={() => navigation.navigate("Chat", { chatId: chat._id })}
+            onPress={() => navigation.navigate("Chat", { chatId: chat._id,roTitulo: chat.roTitulo })}
           >
             <Text style={[styles.text, { flex: 1 }]}>
-              <Text>{`RO #`}</Text>
+              <Text>{`RO:  `}</Text>
               <Text>{chat.roTitulo}</Text>
             </Text>
             <Icon name="chevron-right" size={35} style={styles.iconRight} />
@@ -90,55 +97,58 @@ export default function ListaChat({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container2: {
-      flex: 1,
-      backgroundColor: '#F2F2F2',
-      paddingTop: '10%',
-      alignItems: 'center',
-    },
-    semChatsText: {
-      fontSize: 18,
-      fontWeight: 'regular',
-      color: '#808080',
-      marginTop: 200,
-    },
-    cards: {
-      width: '90%',
-      height: 70,
-      backgroundColor: 'white',
-      borderRadius: 4,
-      shadowColor: '#000',
-      flexDirection: 'row',
-      elevation: 8,
-      marginTop: '10%',
-      alignItems: 'center',
-      justifyContent: 'space-between', // Distribui o espaço entre os elementos
-    },
-    icon: {
-      color: '#1D2045',
-      marginLeft: 5,
-      marginRight: 5,
-    },
-    iconRight: {
-      color: '#1D2045',
-      marginLeft: 5,
-      marginRight: 5,
-    },
-    text: {
-      flex: 1, // Ocupa o espaço disponível
-      marginBottom: 5,
-      marginTop: 2,
-      marginLeft: 5,
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: '#1D2045',
-      textAlign: 'left',
-      fontFamily: 'Inter',
-    },
-    titulo: {
-      textAlign: 'center',
-      fontSize: 25,
-      fontWeight: 'bold',
-      color: '#000000',
-    },
-  });
+  container2: {
+    flex: 1,
+    backgroundColor: '#F2F2F2',
+    paddingTop: '10%',
+    alignItems: 'center',
+  },
+  semChatsText: {
+    fontSize: 18,
+    fontWeight: 'regular',
+    color: '#808080',
+    marginTop: 200,
+  },
+  cards: {
+    width: '90%',
+    height: 70,
+    backgroundColor: 'white',
+    borderRadius: 4,
+    shadowColor: '#000',
+    flexDirection: 'row',
+    elevation: 8,
+    marginTop: '10%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  icon: {
+    color: '#1D2045',
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  iconRight: {
+    color: '#1D2045',
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  text: {
+    flex: 1,
+    marginBottom: 5,
+    marginTop: 2,
+    marginLeft: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1D2045',
+    textAlign: 'left',
+    fontFamily: 'Inter',
+  },
+  titulo: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  loadingIndicator: {
+    marginTop: '50%',
+  },
+});

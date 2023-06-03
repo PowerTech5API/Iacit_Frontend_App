@@ -9,6 +9,7 @@ const ChatHeader = ({ roTitulo }) => {
     const handleGoBack = () => {
       navigation.goBack();
     };
+
   
     return (
       <View style={styles.header}>
@@ -16,15 +17,13 @@ const ChatHeader = ({ roTitulo }) => {
           <Icon name="chevron-left" size={36} color="#1D2045" />
         </TouchableOpacity>
         <View>
-          <Text style={styles.name}>{`RO ID: (${roTitulo})`}</Text>
-          <Text style={styles.status}>{`Visto por último hoje às teste`}</Text>
+          <Text style={styles.name}>{`RO: ${roTitulo}`}</Text>
+          {/*<Text style={styles.status}>{`Última visualização: ...`}</Text>*/}
         </View>
       </View>
     );
   };
 
-  
-  
   const styles = StyleSheet.create({
     header: {
       flex: 0.1,
