@@ -1,21 +1,36 @@
-import React from 'react';
-import { useState } from 'react';
-import { StyleSheet, Switch, Text, View } from 'react-native';
+import React, { useContext } from 'react';
+import { Alert } from 'react-native';
+import {  StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import api from '../../service/api';
+import { useAuth } from '../User/AuthProvider';
+import { ConfigContext } from '../../contexts/configContext';
+
+export default function Permissoes({ navigation, handleConfigChange }) {
+  const { id } = useAuth();
+  const configContext = useContext(ConfigContext);
+  const { aceitarTermos, receberEmail, handleReceberEmail } = configContext;
 
 
-export default function Permissoes({navigation}) {
-    const [receberEmail, setReceberEmail] = useState(false);
-    const [receberNotificacao, setReceberNotificacao] = useState(false);
-  
-    const handleReceberEmail = () => {
-      setReceberEmail(!receberEmail);
+  const enviarConfiguracoes = () => {
+    const data = {
+      userId: id,
+      termsAccepted: aceitarTermos,
+      receiveEmails: receberEmail,
     };
-  
-    const handleReceberNotificacao = () => {
-      setReceberNotificacao(!receberNotificacao);
-    };
 
+    console.log('CONFIGURAÇÕES PERMISSÕES :', data);
+
+    api.post('/config/saveConfig', data)
+      .then(response => {
+        handleConfigChange(data);
+        console.log(response.data); 
+      })
+      .catch(error => {
+        console.log(error);
+      });
+      Alert.alert('Sucesso', 'Configurações salvas com sucesso!');
+  };
 
     return (
       <View style={styles.container}>
@@ -36,8 +51,10 @@ export default function Permissoes({navigation}) {
           </View>
           <Switch value={receberEmail} onValueChange={handleReceberEmail} />
         </View>
-      </View>
 
+      </View>
+      {/*Aceitar notificação push */}
+      {/* 
       <View style={styles.card}>
         <View style={styles.cardHeader}>
           <Icon name="bell-badge" size={35} style={styles.icon} />
@@ -47,12 +64,21 @@ export default function Permissoes({navigation}) {
               Quero receber informações sobre o andamento dos meus Registros de Ocorrência por notificação no meu aparelho.
             </Text>
           </View>
-          <Switch value={receberNotificacao} onValueChange={handleReceberNotificacao} />
+          <Switch value={aceitarNotificacao} onValueChange={handleAceitarNotificacao} />
         </View>
       </View>
+      */}
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={enviarConfiguracoes}
+      >
+        <Text style={styles.buttonText}>Salvar Configuração</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -102,5 +128,19 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: '#1D2045',
+  },
+  button: {
+    backgroundColor: '#1E457E',
+    borderRadius: 5,
+    padding: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  disabledButton: {
+    backgroundColor: '#888888',
   },
 })
