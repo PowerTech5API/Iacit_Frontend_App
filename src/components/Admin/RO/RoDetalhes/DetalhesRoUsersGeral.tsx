@@ -21,6 +21,10 @@ export default function DetalhesRoUsersGeral(){
       Teste();
     }, [])
 
+    function navegar(){
+      navigation.navigate('DetalheAnalise')
+    }
+
     function renderStatus(){
         if(ro.status == "Pendente"){
           return (
@@ -71,7 +75,7 @@ export default function DetalhesRoUsersGeral(){
     if(ro.status == "Pendente"){
       return (
         <>
-          <TouchableOpacity style={styles.analisar}>                
+          <TouchableOpacity style={styles.analisar} onPress={navegar}>                
             <Text style={styles.analisarText}>Atender</Text>
           </TouchableOpacity>
         </>        
@@ -80,7 +84,7 @@ export default function DetalhesRoUsersGeral(){
     if(ro.status == "Em atendimento"){
       return (
         <>
-          <TouchableOpacity style={styles.analisar}>                
+          <TouchableOpacity style={styles.analisar} onPress={navegar}>                
             <Text style={styles.analisarText}>Analisar RO</Text>
           </TouchableOpacity>
         </>        

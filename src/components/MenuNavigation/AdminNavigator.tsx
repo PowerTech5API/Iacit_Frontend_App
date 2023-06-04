@@ -29,6 +29,7 @@ import DetalhesRoUsersPendente from '../Admin/RO/RoDetalhes/DetalhesRoUsersPende
 import DetalhesRoUsersAtendimento from '../Admin/RO/RoDetalhes/DetalhesRoUsersAtendimento';
 import DetalhesRoUsersAtendida from '../Admin/RO/RoDetalhes/DetalhesRoUsersAtendida';
 import DetalhesRoUsersGeral from '../Admin/RO/RoDetalhes/DetalhesRoUsersGeral';
+import DetalheAnalise from '../Admin/RO/RoDetalhes/DetalheAnalise';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -113,8 +114,9 @@ export default function AdminDrawerNavigation() {
         <ROStack.Screen name="DetalhesRoUsersPendente" component={DetalhesRoUsersPendente} />
         <ROStack.Screen name="DetalhesRoUsersAtendimento" component={DetalhesRoUsersAtendimento} />
         <ROStack.Screen name="DetalhesRoUsersAtendida" component={DetalhesRoUsersAtendida} />
-        <ROStack.Screen name="DetalhesRoUsersGeral" component={DetalhesRoUsersGeral} />
-  
+        <ROStack.Screen name="DetalhesRoUsersGeral" component={DetalhesRoUsersGeral} /> 
+        <ROStack.Screen name="DetalheAnalise" component={DetalheAnalise} />
+
       </ROStack.Navigator>
     );
   }
