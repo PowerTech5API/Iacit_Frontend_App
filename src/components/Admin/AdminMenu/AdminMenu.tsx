@@ -387,7 +387,7 @@ export default function AdminMenu() {
 
           <ScrollView>
             {ro.map((item, index) => (
-              <CardRoGeral key={index} titulo={item.titulo} tipo={item.defeito} usuario={item.nomeRelator} status={item.status}/>
+              <CardRoGeral key={index} id={item._id} titulo={item.titulo} tipo={item.defeito} usuario={item.nomeRelator} status={item.status}/>
             ))}            
           </ScrollView>
 
