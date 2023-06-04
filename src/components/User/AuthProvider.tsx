@@ -1,19 +1,25 @@
 import { createContext, useContext, useState } from 'react';
 
 interface AuthContextData {
+  id: string;
   name: string;
   email: string;
+  setId: (id: string) => void;
   setName: (name: string) => void;
   setEmail: (email: string) => void;
+  clearId: () => void;
   clearName: () => void;
   clearEmail: () => void;
 }
 
 const AuthContext = createContext<AuthContextData>({
+  id:'',
   name: '',
   email: '',
+  setId: () => {},
   setName: () => {},
   setEmail: () => {},
+  clearId: () => {},
   clearName: () => {},
   clearEmail: () => {},
 });
@@ -23,8 +29,13 @@ export const useAuth = () => {
 };
 
 const AuthProvider: React.FC = ({ children }) => {
+  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+
+  const clearId = () => {
+    setId('');
+  };
 
   const clearName = () => {
     setName('');
@@ -35,7 +46,7 @@ const AuthProvider: React.FC = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ name, email, setName, setEmail, clearName, clearEmail }}>
+    <AuthContext.Provider value={{ id, name, email, setId, setName, setEmail, clearName, clearEmail }}>
       {children}
     </AuthContext.Provider>
   );
