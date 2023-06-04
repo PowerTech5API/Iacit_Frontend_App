@@ -10,6 +10,7 @@ export default function limparFiltro({ handleLimparFiltro }){
         <TouchableOpacity style={styles.limparFiltro} onPress={handleLimparFiltro}>
              <Text style={styles.limparFiltroText}>Limpar filtro</Text>
         </TouchableOpacity>
+        
     );
 }
 const styles = StyleSheet.create({ 
