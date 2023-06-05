@@ -73,6 +73,8 @@ export default function UserDrawerNavigator () {
         <InicioStack.Screen name="Home" component={UserMenu} />
         <InicioStack.Screen name="AcompanharRO" component={AcompanharRO} />
         <InicioStack.Screen name="CadastroRO" component={RegistroOcorrenciaForm} />
+        <InicioStack.Screen name="DetalhesRoAtendimento" component={DetalhesRoAtendimento} />
+        <InicioStack.Screen name="RecorrerRo" component={RecorrerRo} />
       </InicioStack.Navigator>
     );
   }
@@ -85,12 +87,12 @@ export default function UserDrawerNavigator () {
         <ROStack.Screen name="DetalhesRoAtendida" component={DetalhesRoAtendida} />
         <ROStack.Screen name="CardRoAtendida" component={CardRoAtendida} />
         <ROStack.Screen name="RoAtendimento" component={RoAtendimento} />
-        <ROStack.Screen name="DetalhesRoAtendimento" component={DetalhesRoAtendimento} />
+        {/* <ROStack.Screen name="DetalhesRoAtendimento" component={DetalhesRoAtendimento} /> */}
         <ROStack.Screen name="CardRoAtendimento" component={CardRoAtendimento} />
         <ROStack.Screen name="RoPendente" component={RoPendente} />
         <ROStack.Screen name="DetalhesRoPendente" component={DetalhesRoPendente} />
         <ROStack.Screen name="CardRoPendente" component={CardRoPendente} />
-        <ROStack.Screen name="RecorrerRo" component={RecorrerRo} />
+        {/* <ROStack.Screen name="RecorrerRo" component={RecorrerRo} /> */}
       </ROStack.Navigator>
     );
   }

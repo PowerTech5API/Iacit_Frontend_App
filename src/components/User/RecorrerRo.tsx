@@ -1,22 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AuthProvider from "./AuthProvider";
 import axios from "axios";
 import api from "../../service/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
 export default function RecorrerRo(){
     const [motivo, setMotivo] = useState("");
+    const [ro, setRo] = useState([]);
 
-    const enviarMotivo = async () => {
-      try {
-        await api.post("https://iacit.herokuapp.com/api", { motivo });
-         
-      } catch (error) {
-        console.error("Motivo recorrencia Erro", error);
+    useEffect(() => {
+        async function Teste(){
+          const roId = await AsyncStorage.getItem("roId")
+          await api.get(`ro/getById/${roId}`).then((response) =>{
+            setRo(response.data);
+            console.log(response.data)
+          })
+        }
+        Teste();
+      }, [])
+    
+      const enviar = {
+        "_id": ro._id,
+        "status": motivo
       }
-    };
+      
+    async function enviarMotivo() {
+     console.log(enviar)
+    //  await api.put('ro/update', enviar).then((response) =>{
+    //     console.log(response.data);
+    //     alert('');
+    //   }).catch(function (error) {
+    //       console.log(error);
+    //       alert('Algo deu errado!');
+    //     })
+    }
 
 
     return(
@@ -27,9 +47,10 @@ export default function RecorrerRo(){
                 </Text>
                 <View style={styles.CampoInput}>
                 <TextInput style={styles.input}
-                    multiline={true}>
-                    onChangeText={(text) => setMotivo(text)}
-                    
+                    multiline={true}
+                    value={motivo}
+                    onChangeText={setMotivo}
+                 >   
                 </TextInput>
                 </View>
 

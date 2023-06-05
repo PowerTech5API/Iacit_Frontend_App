@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import LimparFiltro from "./LimparFiltro";
 import api from "../../service/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CardRoUsuarioGeral from "../RO/Cards/CardRoUsuarioGeral";
+import CardRoUsuarioGeral from '../RO/Cards/CardRoUsuarioGeral'
 
 const tipo = ["Hardware", "Software"];
-const dataRo = ["Recente", "Antigo"];
 const status = ["Pendente", "Em Atendimento", "Atendinda"];
+const dataRo = ["Recente", "Antigo"];
 
 // const dropdownRefTipo = useRef<SelectDropdown>(null);
 // const dropdownRefData = useRef<SelectDropdown>(null);
@@ -17,30 +16,77 @@ const status = ["Pendente", "Em Atendimento", "Atendinda"];
 
 
 export default function FiltroIcon() {
-
   const [ro, setRo] = useState([]);
-
   const [a, setA] = useState("tudo");
   const [b, setB] = useState("tudo");
   const [c, setC] = useState("tudo");
 
 
- function filtragem(){
 
- }
+  async function filtragem() {
+    const dropdownRefTipo = useRef(null);
+    const dropdownRefData = useRef(null);
+    const dropdownRefStatus = useRef(null);
 
- function limpar(){
-  // dropdownRefTipo.current.reset();
-  // dropdownRefStatus.current.reset();
-  // dropdownRefData.current.reset();
-  setA("tudo");
-  setB("tudo");
-  setC("tudo");
- }
+    console.log(a);
+    console.log(b);
+    console.log(c);
+
+    const userToken = await AsyncStorage.getItem('userToken');
+    console.log(userToken);
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      }
+    };
+
+    if(a == "tudo" && b == "tudo" && c == "tudo"){
+      const response = await api.post('ro/filterRoUser', {}, config).then((response)=>{
+        setRo(response.data);
+        console.log(response.data);
+      }).catch ((error)=>{
+        console.log(error.response.data);
+      })  
+    }
+
+    if(a != "tudo" && b != "tudo" && c != "tudo"){
+      const response = await api.post('ro/filterRoUser', {}, config, {"defeito":a, "status":b, "dataOrg":c}).then((response)=>{
+        if(response.data != undefined){
+          console.log(response.data)
+          setRo([])
+        }else{
+          setRo(response.data);
+          console.log(response.data);
+        }
+        
+      }).catch ((error)=>{
+        console.log(error.response.data);
+      })  
+    }
+
+  }
+
+  
+
+  function limpar() {
+    // const dropdownRefTipo = useRef(null);
+    // const dropdownRefData = useRef(null);
+    // const dropdownRefStatus = useRef(null);
+
+    dropdownRefTipo.current.reset();
+    dropdownRefStatus.current.reset();
+    dropdownRefData.current.reset();
+    setA("tudo");
+    setB("tudo");
+    setC("tudo");
+  }
+
  
   useEffect(() => {
     async function fetchData() {
-      try {
+      
         const userToken = await AsyncStorage.getItem('userToken');
         console.log(userToken);
 
@@ -51,14 +97,14 @@ export default function FiltroIcon() {
           }
         };
 
-        const response = await api.post('ro/filterRoUser', {}, config);
-        setRo(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error.response.data);
+        const response = await api.post('ro/filterRoUser', {}, config).then((response)=>{
+          setRo(response.data);
+          console.log(response.data);
+        }).catch ((error)=>{
+          console.log(error.response.data);
+        })  
+    
       }
-    }
-
     fetchData();
   }, []);
   return (
@@ -75,7 +121,9 @@ export default function FiltroIcon() {
           dropdownIconPosition='right'
           data={tipo}                
           onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index)
+              console.log(selectedItem, index)
+              setA(selectedItem)
+            
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem
@@ -86,7 +134,7 @@ export default function FiltroIcon() {
         />
         
         <SelectDropdown
-          // ref={dropdownRefStatus}              
+          // // ref={dropdownRefStatus}              
           buttonStyle={styles.filtroBotao}
           buttonTextStyle={styles.filtroTexto}
           defaultButtonText='Status'
@@ -96,7 +144,9 @@ export default function FiltroIcon() {
           dropdownIconPosition='right'
           data={status}                
           onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index)
+              console.log(selectedItem, index)
+              setB(selectedItem)
+            
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem
@@ -106,7 +156,7 @@ export default function FiltroIcon() {
           }}
         />
         <SelectDropdown
-          // ref={dropdownRefData}              
+          // // ref={dropdownRefData}              
           buttonStyle={styles.filtroBotao}
           buttonTextStyle={styles.filtroTexto}
           defaultButtonText='Data'
@@ -117,6 +167,7 @@ export default function FiltroIcon() {
           data={dataRo}                
           onSelect={(selectedItem, index) => {
               console.log(selectedItem, index)
+              setC(selectedItem)
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem
@@ -139,9 +190,9 @@ export default function FiltroIcon() {
       </View>
 
       <ScrollView>
-              {ro.map((item, index) => (
-                <CardRoUsuarioGeral key={index} id={item.id} titulo={item.titulo} tipo={item.defeito} status={item.status} data={item.dataRegistro}/>
-              ))}
+        {ro.map((item, index) => (
+          <CardRoUsuarioGeral key={index} id={item.id} titulo={item.titulo} tipo={item.defeito} status={item.status} data={item.dataRegistro}/>
+        ))}
       </ScrollView>
     </View>
   );
