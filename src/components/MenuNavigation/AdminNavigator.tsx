@@ -112,11 +112,12 @@ export default function AdminDrawerNavigation() {
         <ROStack.Screen name="CardRoUsersAtendida" component={CardRoUsersAtendida} />
         <ROStack.Screen name="CardRoUsersAtendimento" component={CardRoUsersAtendimento} />
         <ROStack.Screen name="CardRoUsersPendente" component={CardRoUsersPendente} />
-
         <ROStack.Screen name="DetalhesRoUsersPendente" component={DetalhesRoUsersPendente} />
         <ROStack.Screen name="DetalhesRoUsersAtendimento" component={DetalhesRoUsersAtendimento} />
         <ROStack.Screen name="DetalhesRoUsersAtendida" component={DetalhesRoUsersAtendida} />
-  
+        <ROStack.Screen name="DetalhesRoUsersGeral" component={DetalhesRoUsersGeral} /> 
+        <ROStack.Screen name="DetalheAnalise" component={DetalheAnalise} />
+
       </ROStack.Navigator>
     );
   }

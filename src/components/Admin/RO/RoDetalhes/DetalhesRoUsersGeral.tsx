@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-export default function DetalhesRoUsersAtendida(){
+export default function DetalhesRoUsersGeral(){
     const navigation = useNavigation();
 
     const [ro, setRo] = useState([]);
@@ -21,47 +21,98 @@ export default function DetalhesRoUsersAtendida(){
       Teste();
     }, [])
 
+    function navegar(){
+      navigation.navigate('DetalheAnalise')
+    }
+
+    function renderStatus(){
+        if(ro.status == "Pendente"){
+          return (
+            <>
+              <Text style={styles.text2}>Status: <Text style={{color: '#EB5757', fontWeight:'bold'}}>{ro.status}</Text></Text>
+            </>        
+          )
+        }
+        if(ro.status == "Em atendimento"){
+          return (
+            <>
+              <Text style={styles.text2}>Status: <Text style={{color: '#F2C94C', fontWeight:'bold'}}>{ro.status}</Text></Text>
+            </>        
+          )
+        }
+        if(ro.status == "Atendida"){
+          return (
+            <>
+              <Text style={styles.text2}>Status: <Text style={{color: '#6FCF97', fontWeight:'bold'}}>{ro.status}</Text></Text>
+            </>        
+          )
+        }
+     }
+
    function renderElement(){
       if(ro.defeito == "hardware"){
         return (
           <>
-            <Text style={styles.text1}>Equipamento: {ro.hardware.equipamento}</Text>
-            <Text style={styles.text1}>Posição: {ro.hardware.posicao}</Text>
-            <Text style={styles.text1}>Part Number: {ro.hardware.partnumber}</Text>
-            <Text style={styles.text1}>Serial Number: {ro.hardware.serialNumber}</Text>
+            <Text style={styles.text1}>Equipamento: <Text style={styles.palavras}>{ro.hardware.equipamento}</Text></Text>
+            <Text style={styles.text1}>Posição: <Text style={styles.palavras}>{ro.hardware.posicao}</Text></Text>
+            <Text style={styles.text1}>Part Number: <Text style={styles.palavras}>{ro.hardware.partnumber}</Text></Text>
+            <Text style={styles.text2}>Serial Number: <Text style={styles.palavras}>{ro.hardware.serialNumber}</Text></Text>
           </>        
         )
       }
       if(ro.defeito == "software"){
         return (
           <>
-            <Text style={styles.text1}>Versão da Base de Dados: {ro.software.versaoBD}</Text>
-            <Text style={styles.text1}>Versão do Software: {ro.software.versaoSoftware}</Text>
-            <Text style={styles.text1}>Logs anexadas: {ro.software.LogsRO}</Text>         
+            <Text style={styles.text1}>Versão da Base de Dados: <Text style={styles.palavras}>{ro.software.versaoBD}</Text></Text>
+            <Text style={styles.text1}>Versão do Software: <Text style={styles.palavras}>{ro.software.versaoSoftware}</Text></Text>
+            <Text style={styles.text2}>Logs anexadas: <Text style={styles.palavras}>{ro.software.LogsRO}</Text></Text>         
           </>        
         )
       }
    }
+
+   function renderBotao(){
+    if(ro.status == "Pendente"){
+      return (
+        <>
+          <TouchableOpacity style={styles.analisar} onPress={navegar}>                
+            <Text style={styles.analisarText}>Atender</Text>
+          </TouchableOpacity>
+        </>        
+      )
+    }
+    if(ro.status == "Em atendimento"){
+      return (
+        <>
+          <TouchableOpacity style={styles.analisar} onPress={navegar}>                
+            <Text style={styles.analisarText}>Analisar RO</Text>
+          </TouchableOpacity>
+        </>        
+      )
+    }
+ }
     
     return(
         <>
-
+       
         <View style={styles.container2}>
           <ScrollView>
             
             <View style={styles.mid1}>
-              
-                <Text style={styles.text2}>Status: <Text style={{color: '#6FCF97', fontWeight:'bold'}}>{ro.status}</Text> </Text>
 
-                <Text style={styles.text}>Titulo: {ro.titulo}</Text>
+                { renderStatus() } 
 
-                <Text style={styles.text1}>Descrição: {ro.descricao}</Text>         
+                <Text style={styles.text}>Titulo: <Text style={styles.palavras}>{ro.titulo}</Text></Text>
 
-                <Text style={styles.text1}>Defeito: {ro.defeito}</Text> 
+                <Text style={styles.text2}>Descrição: <Text style={styles.palavras}>{ro.descricao}</Text></Text>         
+
+                <Text style={styles.text2}>Defeito: <Text style={styles.palavras}>{ro.defeito}</Text></Text> 
 
                 { renderElement() } 
                 
             </View>
+
+            { renderBotao() } 
 
           </ScrollView>
         </View>
@@ -72,23 +123,9 @@ export default function DetalhesRoUsersAtendida(){
 }
 
 const styles = StyleSheet.create({
-    container1: {
-      flex: 0.1,
-      flexDirection: 'row',
-      backgroundColor: '#1D2045',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  
-    img1: {
-      right: 100,
-    },
-    img2: {
-      left: 100,
-    },
-  
+
     container2: {
-      flex: 0.8,
+      flex: 1.0,
       backgroundColor: '#F2F2F2',
       paddingTop: 10,
     },
@@ -111,16 +148,6 @@ const styles = StyleSheet.create({
       color: '#6FCF97',
       textAlign: 'center',
       fontFamily: 'Inter',
-    },
-  
-    container3: {
-      flex: 0.1,
-      flexDirection: 'row',
-      backgroundColor: '#FFFFFF',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderTopWidth: 5,
-      borderColor: 'rgba(0, 0, 0, 0.1)',
     },
     
     button1: {
@@ -173,9 +200,9 @@ const styles = StyleSheet.create({
     },
 
     text:{
-      marginBottom: 10,
+      marginBottom: 20,
       fontWeight: 'bold',
-      fontSize: 20, 
+      fontSize: 16, 
       color: 'black',
 
   },
@@ -186,9 +213,14 @@ const styles = StyleSheet.create({
       color: 'black',
   },
 
+  palavras:{
+    fontWeight: 'normal',
+    color: 'black',
+  },
+
   text2:{
       fontWeight: 'bold',
-      marginBottom: 15,
+      marginBottom: 20,
       color: 'black',
   },
 
@@ -208,14 +240,15 @@ const styles = StyleSheet.create({
   },
 
   analisar: {
-    marginTop: 40,
-    width: '40%',
-    height: 41,
-    marginLeft: '30%',
+    marginTop: 30,
+    width: '35%',
+    height: 50,
+    marginLeft: '60%',
     backgroundColor: '#1E457E',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
+    marginBottom: 20,
   },
 
   analisarText: {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {View, Image, StyleSheet, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -14,90 +14,259 @@ export default function AdminMenu() {
 
   const dataRo = ["Recente", "Antigo"];
 
-  const users = [];
+  const [users, setUsers] = useState(new Array<String>);
+
+  const [users2, setUsers2] = useState([]);
 
   const status = ["Pendente", "Em atendimento", "Atendida"];
+
+  const dropdownRefTipo = useRef<SelectDropdown>(null);
+
+  const dropdownRefUsuarios = useRef<SelectDropdown>(null);
+
+  const dropdownRefStatus = useRef<SelectDropdown>(null);
+
+  const dropdownRefData = useRef<SelectDropdown>(null);
 
   const [ro, setRo] = useState([]);
 
   useEffect(() => {
     async function Teste(){
+      
       await api.get('ro/getAll').then(({data}) =>{
         setRo(data);
       })
+      
+    }    
+
+    Teste();
+
+  }, [])
+
+  useEffect(() => {
+    async function Teste(){
+      await api.get('user/getAll').then(({data}) =>{
+        setUsers2(data);
+      })
     }
+
+    users2.map((item, index) => (
+      users.push(item.name)
+    )) 
+    console.log(users)
+    
+
     Teste();
   }, [])
 
-
   const [a, setA] = useState("tudo");
+  const [b, setB] = useState("tudo");
   const [c, setC] = useState("tudo");
   const [d, setD] = useState("tudo");
 
   async function filtragem(){
     console.log(a)
+    console.log(b)
     console.log(c)
     console.log(d)  
     
-    if(a == "tudo" && c == "tudo" && d == "tudo"){
+    if(a == "tudo" && b == "tudo" && c == "tudo" && d == "tudo"){
       await api.get('ro/getAll').then(({data}) =>{
         setRo(data);
       })
     }
 
-    if(a == "hardware" && c == "Pendente" && d == "tudo"){
-      await api.post('ro/filterRo', {"defeito": a, "status": c}).then(({data}) =>{
-        setRo(data)
+    if(a != "tudo" && b != "tudo" && c != "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "nomeRelator": b, "status": c, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
 
-    if(a != "tudo" && c == "tudo" && d == "tudo"){
+    if(a != "tudo" && b == "tudo" && c == "tudo" && d == "tudo"){
       await api.post('ro/filterRo', {"defeito": a}).then(({data}) =>{
-        setRo(data)
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }   
       })
     }
 
-    if(a == "tudo" && c != "tudo" && d == "tudo"){
+    if(a == "tudo" && b != "tudo" && c == "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"nomeRelator": b}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }   
+      })
+    }
+
+    if(a == "tudo" && b == "tudo" && c != "tudo" && d == "tudo"){
       await api.post('ro/filterRo', {"status": c}).then(({data}) =>{
-        setRo(data)
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }   
       })
     }
 
-    if(a == "tudo" && c == "tudo" && d == "Antigo"){
-      await api.post('ro/filterRo', {"dataOrg": 1}).then(({data}) =>{
-        setRo(data)
+    if(a == "tudo" && b == "tudo" && c == "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }   
       })
     }
 
-    if(a == "tudo" && c == "tudo" && d == "Recente"){
-      await api.post('ro/filterRo', {"dataOrg": -1}).then(({data}) =>{
-        setRo(data)
+    if(a != "tudo" && b != "tudo" && c == "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "nomeRelator": b}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
 
-    if(a != "tudo" && c == "tudo" && d == "Antigo"){
-      await api.post('ro/filterRo', {"defeito": a, "dataOrg": 1}).then(({data}) =>{
-        setRo(data)
+    if(a != "tudo" && b == "tudo" && c != "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "status": c}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
 
-    if(a != "tudo" && c == "tudo" && d == "Recente"){
-      await api.post('ro/filterRo', {"defeito": a, "dataOrg": -1}).then(({data}) =>{
-        setRo(data)
+    if(a != "tudo" && b == "tudo" && c == "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
 
-    if(a == "tudo" && c != "tudo" && d == "Antigo"){
-      await api.post('ro/filterRo', {"status": c, "dataOrg": 1}).then(({data}) =>{
-        setRo(data)
+    if(a != "tudo" && b != "tudo" && c != "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "nomeRelator": b, "status": c}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
 
-    if(a == "tudo" && c != "tudo" && d == "Recente"){
-      await api.post('ro/filterRo', {"status": c, "dataOrg": -1}).then(({data}) =>{
-        setRo(data)
+    if(a != "tudo" && b != "tudo" && c == "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "nomeRelator": b, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
       })
     }
+
+    if(a != "tudo" && b == "tudo" && c != "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"defeito": a, "status": c, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a == "tudo" && b != "tudo" && c != "tudo" && d == "tudo"){
+      await api.post('ro/filterRo', {"nomeRelator": b, "status": c}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a == "tudo" && b != "tudo" && c == "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"nomeRelator": b, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a == "tudo" && b != "tudo" && c != "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"nomeRelator": b, "status": c, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+    if(a == "tudo" && b == "tudo" && c != "tudo" && d != "tudo"){
+      await api.post('ro/filterRo', {"status": c, "dataOrg": d}).then(({data}) =>{
+        if(data.msg != undefined){
+          console.log("ERRO FUNCIONOU!")
+          console.log(data)
+          setRo([])
+        } else {
+          setRo(data)
+        }        
+      })
+    }
+
+  }
+
+  async function limpar(){
+    dropdownRefTipo.current.reset();
+    dropdownRefUsuarios.current.reset();
+    dropdownRefStatus.current.reset();
+    dropdownRefData.current.reset();
+    setA("tudo");
+    setB("tudo");
+    setC("tudo");
+    setD("tudo");
   }
 
   
@@ -113,7 +282,8 @@ export default function AdminMenu() {
             <Text style={styles.filtroTitulo}>Filtrar por:</Text>            
             <View style={styles.filtros1}>
 
-              <SelectDropdown              
+              <SelectDropdown 
+                ref={dropdownRefTipo}             
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 defaultButtonText='Tipo'
@@ -134,7 +304,8 @@ export default function AdminMenu() {
                 }}
               />
 
-              <SelectDropdown              
+              <SelectDropdown 
+                ref={dropdownRefUsuarios}
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 search
@@ -146,6 +317,7 @@ export default function AdminMenu() {
                 data={users}                
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
+                  setB(selectedItem)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem
@@ -155,7 +327,8 @@ export default function AdminMenu() {
                 }}
               />
 
-              <SelectDropdown              
+              <SelectDropdown
+                ref={dropdownRefStatus}               
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 defaultButtonText='Status'
@@ -179,7 +352,8 @@ export default function AdminMenu() {
             </View>
             <View style={styles.filtros2}>
 
-            <SelectDropdown              
+            <SelectDropdown 
+                ref={dropdownRefData}              
                 buttonStyle={styles.filtroBotao}
                 buttonTextStyle={styles.filtroTexto}
                 defaultButtonText='Data'
@@ -204,12 +378,16 @@ export default function AdminMenu() {
               <Text style={styles.botaoFiltroText}>Filtrar</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity style={styles.botaoLimpar} onPress={limpar}>
+              <Text style={styles.botaoLimparText}>Limpar</Text>
+            </TouchableOpacity>
+
             </View>
           </View>
 
           <ScrollView>
             {ro.map((item, index) => (
-              <CardRoGeral key={index} titulo={item.titulo} tipo={item.defeito} usuario={item.nomeRelator} status={item.status}/>
+              <CardRoGeral key={index} id={item._id} titulo={item.titulo} tipo={item.defeito} usuario={item.nomeRelator} status={item.status}/>
             ))}            
           </ScrollView>
 
@@ -299,6 +477,25 @@ const styles = StyleSheet.create({
   },
 
   botaoFiltroText: {
+    fontSize: 15,
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  botaoLimpar: {
+    width: 100,
+    height: 50,
+    marginLeft: 10,
+    elevation: 5,
+    borderWidth: 2,
+    borderColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1E457E',
+  },
+
+  botaoLimparText: {
     fontSize: 15,
     color: 'white',
     textAlign: 'center',

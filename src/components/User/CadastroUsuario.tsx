@@ -44,7 +44,7 @@ export default function CadastroUsuario({navigation}) {
       alert('Usuário cadastrado com sucesso!');
       reset();
     }).catch(function (error) {
-      console.error("Usuário já existe");
+      alert(error.response.data.msg);
     })
   }
 

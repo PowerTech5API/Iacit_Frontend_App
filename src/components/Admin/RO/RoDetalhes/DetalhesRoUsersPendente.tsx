@@ -45,16 +45,6 @@ export default function DetalhesRoUsersPendente(){
     
     return(
         <>
-        <View style={styles.container1}>
-          <TouchableOpacity style={styles.img1}>
-            <Image source={require('../../../../imgs/config.png')} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.img2}>
-            <Image source={require('../../../../imgs/notificacao.png')} />
-            
-          </TouchableOpacity>
-        </View>
 
         <View style={styles.container2}>
           <ScrollView>
@@ -80,22 +70,6 @@ export default function DetalhesRoUsersPendente(){
           </ScrollView>
         </View>
 
-        <View style={styles.container3}>
-          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('AdminMenu')}>
-            <Image source={require('../../../../imgs/inicio.png')} />
-            <Text style={styles.buttonsText}>Inicio</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button2}>
-            <Image source={require('../../../../imgs/chat.png')} />
-            <Text style={styles.buttonsText}>Chat</Text>
-          </TouchableOpacity>
-        
-          <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharROAdm')}>
-            <Image source={require('../../../../imgs/registros.png')} />
-            <Text style={styles.buttonsText}>Registros</Text>
-          </TouchableOpacity>
-        </View>
         </>
 
         )

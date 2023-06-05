@@ -45,16 +45,6 @@ export default function DetalhesRoUsersAtendimento(){
     
     return(
         <>
-        <View style={styles.container1}>
-          <TouchableOpacity style={styles.img1}>
-            <Image source={require('../../../../imgs/config.png')} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.img2}>
-            <Image source={require('../../../../imgs/notificacao.png')} />
-            
-          </TouchableOpacity>
-        </View>
 
         <View style={styles.container2}>
           <ScrollView>
@@ -75,43 +65,12 @@ export default function DetalhesRoUsersAtendimento(){
 
           </ScrollView>
         </View>
-
-        <View style={styles.container3}>
-          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('AdminMenu')}>
-            <Image source={require('../../../../imgs/inicio.png')} />
-            <Text style={styles.buttonsText}>Inicio</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button2}>
-            <Image source={require('../../../../imgs/chat.png')} />
-            <Text style={styles.buttonsText}>Chat</Text>
-          </TouchableOpacity>
-        
-          <TouchableOpacity style={styles.button3} onPress={() => navigation.navigate('AcompanharROAdm')}>
-            <Image source={require('../../../../imgs/registros.png')} />
-            <Text style={styles.buttonsText}>Registros</Text>
-          </TouchableOpacity>
-        </View>
         </>
 
         )
 }
 
 const styles = StyleSheet.create({
-    container1: {
-      flex: 0.1,
-      flexDirection: 'row',
-      backgroundColor: '#1D2045',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  
-    img1: {
-      right: 100,
-    },
-    img2: {
-      left: 100,
-    },
   
     container2: {
       flex: 0.8,
