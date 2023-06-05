@@ -82,10 +82,17 @@ export default function DetalhesRoAtendimento(props){
               </View>
             </View>
           </Modal>
+        <View style={styles.btn}>
+
+          <TouchableOpacity style={styles.botaoRecorrer} onPress={ () => navigation.navigate('RecorrerRo') }>
+            <Text style={styles.textoBotaoRecorrer}>Recorrer</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.botao} onPress={() => setModalVisible(true)}>
             <Text style={styles.textoBotao}>Finalizar RO</Text>
           </TouchableOpacity>
+        </View>
+          
 
           </ScrollView>
         </View>
@@ -146,7 +153,28 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 5,
+      elevation: 5,
+      shadowColor: '#000',
 
+    },
+    botaoRecorrer:{
+      backgroundColor: 'white',
+      width: 130,
+      height: 40,
+      marginLeft: '5%',
+      marginTop: 35,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 5,
+      marginStart: 25,
+      marginRight: 85,
+      elevation: 5,
+      shadowColor: '#000',
+    },
+    textoBotaoRecorrer:{
+      color: '#1E457E',
+      fontWeight:'bold',
+      fontSize: 18,
     },
 
     textoBotao:{
@@ -247,4 +275,7 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     fontWeight: 'bold',  
   },
+btn:{
+  flexDirection:'row',
+},
 });

@@ -65,6 +65,8 @@ export default function DetalhesRoUsersAtendimento(){
 
           </ScrollView>
         </View>
+
+        
         </>
 
         )

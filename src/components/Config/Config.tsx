@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../User/AuthProvider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -34,11 +34,23 @@ function Config() {
             <Icon name="cog" size={25} style={styles.icon} />
             <Text style={styles.titulo2}>Configurações</Text>
           </View>
+
+          <TouchableOpacity>
             <Text style={styles.titulo}>Alterar Senha</Text>
             <Text style={styles.password}>********</Text>
-          <View style={styles.iconContainer}>
-            <Icon name="chevron-right" size={35} style={styles.iconRight} />
-          </View>
+            
+            <View style={styles.iconContainer}>
+              <Icon name="chevron-right" size={35} style={styles.iconRight} />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.opcao}>
+            <Text style={styles.titulo}>Excluir Conta</Text>
+            <View style={styles.iconContainer}>
+              <Icon name="chevron-right" size={35} style={styles.iconRight} />
+            </View>
+          </TouchableOpacity>
+
         </View>
       </View>
     </View>
@@ -157,6 +169,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 10,
   },
+  opcao:{
+    marginTop: 20,
+  }
 });
 
 export default Config;

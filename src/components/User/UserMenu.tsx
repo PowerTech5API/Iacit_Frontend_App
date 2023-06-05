@@ -17,8 +17,7 @@ export default function UserMenu() {
     <>
     <View>
       <View style={styles.campoTexto}>
-        <Text style={styles.texto}>Olá, estes são os seus registros de ocorrências, para mais informações clique no registro ou clique
-          em ‘Registros’ no menu abaixo. </Text>
+        <Text style={styles.texto}>Olá, estes são os seus registros de ocorrências, para mais informações clique no registro. </Text>
       </View>
 
       <View>
@@ -89,9 +88,12 @@ const styles = StyleSheet.create({
   },
   texto:{
     fontSize: 15,
-    color: 'black'
+    color: 'black',
+    marginBottom: 10,
+    marginTop: 5,
   },
   campoTexto:{
+    marginTop: 10,
     marginLeft: 10,
     marginRight: 10,
     alignItems: 'center',

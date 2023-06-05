@@ -5,6 +5,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CardRoGeral from '../RO/Cards/CardRoGeral';
 import api from '../../../service/api';
+import FiltroIconAdm from './FiltroIconAdm';
 
 
 export default function AdminMenu() {
@@ -279,12 +280,15 @@ export default function AdminMenu() {
           </View>
 
           <View style={styles.filtro}>           
-            <Text style={styles.filtroTitulo}>Filtrar por:</Text>            
-            <View style={styles.filtros1}>
+            <Text style={styles.filtroTitulo}>Filtrar por:</Text>
+            <View>
+                <FiltroIconAdm />
+            </View>
 
-              <SelectDropdown 
-                ref={dropdownRefTipo}             
-                buttonStyle={styles.filtroBotao}
+            {/* <View style={styles.filtros}>
+
+              <SelectDropdown              
+                buttonStyle={styles.filtroBotaoTipo}
                 buttonTextStyle={styles.filtroTexto}
                 defaultButtonText='Tipo'
                 renderDropdownIcon={isOpened => {
@@ -373,16 +377,13 @@ export default function AdminMenu() {
                   return item
                 }}
               />
+              
 
-            <TouchableOpacity style={styles.botaoFiltro} onPress={filtragem}>
+            <TouchableOpacity style={styles.filtroBotao} onPress={filtragem}>
               <Text style={styles.botaoFiltroText}>Filtrar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.botaoLimpar} onPress={limpar}>
-              <Text style={styles.botaoLimparText}>Limpar</Text>
-            </TouchableOpacity>
-
-            </View>
+            </View> */}
           </View>
 
           <ScrollView>
@@ -532,5 +533,20 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#1E457E',
   },
-
+  filtros: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  filtroBotaoTipo:{
+    width: '20%',
+    height: 30,
+    marginLeft: 10,
+    marginRight: 8,
+    elevation: 5,
+    borderWidth: 2,
+    borderColor: 'black',
+    
+  },
 });

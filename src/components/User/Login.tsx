@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../User/AuthProvider';
 import {whiteLogo} from '../../imgs/Images'
 
+
    // Função para obter o userResponse
    export async function getAdmin(userToken) {
     try {
