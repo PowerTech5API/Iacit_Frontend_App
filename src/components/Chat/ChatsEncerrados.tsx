@@ -6,10 +6,11 @@ import { useAuth } from '../User/AuthProvider';
 import { StyleSheet, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { Text } from 'react-native-elements';
 
-export default function ListaChat({ navigation }) {
+export default function ChatsEncerrados({ navigation }) {
   const { id } = useAuth();
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true); 
+  const [isChatBlocked, setIsChatBlocked] = useState(false);
 
   useEffect(() => {
     const fetchROs = async () => {
@@ -40,6 +41,8 @@ export default function ListaChat({ navigation }) {
           });
 
           const chat = response.data;
+
+        
           const roId = chat.ro; // ID da RO associada ao chat
 
           const roResponse = await api.get(`/ro/getById/${roId}`, {
@@ -54,7 +57,7 @@ export default function ListaChat({ navigation }) {
           chat.roTitulo = roTitulo; // add o titulo da RO ao chat
           chat.roCodigo = roCodigo; // add o cod. da RO ao chat
 
-        // Mapear o status do RO para uma string correspondente
+         // Mapear o status do RO para uma string correspondente
         let roStatusString = '';
         if (roStatus === 'Pendente') {
           roStatusString = 'Pendente';
@@ -64,28 +67,33 @@ export default function ListaChat({ navigation }) {
           roStatusString = 'Atendida';
         }
 
-        chat.roStatus = roStatusString; // add a string de status da RO ao chat
+          chat.roStatus = roStatusString; // add a string de status da RO ao chat
 
-        chats.push(chat);
-          //console.log('RO ENCONTRADO :', roId, 'Titulo:', roTitulo,'COD: ',roCodigo);
+          chats.push(chat);
+
+
         } catch (error) {
           //console.log('RO NÃO ENCONTRADO:', ro._id);
           continue;
         }
       }
+
       const rosAtendidas = chats.filter((chat) => chat.roStatus === 'Atendida');
-      console.log('Chats com status Atendida:', rosAtendidas);
 
+      const updatedChats = rosAtendidas.map((chat) => {
+        const isROAtendido = chat.roStatus === 'Atendida';
       
-      const rosPendentes = chats.filter((chat) => chat.roStatus === 'Pendente');
+        return {
+          ...chat,
+          isChatBlocked: isROAtendido,
+        };
+      });
 
-      const rosEmAtendimento = chats.filter((chat) => chat.roStatus === 'Em atendimento');
+      // verifica se tem chat bloqueado
+      const chatBloqueado = updatedChats.some((chat) => chat.isChatBlocked);
 
-      const roAbertos = [...rosPendentes, ...rosEmAtendimento];
-
-      console.log('ROS ABERTOSSS:', roAbertos);
-
-      setChats(roAbertos);
+      setIsChatBlocked(chatBloqueado); 
+      setChats(updatedChats);
       setLoading(false); // define loading falso após a busca dos chats
     } catch (error) {
       console.error('Error fetching chats:', error);
@@ -94,17 +102,17 @@ export default function ListaChat({ navigation }) {
 
   return (
     <View style={styles.container2}>
-      <Text style={styles.titulo}>Chats Abertos</Text>
+      <Text style={styles.titulo}>Chats Encerrados</Text>
       {loading ? (
         <ActivityIndicator size="large" color="#808080" style={styles.loadingIndicator} />
       ) : chats.length === 0 ? (
-        <Text style={styles.semChatsText}>Não há chats abertos</Text>
+        <Text style={styles.semChatsText}>Não há chats.</Text>
       ) : (
         chats.map((chat) => (
           <TouchableOpacity
             key={chat._id}
             style={styles.cards}
-            onPress={() => navigation.navigate("Chat", { chatId: chat._id,roTitulo: chat.roTitulo })}
+            onPress={() => navigation.navigate("Chat", { chatId: chat._id,roTitulo: chat.roTitulo,isChatBlocked: chat.isChatBlocked })}
           >
             <Text style={[styles.text, { flex: 1 }]}>
               <Text style={styles.RegistraRO}>{`RO:  `}</Text>

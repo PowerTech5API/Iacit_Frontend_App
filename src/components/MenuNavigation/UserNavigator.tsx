@@ -18,7 +18,7 @@ import DetalhesRoAtendida from '../RO/RoDetalhes/DetalhesRoAtendida';
 import DetalhesRoPendente from '../RO/RoDetalhes/DetalhesRoPendente';
 import DetalhesRoAtendimento from '../RO/RoDetalhes/DetalhesRoAtendimento';
 import SegurancaPrivacidade from '../SegurancaPrivacidade/SegurancaPrivacidade';
-import Chat from '../Chat/Chat';
+
 import Config from '../Config/Config';
 import CardRoAtendida from '../RO/Cards/CardRoAtendida';
 import CardRoAtendimento from '../RO/Cards/CardRoAtendimento';
@@ -27,7 +27,11 @@ import CustomDrawerContent from './CustomDrawerContent';
 import TermosPrivacidade from '../SegurancaPrivacidade/TermosPrivacidade';
 import Permissoes from '../SegurancaPrivacidade/Permissoes';
 import { useNavigation } from '@react-navigation/native';
+import { Chat } from '../Chat/Chat';
+import NovoChat from '../Chat/NovoChat';
+import Chats from '../Chat/Chats';
 import ListaChat from '../Chat/ListaChat';
+import ChatsEncerrados from '../Chat/ChatsEncerrados';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -38,7 +42,6 @@ const InicioStack = createNativeStackNavigator();
 const SegurancaStack = createNativeStackNavigator();
 const ConfigStack = createNativeStackNavigator();
 const ChatStack = createNativeStackNavigator();
-
 
 export default function UserDrawerNavigator () {
   const navigation = useNavigation();
@@ -97,7 +100,7 @@ export default function UserDrawerNavigator () {
     return (
     <Bottom.Navigator screenOptions={{headerShown: false , style:{ backgroundColor:''}}}>
       <Bottom.Screen name="Início" component={UserInicioStackScreen}options={{tabBarIcon: () => (<Icon name="home" size={35} color="#1D2045"/>),style: {backgroundColor:'#1D2045'}}}/>
-      <Bottom.Screen name="Chats" component={ChatStackScreen} options={{tabBarIcon: () => (<Icon name="message-text" size={30} color="#1D2045"/>),tabBarLabel: 'Chat'}}/>
+      <Bottom.Screen name="ChatsContent" component={ChatStackScreen} options={{tabBarIcon: () => (<Icon name="message-text" size={30} color="#1D2045"/>),tabBarLabel: 'Chat'}}/>
       <Bottom.Screen name="Registros" component={ROStackScreen} options={{tabBarIcon: () => (<Icon name="file-multiple" size={25} color="#1D2045"/>)}}/>
     </Bottom.Navigator>
     );
@@ -124,7 +127,10 @@ export default function UserDrawerNavigator () {
   function ChatStackScreen() {
     return (
       <ChatStack.Navigator screenOptions={{headerShown: false}}>
+        <ChatStack.Screen name="Chats" component={Chats} />
         <ChatStack.Screen name="ListaChat" component={ListaChat} />
+        <ChatStack.Screen name="ChatsEncerrados" component={ChatsEncerrados} />
+        <ChatStack.Screen name="NovoChat" component={NovoChat} />
         <ChatStack.Screen name="Chat" component={Chat} />
       </ChatStack.Navigator>
     );
