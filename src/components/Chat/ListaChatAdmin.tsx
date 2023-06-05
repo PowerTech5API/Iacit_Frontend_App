@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'rea
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import api from '../../service/api';
+import { useAuth } from '../User/AuthProvider';
 
 export default function ListaChatAdmin({ navigation }) {
+  const { id } = useAuth();
   const [chats, setChats] = useState([]);
   const [ro, setRo] = useState([]);
   const [messages, setMessages] = useState<IMessage[]>([]);
