@@ -1,34 +1,25 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 
-export default function Chats({ navigation }) {
+export default function ChatsAdmin({ navigation }) {
   return (
     <>
       <View style={styles.container2}>
         <View>
-          <Text style={styles.titulo}>Acompanhe seus Chats</Text>
+          <Text style={styles.titulo}>Acompanhe os Chats</Text>
         </View>
 
-        <TouchableOpacity
-          style={styles.cards}
-          onPress={() => navigation.navigate('NovoChat')}
-        >
-          <View style={styles.IconRO}>
-            <Text style={styles.RegistraRO}>Iniciar novo Chat</Text>
-            <Image source={require('../../imgs/addRO.png')} />
-          </View>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.cards}
-          onPress={() => navigation.navigate('ListaChat')} // Navegar para ListaChat
+          onPress={() => navigation.navigate('ListaChatAdmin')} 
         >
           <Text style={styles.ROAtendida}>Chats Abertos</Text>
         </TouchableOpacity> 
 
         <TouchableOpacity
           style={styles.cards}
-          onPress={() => navigation.navigate('ChatsEncerrados')} 
+          onPress={() => navigation.navigate('ChatsEncerradosAdmin')} 
         >
           <Text style={styles.ROPendente}>Chats Encerrados</Text>
         </TouchableOpacity> 

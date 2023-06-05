@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import api from '../../../service/api';
+import api from '../../service/api';
 
-export default function ListaChatAdmin({ navigation }) {
+export default function ChatsEncerradosAdmin({ navigation }) {
   const [chats, setChats] = useState([]);
   const [ro, setRo] = useState([]);
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [loading, setLoading] = useState(true); 
+  const [isChatBlocked, setIsChatBlocked] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,11 +19,10 @@ export default function ListaChatAdmin({ navigation }) {
         headers: { Authorization: `Bearer ${userToken}` },
       }).then(({ data }) =>{
         const roList = data;
-        fetchChats(roList, userToken); // Passamos o token como argumento
+        fetchChats(roList, userToken);
         setRo(roList);
       })
-    
-       setMessages(transformedMessages.reverse());
+
       } catch (error) {
         console.log(error);
       }
@@ -42,7 +43,7 @@ export default function ListaChatAdmin({ navigation }) {
           });
 
           const chat = response.data;
-          const roId = chat.ro; // ID da RO associada ao chat
+          const roId = chat.ro;
 
           const roResponse = await api.get(`/ro/getById/${roId}`, {
             headers: { Authorization: `Bearer ${userToken}` },
@@ -50,19 +51,53 @@ export default function ListaChatAdmin({ navigation }) {
 
           const roData = roResponse.data;
           const roTitulo = roData.titulo;
+          const roStatus = roData.status;
 
-          chat.roTitulo = roTitulo; // Adicionamos o título da RO ao chat
+          chat.roTitulo = roTitulo;
+
+          let roStatusString = '';
+        if (roStatus === 'Pendente') {
+          roStatusString = 'Pendente';
+        } else if (roStatus === 'Em atendimento') {
+          roStatusString = 'Em atendimento';
+        } else if (roStatus === 'Atendida') {
+          roStatusString = 'Atendida';
+        }
+
+          chat.roStatus = roStatusString; // add a string de status da RO ao chat
 
           chats.push(chat);
-          console.log('RO ENCONTRADO:', roId, 'Título:', roTitulo);
+          console.log('ENCONTRADO:', chats);
+          //console.log('RO ENCONTRADO:', roId, 'Título:', roTitulo);
         } catch (error) {
-          console.log('RO NÃO ENCONTRADO:', ro._id);
-          // Lidar com o RO não encontrado e continuar para o próximo RO
+         // console.log('RO NÃO ENCONTRADO:', ro._id);
           continue;
         }
       }
 
-      setChats(chats);
+      const rosAtendidas = chats.filter((chat) => chat.roStatus === 'Atendida');
+
+      console.log('ROOS ATENDIDAS:', rosAtendidas);
+
+      const updatedChats = rosAtendidas.map((chat) => {
+        const isROAtendido = chat.roStatus === 'Atendida';
+
+        return {
+          ...chat,
+          isChatBlocked: isROAtendido,
+        };
+      });
+
+      console.log('RO NÃO ENCONTRADO:', updatedChats);
+
+      // verifica se tem chat bloqueado
+      const chatBloqueado = updatedChats.some((chat) => chat.isChatBlocked);
+
+      setIsChatBlocked(chatBloqueado); 
+
+      console.log('bloqueado???????:', isChatBlocked);
+      setChats(updatedChats);
+      setLoading(false);
     } catch (error) {
       console.error("Erro ao buscar os chats:", error);
     }
@@ -70,12 +105,16 @@ export default function ListaChatAdmin({ navigation }) {
 
   return (
     <View style={styles.container2}>
-      <Text style={styles.titulo}>Chats Abertos</Text>
-      {chats.map((chat) => (
+      <Text style={styles.titulo}>Chats Encerrados</Text>
+      {loading ? (
+        <ActivityIndicator size="large" color="#808080" style={styles.loadingIndicator} />
+      ) : chats.length === 0 ? (
+        <Text style={styles.semChatsText}>Não há chats abertos</Text>
+      ) : (chats.map((chat) => (
         <TouchableOpacity
           key={chat._id}
           style={styles.cards}
-          onPress={() => navigation.navigate('Chat', { chatId: chat._id })}
+          onPress={() => navigation.navigate('Chat', { chatId: chat._id ,isChatBlocked: chat.isChatBlocked})}
         >
           <Text style={[styles.text, { flex: 1 }]}>
             <Text>{`RO #`}</Text>
@@ -83,7 +122,8 @@ export default function ListaChatAdmin({ navigation }) {
           </Text>
           <Icon name="chevron-right" size={35} style={styles.iconRight} />
         </TouchableOpacity>
-      ))}
+      ))
+      )}
     </View>
   );
 }
@@ -106,7 +146,7 @@ const styles = StyleSheet.create({
     elevation: 8,
     marginTop: '10%',
     alignItems: 'center',
-    justifyContent: 'space-between', // Distribui o espaço entre os elementos
+    justifyContent: 'space-between', 
   },
   icon: {
     color: '#1D2045',
@@ -119,7 +159,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   text: {
-    flex: 1, // Ocupa o espaço disponível
+    flex: 1, 
     marginBottom: 5,
     marginTop: 2,
     marginLeft: 5,
@@ -129,10 +169,19 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontFamily: 'Inter',
   },
+  semChatsText: {
+    fontSize: 18,
+    fontWeight: 'regular',
+    color: '#808080',
+    marginTop: 200,
+  },
   titulo: {
     textAlign: 'center',
     fontSize: 25,
     fontWeight: 'bold',
     color: '#000000',
+  },
+  loadingIndicator: {
+    marginTop: '50%',
   },
 });

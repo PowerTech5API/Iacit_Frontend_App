@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {  Bubble, GiftedChat, IMessage, Send } from 'react-native-gifted-chat';
+import {  Bubble, GiftedChat, IMessage, InputToolbar, Send } from 'react-native-gifted-chat';
 import api from '../../service/api';
 import { useRoute } from '@react-navigation/native';
 import { useAuth } from '../User/AuthProvider';
@@ -26,8 +26,16 @@ interface Chat{
 export function Chat() {
   const { id, name } = useAuth();
   const route = useRoute();
-  const { chatId , roTitulo} = route.params;
+  const { chatId , roTitulo, isChatBlocked } = route.params;
   const [messages, setMessages] = useState<IMessage[]>([]);
+
+  const renderInputToolbar = (props) => {
+    if (isChatBlocked) {
+      return null; // não carrega a caixa de entrada de mensagens se o chat estiver bloqueado
+    }
+
+    return <InputToolbar {...props} />;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -157,6 +165,7 @@ const renderBubble = (props:  any) => {
       renderBubble={renderBubble}
       renderSend={renderSend}
       placeholder="Digite sua mensagem"
+      renderInputToolbar={renderInputToolbar}
     />
     </View>
   );

@@ -9,21 +9,27 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import AdminMenu from '../Admin/AdminMenu/AdminMenu';
+import CardRoGeral from '../Admin/RO/Cards/CardRoGeral';
+import CardRoUsersAtendida from '../Admin/RO/Cards/CardRoUsersAtendida';
+import CardRoUsersAtendimento from '../Admin/RO/Cards/CardRoUsersAtendimento';
+import CardRoUsersPendente from '../Admin/RO/Cards/CardRoUsersPendente';
 import AcompanharROAdm from '../Admin/RO/RoTelas/AcompanharROAdm';
 import RoPendenteUsers from '../Admin/RO/RoTelas/RoPendenteUsers';
 import RoAtendimentoUsers from '../Admin/RO/RoTelas/RoAtendimentoUsers';
 import RoAtendidaUsers from '../Admin/RO/RoTelas/RoAtendidaUsers';
+import DetalhesRoUsersPendente from '../Admin/RO/RoDetalhes/DetalhesRoUsersPendente';
+import DetalhesRoUsersAtendimento from '../Admin/RO/RoDetalhes/DetalhesRoUsersAtendimento';
+import DetalhesRoUsersAtendida from '../Admin/RO/RoDetalhes/DetalhesRoUsersAtendida';
 import SegurancaPrivacidade from '../SegurancaPrivacidade/SegurancaPrivacidade';
+import ChatsAdmin from '../Chat/ChatsAdmin';
 import {Chat} from '../Chat/Chat';
 import Config from '../Config/Config';
-import CardRoUsersAtendida from '../Admin/RO/Cards/CardRoUsersAtendida';
-import CardRoUsersAtendimento from '../Admin/RO/Cards/CardRoUsersAtendimento';
-import CardRoUsersPendente from '../Admin/RO/Cards/CardRoUsersPendente';
 import CustomDrawerContent from './CustomDrawerContent'
 import TermosPrivacidade from '../SegurancaPrivacidade/TermosPrivacidade';
 import Permissoes from '../SegurancaPrivacidade/Permissoes';
 import { useNavigation } from '@react-navigation/native';
-import ListaChatAdmin from '../Admin/ChatAdmin/ListaChatAdmin';
+import ListaChatAdmin from '../Chat/ListaChatAdmin';
+import ChatsEncerradosAdmin from '../Chat/ChatsEncerradosAdmin';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -94,17 +100,22 @@ export default function AdminDrawerNavigation() {
       <ROStack.Navigator screenOptions={{
         headerShown: false,
       }} >
-        
-
+      
         <ROStack.Screen name="AcompanharROAdm" component={AcompanharROAdm}/>
-  
+
         <ROStack.Screen name="RoAtendidaUsers" component={RoAtendidaUsers} />
         <ROStack.Screen name="RoAtendimentoUsers" component={RoAtendimentoUsers} />
         <ROStack.Screen name="RoPendenteUsers" component={RoPendenteUsers} />
-  
+
+        <ROStack.Screen name="CardRoGeral" component={CardRoGeral} />
+
         <ROStack.Screen name="CardRoUsersAtendida" component={CardRoUsersAtendida} />
         <ROStack.Screen name="CardRoUsersAtendimento" component={CardRoUsersAtendimento} />
         <ROStack.Screen name="CardRoUsersPendente" component={CardRoUsersPendente} />
+
+        <ROStack.Screen name="DetalhesRoUsersPendente" component={DetalhesRoUsersPendente} />
+        <ROStack.Screen name="DetalhesRoUsersAtendimento" component={DetalhesRoUsersAtendimento} />
+        <ROStack.Screen name="DetalhesRoUsersAtendida" component={DetalhesRoUsersAtendida} />
   
       </ROStack.Navigator>
     );
@@ -171,7 +182,9 @@ export default function AdminDrawerNavigation() {
   function ChatStackScreen() {
     return (
       <ChatStack.Navigator screenOptions={{headerShown: false}}>
-        <ChatStack.Screen name="ListaChat" component={ListaChatAdmin} />
+         <ChatStack.Screen name="ChatsAdmin" component={ChatsAdmin} />
+        <ChatStack.Screen name="ListaChatAdmin" component={ListaChatAdmin} />
+        <ChatStack.Screen name="ChatsEncerradosAdmin" component={ChatsEncerradosAdmin} />
         <ChatStack.Screen name="Chat" component={Chat} />
       </ChatStack.Navigator>
     );

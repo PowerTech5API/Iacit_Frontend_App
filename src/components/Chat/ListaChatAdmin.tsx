@@ -18,11 +18,10 @@ export default function ListaChatAdmin({ navigation }) {
         headers: { Authorization: `Bearer ${userToken}` },
       }).then(({ data }) =>{
         const roList = data;
-        fetchChats(roList, userToken); // Passamos o token como argumento
+        fetchChats(roList, userToken);
         setRo(roList);
       })
     
-       setMessages(transformedMessages.reverse());
       } catch (error) {
         console.log(error);
       }
@@ -43,7 +42,7 @@ export default function ListaChatAdmin({ navigation }) {
           });
 
           const chat = response.data;
-          const roId = chat.ro; // ID da RO associada ao chat
+          const roId = chat.ro;
 
           const roResponse = await api.get(`/ro/getById/${roId}`, {
             headers: { Authorization: `Bearer ${userToken}` },
@@ -51,19 +50,32 @@ export default function ListaChatAdmin({ navigation }) {
 
           const roData = roResponse.data;
           const roTitulo = roData.titulo;
+          const roStatus = roData.status;
 
-          chat.roTitulo = roTitulo; // Adicionamos o título da RO ao chat
+          chat.roStatus = roStatus;
+          chat.roTitulo = roTitulo;
 
           chats.push(chat);
-          console.log('RO ENCONTRADO:', roId, 'Título:', roTitulo);
+          //console.log('RO ENCONTRADO:', roId, 'Título:', roTitulo);
         } catch (error) {
-          console.log('RO NÃO ENCONTRADO:', ro._id);
-          // Lidar com o RO não encontrado e continuar para o próximo RO
+         // console.log('RO NÃO ENCONTRADO:', ro._id);
           continue;
         }
       }
 
-      setChats(chats);
+      const rosAtendidas = chats.filter((chat) => chat.roStatus === 'Atendida');
+      console.log('Chats com status Atendida:', rosAtendidas);
+
+      
+      const rosPendentes = chats.filter((chat) => chat.roStatus === 'Pendente');
+
+      const rosEmAtendimento = chats.filter((chat) => chat.roStatus === 'Em atendimento');
+
+      const roAbertos = [...rosPendentes, ...rosEmAtendimento];
+
+      console.log('ROS ABERTOSSS:', roAbertos);
+
+      setChats(roAbertos);
       setLoading(false);
     } catch (error) {
       console.error("Erro ao buscar os chats:", error);

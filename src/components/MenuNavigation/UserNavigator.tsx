@@ -31,6 +31,7 @@ import { Chat } from '../Chat/Chat';
 import NovoChat from '../Chat/NovoChat';
 import Chats from '../Chat/Chats';
 import ListaChat from '../Chat/ListaChat';
+import ChatsEncerrados from '../Chat/ChatsEncerrados';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -128,6 +129,7 @@ export default function UserDrawerNavigator () {
       <ChatStack.Navigator screenOptions={{headerShown: false}}>
         <ChatStack.Screen name="Chats" component={Chats} />
         <ChatStack.Screen name="ListaChat" component={ListaChat} />
+        <ChatStack.Screen name="ChatsEncerrados" component={ChatsEncerrados} />
         <ChatStack.Screen name="NovoChat" component={NovoChat} />
         <ChatStack.Screen name="Chat" component={Chat} />
       </ChatStack.Navigator>
