@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Text,
   View,
@@ -7,13 +7,14 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm, Controller,reset} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import api from '../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../User/AuthProvider';
 import {whiteLogo} from '../../imgs/Images'
+import {useNavigation} from '@react-navigation/native';
 
 
    // Função para obter o userResponse
@@ -54,11 +55,20 @@ export default function Login({navigation}) {
   
   const {
     control,
+    reset,
     handleSubmit,   
     formState: {errors},
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      reset(); // limpa o form quando a tela de login for carregada ou navegada no logout
+    });
+
+    return unsubscribe;
+  }, [navigation, reset]);
 
    // Função para obter os dados do administrador
   const getUserDados = (userResponse) => {

@@ -1,10 +1,37 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../User/AuthProvider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import api from '../../service/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 function Config() {
-  const { name, email } = useAuth();
+  const navigation = useNavigation();
+  const { name, email, clearEmail,clearName } = useAuth();
+  const [confirmarSenha, setConfirmarSenha] = useState(false);
+  const [senhaEnviada, setSenhaEnviada] = useState(false);
+
+  const confirmarAlteracaoSenha = async () => {
+    try {
+      await api.get(`user/recuperarsenha/${email}`);
+      alert('Sena nova enviada para o e-mail!');
+      setSenhaEnviada(true);
+          // Função de logout
+    async function Logout() {
+      await AsyncStorage.removeItem('userToken');
+      clearName();
+      clearEmail();
+      const userToken = await AsyncStorage.getItem("userToken")
+      console.log('Logout realizado, token:', userToken);
+      navigation.navigate('Login');
+    }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
 
   return (
     <View style={styles.container}>
@@ -19,11 +46,11 @@ function Config() {
               <Icon name="card-account-details" size={25} style={styles.icon} />
               <Text style={styles.titulo2}>Dados Pessoais</Text>
             </View>
-              <Text style={styles.titulo}>Nome</Text>
-              <Text style={styles.subtitulo}>{name}</Text>
+            <Text style={styles.titulo}>Nome</Text>
+            <Text style={styles.subtitulo}>{name}</Text>
             <View style={styles.divider} />
-              <Text style={styles.titulo}>E-mail</Text>
-              <Text style={styles.subtitulo}>{email}</Text>
+            <Text style={styles.titulo}>E-mail</Text>
+            <Text style={styles.subtitulo}>{email}</Text>
           </View>
         </View>
       </View>
@@ -35,10 +62,10 @@ function Config() {
             <Text style={styles.titulo2}>Configurações</Text>
           </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setConfirmarSenha(true)}>
             <Text style={styles.titulo}>Alterar Senha</Text>
             <Text style={styles.password}>********</Text>
-            
+
             <View style={styles.iconContainer}>
               <Icon name="chevron-right" size={35} style={styles.iconRight} />
             </View>
@@ -50,15 +77,40 @@ function Config() {
               <Icon name="chevron-right" size={35} style={styles.iconRight} />
             </View>
           </TouchableOpacity>
-
         </View>
       </View>
+
+      <Modal visible={confirmarSenha} animationType="slide">
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Alterar Senha</Text>
+          <Text style={styles.modalMessage}>Deseja alterar sua senha?</Text>
+
+          <View style={styles.modalButtons}>
+            <TouchableOpacity style={styles.confirmButton} onPress={confirmarAlteracaoSenha}>
+              <Text style={styles.buttonText}>Confirmar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cancelButton} onPress={() => setConfirmarSenha(false)}>
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {senhaEnviada && (
+      <Text style={styles.mensagemSenha}>Senha nova enviada para o e-mail!</Text>
+    )}
     </View>
   );
 }
 
 
 const styles = StyleSheet.create({
+  mensagemSenha: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1C1F44',
+    marginTop: 10,
+    textAlign: 'center',
+  },
   divider: {
     borderBottomWidth: 1,
     borderBottomColor: '#1D2045' + '5D',
@@ -171,7 +223,50 @@ const styles = StyleSheet.create({
   },
   opcao:{
     marginTop: 20,
-  }
+  },
+  modalContainer: {
+    flex: 0.5,
+    backgroundColor: '#F2F2F2',
+    paddingTop: '10%',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#1C1F44',
+    marginBottom: 20,
+  },
+  modalMessage: {
+    fontSize: 16,
+    marginBottom: 30,
+    paddingHorizontal: 20,
+    textAlign: 'center',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  confirmButton: {
+    backgroundColor: '#1C1F44',
+    borderRadius: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginRight: 10,
+  },
+  cancelButton: {
+    backgroundColor: '#EAEAEB',
+    borderRadius: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginLeft: 10,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
 
 export default Config;

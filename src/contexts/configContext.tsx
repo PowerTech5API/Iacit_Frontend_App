@@ -20,8 +20,7 @@ export const ConfigProvider = ({ children }) => {
         });
         return configResponse.data;
       } catch (error) {
-        console.error('Erro ao buscar configurações do usuário:', error);
-        throw error;
+        console.log('Erro ao buscar configurações do usuário:', error);
       }
     };
 
