@@ -67,7 +67,11 @@ function RegistroOcorrenciaForm() {
           partnumber: data.hardware.partnumber,
           serialNumber: data.hardware.serialNumber,
         },
-        software: {},
+        software: {
+          versaoBD:'',
+          versaoSoftware: '',
+          LogsRO: '',
+        },
       };
     } else if (isSoftwareSelected) {
       formData = {
@@ -77,37 +81,45 @@ function RegistroOcorrenciaForm() {
           versaoSoftware: data.software.versaoSoftware,
           LogsRO: data.software.LogsRO,
       },
-        hardware: {},
+        hardware: {
+          equipamento: '',
+          posicao: '',
+          partnumber: '',
+          serialNumber: '',
+        },
       };
     }
     try {
       const userToken = await AsyncStorage.getItem('userToken')
       await api.post('ro/create', formData, {headers: {Authorization: `Bearer ${userToken}`}});
       setFormSubmitted(true);
+      console.log(formData)
       alert('Registro de Ocorrência criado com sucesso!');
     } catch (error) {
+      console.log('Teste',formData)
       console.error('RO Erro', error);
       alert('Erro ao criar o RO!');
-    } finally {
-      setData({
-        orgao: '',
-        nomeRelator: '',
-        nomeresponsavel: '',
-        nomeColaborador: '',
-        defeito: '',
-        software: {},
-        hardware: {},
-        titulo: '',
-        descricao: '',
-        'dataRegistro': moment().format('DD-MM-YYYY'),
-        'horaRegistro': moment().format('HH:mm:ss'),
-        'status': 'Pendente',
-        categoria: '',
-        resolucao: '',
-      }); //zera os campos formulario
-      setIsHardwareSelected(false); //zera checkbox
-      setIsSoftwareSelected(false); //zera checkbox
-    }
+    } 
+    // finally {
+    //   setData({
+    //     orgao: '',
+    //     nomeRelator: '',
+    //     nomeresponsavel: '',
+    //     nomeColaborador: '',
+    //     defeito: '',
+    //     software: {},
+    //     hardware: {},
+    //     titulo: '',
+    //     descricao: '',
+    //     'dataRegistro': moment().format('DD-MM-YYYY'),
+    //     'horaRegistro': moment().format('HH:mm:ss'),
+    //     'status': 'Pendente',
+    //     categoria: '',
+    //     resolucao: '',
+    //   }); //zera os campos formulario
+    //   setIsHardwareSelected(false); //zera checkbox
+    //   setIsSoftwareSelected(false); //zera checkbox
+    // }
   }
 
   //verifica se o formulário foi enviado.
