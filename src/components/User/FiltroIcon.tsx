@@ -7,13 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CardRoUsuarioGeral from '../RO/Cards/CardRoUsuarioGeral'
 
 const tipo = ["Hardware", "Software"];
-const status = ["Pendente", "Em Atendimento", "Atendinda"];
+const status = ["Pendente", "Em Atendimento", "Atendida"];
 const dataRo = ["Recente", "Antigo"];
-
-// const dropdownRefTipo = useRef<SelectDropdown>(null);
-// const dropdownRefData = useRef<SelectDropdown>(null);
-// const dropdownRefStatus = useRef<SelectDropdown>(null);
-
 
 export default function FiltroIcon() {
   const [ro, setRo] = useState([]);
@@ -21,13 +16,11 @@ export default function FiltroIcon() {
   const [b, setB] = useState("tudo");
   const [c, setC] = useState("tudo");
 
-
+  const dropdownRefTipo = useRef(null);
+  const dropdownRefData = useRef(null);
+  const dropdownRefStatus = useRef(null);
 
   async function filtragem() {
-    const dropdownRefTipo = useRef(null);
-    const dropdownRefData = useRef(null);
-    const dropdownRefStatus = useRef(null);
-
     console.log(a);
     console.log(b);
     console.log(c);
@@ -42,39 +35,37 @@ export default function FiltroIcon() {
       }
     };
 
-    if(a == "tudo" && b == "tudo" && c == "tudo"){
-      const response = await api.post('ro/filterRoUser', {}, config).then((response)=>{
-        setRo(response.data);
-        console.log(response.data);
-      }).catch ((error)=>{
-        console.log(error.response.data);
-      })  
+    let params = {};
+
+    if (a !== "tudo") {
+      params.defeito = a;
     }
 
-    if(a != "tudo" && b != "tudo" && c != "tudo"){
-      const response = await api.post('ro/filterRoUser', {}, config, {"defeito":a, "status":b, "dataOrg":c}).then((response)=>{
-        if(response.data != undefined){
-          console.log(response.data)
-          setRo([])
-        }else{
-          setRo(response.data);
-          console.log(response.data);
-        }
-        
-      }).catch ((error)=>{
-        console.log(error.response.data);
-      })  
+    if (b !== "tudo") {
+      params.status = b;
     }
 
+    if (c !== "tudo") {
+      params.dataOrg = c;
+    }
+
+    try {
+      const response = await api.post('ro/filterRoUser', params, config);
+      const responseData = response.data;
+
+      if (Array.isArray(responseData)) {
+        setRo(responseData);
+        console.log(responseData);
+      } else {
+        setRo([]);
+        console.log(responseData);
+      }
+    } catch (error) {
+      console.log(error.response.data);
+    }
   }
 
-  
-
   function limpar() {
-    // const dropdownRefTipo = useRef(null);
-    // const dropdownRefData = useRef(null);
-    // const dropdownRefStatus = useRef(null);
-
     dropdownRefTipo.current.reset();
     dropdownRefStatus.current.reset();
     dropdownRefData.current.reset();
@@ -83,102 +74,96 @@ export default function FiltroIcon() {
     setC("tudo");
   }
 
- 
   useEffect(() => {
     async function fetchData() {
-      
-        const userToken = await AsyncStorage.getItem('userToken');
-        console.log(userToken);
+      const userToken = await AsyncStorage.getItem('userToken');
+      console.log(userToken);
 
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userToken}`
-          }
-        };
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`
+        }
+      };
 
-        const response = await api.post('ro/filterRoUser', {}, config).then((response)=>{
-          setRo(response.data);
-          console.log(response.data);
-        }).catch ((error)=>{
-          console.log(error.response.data);
-        })  
-    
+      try {
+        const response = await api.post('ro/filterRoUser', {}, config);
+        const responseData = response.data;
+
+        if (Array.isArray(responseData)) {
+          setRo(responseData);
+          console.log(responseData);
+        } else {
+          setRo([]);
+          console.log(responseData);
+        }
+      } catch (error) {
+        console.log(error.response.data);
       }
+    }
+
     fetchData();
   }, []);
+
   return (
     <View>
       <View style={styles.filtros1}>
         <SelectDropdown
-          // ref={dropdownRefTipo}              
+          ref={dropdownRefTipo}
           buttonStyle={styles.filtroBotaoTipo}
           buttonTextStyle={styles.filtroTexto}
           defaultButtonText='Tipo'
-          renderDropdownIcon={isOpened => {
-            return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
-          }}
+          renderDropdownIcon={isOpened => (
+            <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />
+          )}
           dropdownIconPosition='right'
-          data={tipo}                
+          data={tipo}
           onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index)
-              setA(selectedItem)
-            
+            console.log(selectedItem, index);
+            setA(selectedItem);
           }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem
-          }}
-          rowTextForSelection={(item, index) => {
-            return item
-          }}
+          buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+          rowTextForSelection={(item, index) => item}
         />
-        
+
         <SelectDropdown
-          // // ref={dropdownRefStatus}              
+          ref={dropdownRefStatus}
           buttonStyle={styles.filtroBotao}
           buttonTextStyle={styles.filtroTexto}
           defaultButtonText='Status'
-          renderDropdownIcon={isOpened => {
-            return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
-          }}
+          renderDropdownIcon={isOpened => (
+            <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />
+          )}
           dropdownIconPosition='right'
-          data={status}                
+          data={status}
           onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index)
-              setB(selectedItem)
-            
+            console.log(selectedItem, index);
+            setB(selectedItem);
           }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem
-          }}
-          rowTextForSelection={(item, index) => {
-            return item
-          }}
+          buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+          rowTextForSelection={(item, index) => item}
         />
+
         <SelectDropdown
-          // // ref={dropdownRefData}              
+          ref={dropdownRefData}
           buttonStyle={styles.filtroBotao}
           buttonTextStyle={styles.filtroTexto}
           defaultButtonText='Data'
-          renderDropdownIcon={isOpened => {
-              return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
-          }}
+          renderDropdownIcon={isOpened => (
+            <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />
+          )}
           dropdownIconPosition='right'
-          data={dataRo}                
+          data={dataRo}
           onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index)
-              setC(selectedItem)
+            console.log(selectedItem, index);
+            setC(selectedItem);
           }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem
-          }}
-          rowTextForSelection={(item, index) => {
-              return item
-          }}
+          buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+          rowTextForSelection={(item, index) => item}
         />
       </View>
-      <View style={styles.filtros2}>
 
+      <View style={styles.filtros2}>
         <TouchableOpacity style={styles.botaoFiltro} onPress={filtragem}>
           <Text style={styles.botaoFiltroText}>Filtrar</Text>
         </TouchableOpacity>
@@ -186,12 +171,11 @@ export default function FiltroIcon() {
         <TouchableOpacity style={styles.botaoLimpar} onPress={limpar}>
           <Text style={styles.botaoLimparText}>Limpar</Text>
         </TouchableOpacity>
-
       </View>
 
       <ScrollView>
         {ro.map((item, index) => (
-          <CardRoUsuarioGeral key={index} id={item.id} titulo={item.titulo} tipo={item.defeito} status={item.status} data={item.dataRegistro}/>
+          <CardRoUsuarioGeral key={index} id={item.id} titulo={item.titulo} tipo={item.defeito} status={item.status} data={item.dataRegistro} />
         ))}
       </ScrollView>
     </View>

@@ -30,6 +30,8 @@ import Permissoes from '../SegurancaPrivacidade/Permissoes';
 import { useNavigation } from '@react-navigation/native';
 import ListaChatAdmin from '../Chat/ListaChatAdmin';
 import ChatsEncerradosAdmin from '../Chat/ChatsEncerradosAdmin';
+import DetalheAnalise from '../Admin/RO/RoDetalhes/DetalheAnalise';
+import DetalhesRoUsersGeral from '../Admin/RO/RoDetalhes/DetalhesRoUsersGeral';
 
 const Bottom = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();

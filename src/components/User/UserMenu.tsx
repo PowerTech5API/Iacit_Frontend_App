@@ -23,7 +23,7 @@ export default function UserMenu() {
       <View>
         <Text style={styles.filtroTexto}>
           Filtrar por:
-        </Text>           
+        </Text>
             </View>
             <View>
                 <FiltroIcon />

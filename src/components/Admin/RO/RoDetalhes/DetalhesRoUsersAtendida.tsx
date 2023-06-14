@@ -50,7 +50,7 @@ export default function DetalhesRoUsersAtendida(){
           <ScrollView>
             
             <View style={styles.mid1}>
-              
+
                 <Text style={styles.text2}>Status: <Text style={{color: '#6FCF97', fontWeight:'bold'}}>{ro.status}</Text> </Text>
 
                 <Text style={styles.text}>Titulo: {ro.titulo}</Text>
